@@ -120,7 +120,7 @@ include("header.php");
         <!-- Secondary Buttons -->
         <div class="container secondary-buttons">
             <!-- <button class="btn btn-primary" onclick="window.location.href='water-rate.html'">WATER RATE</button> -->
-            <button class="btn btn-primary" onclick="window.location.href='summary-nrdm.html'">SUMMARY NRDM</button>
+            <button class="btn btn-primary" onclick="window.location.href='summary_ndrm.php'">SUMMARY NRDM</button>
             <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#consumerModal">
                                                                                                     STATEMENT OF ACCOUNT
                                                                                                 </button> -->

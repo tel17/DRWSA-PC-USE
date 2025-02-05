@@ -25,14 +25,14 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="meter_replacement.php">
-        <i class="bi bi-person"></i>
+        <i class="bi bi-speedometer2"></i>
         <span>Meter Replacement</span>
       </a>
     </li>
 
      <li class="nav-item">
       <a class="nav-link collapsed" href="disconnected_reports.php">
-        <i class="bi bi-lightning-charge"></i>
+        <i class="bi bi-droplet-half"></i>
         <span>Disconnected</span>
       </a>
     </li> 
@@ -46,7 +46,7 @@
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="#">
-        <i class="bi bi-graph-up-arrow"></i>
+        <i class="bi bi-command"></i>
         <span>New Connection | NO DATA PA ETO </span>
       </a>
     </li> 
