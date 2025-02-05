@@ -7,7 +7,7 @@
   <meta content="" name="keywords">
 
   <!-- Favicons -->
-  <link href="images/logodwell.png" rel="icon">
+  <link href="images/NEW-LOGO.png" rel="icon">
   <link href="images/logodwell.png" rel="apple-touch-icon">
 
   <!-- Google Fonts -->

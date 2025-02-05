@@ -1,16 +1,18 @@
 <?php
+session_name("collector_session"); // Ensure collectors have a unique session
 session_start();
+
 // Check if the user is not logged in
 if (!isset($_SESSION['collector_username'])) {
-    // Redirect to login page if not logged in
+    $_SESSION['error'] = "Please log in first!";
     header("Location: login.php");
     exit();
 }
- // Start the session to access session variables
+
+// Store session data into variables
+$collector_username = $_SESSION['collector_username'];
 $success = isset($_SESSION['success']) ? $_SESSION['success'] : null;
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,8 +25,10 @@ $success = isset($_SESSION['success']) ? $_SESSION['success'] : null;
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.min.css">
 </head>
 <body>
+
     <div class="container mt-5">
         <h1 class="text-center">Collector Dashboard</h1>
+
         <div class="row mt-4">
             <div class="col-md-4">
                 <div class="card text-white bg-primary mb-3">
@@ -54,27 +58,26 @@ $success = isset($_SESSION['success']) ? $_SESSION['success'] : null;
                 </div>
             </div>
         </div>
-    </div>
-    <body>
-    <h1>Welcome, <?php echo htmlspecialchars($_SESSION['collector_username']); ?>!</h1>
-    <a href="logout.php">Logout</a>
 
-<!-- TOAST -->
+        <div class="text-center mt-4">
+            <h2>Welcome, <?php echo htmlspecialchars($collector_username); ?>!</h2>
+            <a href="logout.php" class="btn btn-danger">Logout</a>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
     <?php if ($success): ?>
         <script>
             Toastify({
-                text: "<?php echo $success; ?>", // Success message from PHP
-                backgroundColor: "#6ab07b", // Green for success
+                text: "<?php echo htmlspecialchars($success); ?>", 
+                backgroundColor: "#6ab07b",
                 duration: 3000,
                 close: false
             }).showToast();
         </script>
-        <?php
-        // Clear success message from session after displaying the toast
-        unset($_SESSION['success']);
-        ?>
+        <?php unset($_SESSION['success']); // Clear success message after displaying ?>
     <?php endif; ?>
-</body>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

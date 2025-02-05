@@ -1,4 +1,5 @@
 <?php
+session_name("collector_session");
 session_start(); // Start the session to access session variables
 $error = isset($_SESSION['error']) ? $_SESSION['error'] : null;
 $success = isset($_SESSION['success']) ? $_SESSION['success'] : null;
@@ -7,6 +8,7 @@ $success = isset($_SESSION['success']) ? $_SESSION['success'] : null;
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link href="NEW-LOGO.png" rel="icon">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login to Your Collector Account</title>
@@ -45,7 +47,7 @@ $success = isset($_SESSION['success']) ? $_SESSION['success'] : null;
             height: auto;
         }
         .login-form h2 {
-            color: #007bff;
+            color: #012970;
             margin-bottom: 20px;
             text-align: center;
         }
@@ -83,7 +85,9 @@ $success = isset($_SESSION['success']) ? $_SESSION['success'] : null;
     <div class="login-container">
         <div class="login-form p-4 border rounded shadow-sm bg-white">
             <img src="NEW-LOGO.png" alt="logo">
-            <h2>Login to Your Collector Account</h2>
+            <h2 style="font-size: 25px; font-weight: bold;">Collector Login</h2>
+
+            <p class="text-center small">Enter your username & password to login</p>
             <form action="collector_verify_login.php" method="post">
                 <div class="form-group">
                     <label for="username" class="form-label">Username</label>

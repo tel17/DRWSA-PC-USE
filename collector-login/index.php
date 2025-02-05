@@ -1,4 +1,5 @@
 <?php
+session_name("collector_session");
 session_start();
 
 // Check if the user is not logged in

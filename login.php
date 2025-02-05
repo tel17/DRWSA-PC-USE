@@ -6,7 +6,7 @@
 ?>
 
 <body>
-
+<link href="images/logodwell.png" rel="icon">
   <main>
     <div class="container">
 
@@ -22,11 +22,12 @@
                 <div class="card-body">
 
 
-                  <div class="pt-4 pb-2">
-                    <h5 class="card-title text-center pb-0 fs-4">Login to Your
-                       <img src="images/logodwell.png"  width="7%" alt=""> DWELL Account</h5>
+                <div class="pt-4 pb-2 d-flex justify-content-center flex-column align-items-center">
+                    <img src="images/NEW-LOGO.png" width="100px" alt="">
+                    <h5 class="card-title text-center pb-0 fs-4">Admin Login</h5>
                     <p class="text-center small">Enter your email & password to login</p>
-                  </div>
+                </div>
+
 
                   <form class="row g-3 needs-validation" action="verify_login.php" method="POST" novalidate>
 
@@ -48,9 +49,9 @@
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit" name="btn_login">Login</button>
                     </div>
-                    <div class="col-12">
+                    <!-- <div class="col-12">
                       <p class="small mb-0">Forgot Password? <a href="forgot_password.php">Click Here</a></p>
-                    </div>
+                    </div> -->
                   </form>
 
                 </div>

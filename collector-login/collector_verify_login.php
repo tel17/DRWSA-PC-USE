@@ -1,4 +1,5 @@
 <?php
+session_name("collector_session"); // Set a unique session name for collectors
 session_start();
 require_once '../dbcon.php'; // Ensure this path is correct
 
@@ -8,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($username && $password) {
         // Query to check if username exists
-        $stmt = $con->prepare("SELECT username, password FROM tbl_collectors_profile WHERE username = ?");
+        $stmt = $con->prepare("SELECT id, username, fullname, password FROM tbl_collectors_profile WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -19,7 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Use password_verify to check if entered password matches the hashed password
             if (password_verify($password, $row['password'])) {
-                $_SESSION['collector_username'] = $row['username']; // Store username in session
+                // ✅ Store collector details in session
+                $_SESSION['collector_id'] = $row['id'];
+                $_SESSION['collector_username'] = $row['username'];
+                $_SESSION['collector_name'] = $row['fullname'];
+
                 // Store success message in session
                 $_SESSION['success'] = "Login Successfully!";
                 header("Location: dashboard.php"); // Redirect to dashboard.php
@@ -40,3 +45,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     header("Location: login.php");
     exit();
 }
+?>
