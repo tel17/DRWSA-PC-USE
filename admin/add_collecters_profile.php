@@ -1,4 +1,3 @@
-
 <?php
 include("header.php");
 
@@ -7,11 +6,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $fullname = $_POST['fullname'];
     $username = $_POST['username'];
     $password = $_POST['password'];
- 
+
+    // Hash the password using password_hash (Secure)
+    $password_hashed = password_hash($password, PASSWORD_DEFAULT);
 
     // Insert data into the database
     $insert_query = "INSERT INTO tbl_collectors_profile (fullname, username, password)
-                     VALUES ('$fullname', '$username', '$password')";
+                     VALUES ('$fullname', '$username', '$password_hashed')";
 
     // Execute the query
     if ($con->query($insert_query) === TRUE) {

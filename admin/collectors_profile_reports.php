@@ -41,6 +41,7 @@ include("sidebar.php");
               </div>
               <div>
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addDataModal"><i class="bi bi-plus"></i> Add Data</button>
+                
               </div>
             </div>
             <table class="table table-borderless datatable" id="Customer_Manager_Report">
@@ -63,18 +64,22 @@ include("sidebar.php");
                       if ($result->num_rows > 0) {
                           while ($row = $result->fetch_assoc()) {
                   ?>
-                  <tr>
-                      <td style="text-align: center;"><?php echo $row["id"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["fullname"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["username"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["password"]; ?></td>
-                     
-                      <td>
-                          <button type="button" class="btn btn-warning" title="Edit Information">
-                              <i class="bi bi-pencil-square"></i> 
-                          </button>
-                      </td>
-                  </tr>
+                 <tr>
+                    <td style="text-align: center;"><?php echo $row["id"]; ?></td>
+                    <td style="text-align: center;"><?php echo $row["fullname"]; ?></td>
+                    <td style="text-align: center;"><?php echo $row["username"]; ?></td>
+                    <td style="text-align: center;"><?php echo $row["password"]; ?></td>
+
+                    <!-- Edit Button -->
+                    <td>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editDataModal" 
+  data-id="<?php echo $row['id']; ?>">
+    <i class="bi bi-pencil"></i> Edit Data
+  </button>
+  
+                    </td>
+                </tr>
+
                   <?php
                           }
                       } else {
@@ -139,6 +144,60 @@ include("footer.php");
     </div>
   </div>
 </div>
+
+
+<!-- Modal for Editing Data -->
+<!-- Modal for Editing Data -->
+<div class="modal fade" id="editDataModal" tabindex="-1" aria-labelledby="editDataModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editDataModalLabel">Edit Data</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <?php
+      // Query to fetch data from tbl_collectors_profile
+      $query = "SELECT * FROM tbl_collectors_profile";
+      $result = $con->query($query);
+
+      if ($result->num_rows > 0) {
+          // There is data, process it
+          while ($row = $result->fetch_assoc()) {
+              echo '
+              <div class="modal-body">
+                <form action="edit_collectors_profile.php" method="POST" id="editForm">
+                    <input type="hidden" id="editId" name="id" value="' . $row['id'] . '" required>
+                    <div class="mb-3">
+                        <label for="editFullname" class="form-label">Fullname</label>
+                        <input type="text" class="form-control" id="editFullname" name="fullname" value="' . $row['fullname'] . '" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="editUsername" name="username" value="' . $row['username'] . '" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPassword" class="form-label">Password</label>
+                        <input type="text" class="form-control" id="editPassword" name="password" value="' . $row['password'] . '" required>
+                    </div>
+
+                    <div style="float:right;">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Save Changes</button>
+                    </div>
+                </form>
+              </div>';
+          }
+      } else {
+          echo '<p>No data available</p>';
+      }
+      ?>
+
+    </div>
+  </div>
+</div>
+
+
 
 <!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -257,6 +316,9 @@ include("footer.php");
     // Save the file with the new name
     XLSX.writeFile(wb, fileName);
 });
+
+
+
 </script>
 
 </body>
