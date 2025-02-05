@@ -9,10 +9,17 @@
       </a>
     </li><!-- End Dashboard Nav -->
 
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="area_reports.php">
+        <i class="bi bi-geo-alt"></i>
+        <span>Area</span>
+      </a>
+    </li> 
+
      <li class="nav-item">
       <a class="nav-link collapsed" href="water_rate_reports.php">
         <i class="bi bi-moisture"></i>
-        <span>Water rate</span>
+        <span>Water rate | NO DATA PA ETO  </span>
       </a>
     </li> 
 
@@ -34,6 +41,13 @@
       <a class="nav-link collapsed" href="active_reports.php">
         <i class="bi bi-graph-up-arrow"></i>
         <span>Active</span>
+      </a>
+    </li> 
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#">
+        <i class="bi bi-graph-up-arrow"></i>
+        <span>New Connection | NO DATA PA ETO </span>
       </a>
     </li> 
 

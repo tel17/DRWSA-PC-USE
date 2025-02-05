@@ -49,7 +49,7 @@ include("sidebar.php");
               <thead>
                 <tr>
                   <th scope="col" style="text-align: center;">#</th>
-                  <th scope="col" style="text-align: center;">CONSUMER STATUS</th>    
+                  <!-- <th scope="col" style="text-align: center;">CONSUMER STATUS</th>     -->
                   <th scope="col" style="text-align: center;">ACCOUNT NUMBER</th>
                   <th scope="col" style="text-align: center;">NAME</th>
                   <th scope="col" style="text-align: center;">AREA</th>
@@ -60,9 +60,9 @@ include("sidebar.php");
                   <th scope="col" style="text-align: center;">CONTACT</th>
                   <th scope="col" style="text-align: center;">BIRTHPLACE</th>
                   <th scope="col" style="text-align: center;">EDUCATIONAL ATTAINMENT</th>
-                  <th scope="col" style="text-align: center;">FAMILY MEMBER 1</th>
-                  <th scope="col" style="text-align: center;">FAMILY MEMBER 2</th>
-                  <th scope="col" style="text-align: center;">FAMILY MEMBER 3</th>
+                  <th scope="col" style="text-align: center;">FAMILY MEMBER </th>
+                  <!-- <th scope="col" style="text-align: center;">FAMILY MEMBER 2</th>
+                  <th scope="col" style="text-align: center;">FAMILY MEMBER 3</th> -->
                   <th scope="col" style="text-align: center;">INCOME</th>
                   <th scope="col" style="text-align: center;">CEDULA</th>
                   <th scope="col" style="text-align: center;">CLEARANCE</th>
@@ -71,9 +71,9 @@ include("sidebar.php");
                   <th scope="col" style="text-align: center;">BIRTHDAY</th>
                   <th scope="col" style="text-align: center;">AMOUNT</th>
                   <th scope="col" style="text-align: center;">MONTH</th>
-                  <th scope="col" style="text-align: center;">BENEFICIARY 1</th>
-                  <th scope="col" style="text-align: center;">BENEFICIARY 2</th>
-                  <th scope="col" style="text-align: center;">BENEFICIARY 3</th>
+                  <th scope="col" style="text-align: center;">BENEFICIARY </th>
+                  <!-- <th scope="col" style="text-align: center;">BENEFICIARY 2</th>
+                  <th scope="col" style="text-align: center;">BENEFICIARY 3</th> -->
                                              
                   <th scope="col" style="text-align: center;">Status</th>
                 </tr>
@@ -90,7 +90,7 @@ include("sidebar.php");
                   ?>
                   <tr>
                       <td style="text-align: center;"><?php echo $row["id"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["consumer_status"]; ?></td>
+                      <!-- <td style="text-align: center;"><?php echo $row["consumer_status"]; ?></td> -->
                       <td style="text-align: center;"><?php echo $row["account_number"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["name"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["area"]; ?></td>
@@ -102,8 +102,8 @@ include("sidebar.php");
                       <td style="text-align: center;"><?php echo $row["birthplace"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["education_attainment"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["family_member_1"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["family_member_2"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["family_member_3"]; ?></td>
+                      <!-- <td style="text-align: center;"><?php echo $row["family_member_2"]; ?></td>
+                      <td style="text-align: center;"><?php echo $row["family_member_3"]; ?></td> -->
                       <td style="text-align: center;"><?php echo $row["income"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["cedula"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["clearance"]; ?></td>
@@ -113,8 +113,8 @@ include("sidebar.php");
                       <td style="text-align: center;"><?php echo $row["amount"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["month_for_data"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["beneficiary_1"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["beneficiary_2"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["beneficiary_3"]; ?></td>
+                      <!-- <td style="text-align: center;"><?php echo $row["beneficiary_2"]; ?></td>
+                      <td style="text-align: center;"><?php echo $row["beneficiary_3"]; ?></td> -->
                       
                       <td>
                           <button type="button" class="btn btn-warning" title="Edit Information">

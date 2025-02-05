@@ -1,5 +1,7 @@
 <?php
 include("header.php"); // Ensure your database connection is included
+include("topbar.php");
+include("sidebar.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Retrieve form data
@@ -14,45 +16,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $birthplace = $_POST['birthplace'];
     $education_attainment = $_POST['education_attainment'];
     $family_member_1 = $_POST['family_member_1'];
+    $family_member_2 = $_POST['family_member_2'];
+    $family_member_3 = $_POST['family_member_3'];
     $income = $_POST['income'];
     $cedula = $_POST['cedula'];
     $clearance = $_POST['clearance'];
     $meter_number = $_POST['meter_number'];
-    $date_filed = $_POST['date_filed']; // Corrected field
+    $date_filed = $_POST['date_filed'];
     $birthday = $_POST['birthday'];
     $amount = $_POST['amount'];
     $month_for_data = $_POST['month_for_data'];
     $beneficiary_1 = $_POST['beneficiary_1'];
     $beneficiary_2 = $_POST['beneficiary_2'];
     $beneficiary_3 = $_POST['beneficiary_3'];
-    $consumer_status = $_POST['consumer_status'];  // Retrieve consumer status from the form
+    $consumer_status = $_POST['consumer_status'];
 
-    // SQL Insert Query
+    // Corrected SQL Insert Query
     $query = "INSERT INTO tbl_members_profile (
         account_number, name, area, block, age, status, gender, contact, birthplace, 
-        education_attainment, family_member_1, income, cedula, clearance, meter_number, 
-        date_filed, birthday, amount, month_for_data, beneficiary_1, beneficiary_2, beneficiary_3, consumer_status
+        education_attainment, family_member_1, family_member_2, family_member_3, income, 
+        cedula, clearance, meter_number, date_filed, birthday, amount, month_for_data, 
+        beneficiary_1, beneficiary_2, beneficiary_3, consumer_status
     ) VALUES (
         '$account_number', '$name', '$area', '$block', '$age', '$status', '$gender', '$contact', '$birthplace', 
-        '$education_attainment', '$family_member_1', '$income', '$cedula', '$clearance', '$meter_number', 
-        '$date_filed', '$birthday', '$amount', '$month_for_data', '$beneficiary_1', '$beneficiary_2', '$beneficiary_3', '$consumer_status'
+        '$education_attainment', '$family_member_1', '$family_member_2', '$family_member_3', '$income', 
+        '$cedula', '$clearance', '$meter_number', '$date_filed', '$birthday', '$amount', '$month_for_data', 
+        '$beneficiary_1', '$beneficiary_2', '$beneficiary_3', '$consumer_status'
     )";
 
-    // Execute the query
     if ($con->query($query) === TRUE) {
-        // If the query is successful
-        $message = "Data Added Successfully!";
-        $alert_type = "success";
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Data Added Successfully!',
+                    text: 'New Member has been added.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'members_profile_reports.php';
+                    }
+                });
+            });
+        </script>";
     } else {
-        // If there's an error in the query
-        $message = "Error: " . $con->error;
-        $alert_type = "error";
+        echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Error: " . $con->error . "',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>";
     }
 }
 ?>
 
-<?php include("topbar.php"); ?>
-<?php include("sidebar.php"); ?>
 
 <main id="main" class="main">
     <div class="pagetitle">
@@ -92,8 +112,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </div>
 
                                     <div class="col-lg-4 mb-3">
-                                        <label for="area" class="form-label">Area</label>
-                                        <input type="text" class="form-control" id="area" name="area" required>
+                                      
+                                        
+                                                <label for="area" class="form-label">AREA</label>
+                                                <select class="form-control" id="area" name="area" required>
+                                                <option selected disabled>--SELECT AREA--</option>
+                                                <?php 
+                                                    $query = "SELECT * FROM tbl_area";
+                                                    $result = $con->query($query);
+                                                    if(mysqli_num_rows($result) > 0){
+                                                    while ($userResult = $result->fetch_assoc()){
+                                                ?>
+                                                        <option data-tokens="<?php echo $userResult['area']; ?>"><?php echo $userResult['area']; ?></option>
+                                                <?php 
+                                                    }
+                                                    }
+                                                ?>
+                                                </select>
+                                            
                                     </div>
                                 </div>
 
@@ -137,23 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         <input type="text" class="form-control" id="education_attainment" name="education_attainment" required>
                                     </div>
 
-                                    <div class="col-lg-4 mb-3">
-                                        <label for="family_member_1" class="form-label">Family Member 1</label>
-                                        <input type="text" class="form-control" id="family_member_1" name="family_member_1">
-                                    </div>
-
-                                    <div class="col-lg-4 mb-3">
-                                        <label for="family_member_2" class="form-label">Family Member 2</label>
-                                        <input type="text" class="form-control" id="family_member_2" name="family_member_2">
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-4 mb-3">
-                                        <label for="family_member_3" class="form-label">Family Member 3</label>
-                                        <input type="text" class="form-control" id="family_member_3" name="family_member_3">
-                                    </div>
-
+                                   
                                     <div class="col-lg-4 mb-3">
                                         <label for="income" class="form-label">Income</label>
                                         <input type="number" class="form-control" id="income" name="income">
@@ -195,8 +215,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                     <div class="col-lg-4 mb-3">
                                         <label for="month_for_data" class="form-label">Month</label>
-                                        <input type="text" class="form-control" id="month_for_data" name="month_for_data">
+                                        <select class="form-control" id="month_for_data" name="month_for_data" required>
+                                            <option selected disabled>-- Select Month --</option>
+                                            <option value="January">January</option>
+                                            <option value="February">February</option>
+                                            <option value="March">March</option>
+                                            <option value="April">April</option>
+                                            <option value="May">May</option>
+                                            <option value="June">June</option>
+                                            <option value="July">July</option>
+                                            <option value="August">August</option>
+                                            <option value="September">September</option>
+                                            <option value="October">October</option>
+                                            <option value="November">November</option>
+                                            <option value="December">December</option>
+                                        </select>
                                     </div>
+
                                 </div>
 
                                 <div class="row">
@@ -224,7 +259,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     </select>
                                     </div> -->
 
-                                </div>
+
+
+                                                <div class="col-lg-4 mb-3">
+                                                    <label for="family_member_1" class="form-label">Family Member 1</label>
+                                                    <input type="text" class="form-control" id="family_member_1" name="family_member_1">
+                                                </div>
+
+                                                <div class="col-lg-4 mb-3">
+                                                    <label for="family_member_2" class="form-label">Family Member 2</label>
+                                                    <input type="text" class="form-control" id="family_member_2" name="family_member_2">
+                                                </div>
+                                                <div class="col-lg-4 mb-3">
+                                                    <label for="family_member_3" class="form-label">Family Member 3</label>
+                                                    <input type="text" class="form-control" id="family_member_3" name="family_member_3">
+                                                </div>
+
+                                            </div>
+
+                                 
+                                               
                             </div>
                            
                                 

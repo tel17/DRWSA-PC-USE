@@ -92,28 +92,26 @@ if ($show_active || $show_disconnected || $show_meter_replacement) {
 <table class="table table-borderless datatable">
     <thead>
         <tr>
-            <th>#</th>
-            <th>ACCOUNT NUMBER</th>
-            <th>NAME</th>
-            <th>CONSUMER STATUS</th>
-            <th>AREA</th>
-            <th>BLK/LOT</th>
-            <th>READING</th>
-            <th>DATE RECON</th>
-            <th>MONTH</th>
-            <th>MAINTENANCE</th>
-            <th>REMARKS</th>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">ACCOUNT NUMBER</th>
+            <th style="text-align: center;">NAME</th>
+            <th style="text-align: center;">AREA</th>
+            <th style="text-align: center;">BLK/LOT</th>
+            <th style="text-align: center;">READING</th>
+            <th style="text-align: center;">DATE RECON</th>
+            <th style="text-align: center;">MONTH</th>
+            <th style="text-align: center;">MAINTENANCE</th>
+            <th style="text-align: center;">REMARKS</th>
         </tr>
     </thead>
     <tbody>
         <?php
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "<tr>
+                echo "<tr style='text-align: center;'>
                     <td>{$row['id']}</td>
                     <td>{$row['account_number_active']}</td>
                     <td>{$row['name']}</td>
-                    <td>{$row['consumer_status_active']}</td>
                     <td>{$row['area']}</td>
                     <td>{$row['blk_lot']}</td>
                     <td>{$row['reading']}</td>
@@ -137,35 +135,35 @@ if ($show_active || $show_disconnected || $show_meter_replacement) {
 <table class="table table-borderless datatable">
     <thead>
         <tr>
-            <th>#</th>
-            <th>ACCOUNT NUMBER</th>
-            <th>NAME</th>
-            <th>CONSUMER STATUS</th>
-            <th>AREA</th>
-            <th>BLK/LOT</th>
-            <th>READING</th>
-            <th>DATE DISCONNECTED</th>
-            <th>MONTH</th>
-            <th>DISCONNECTOR</th>
-            <th>REMARKS</th>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">ACCOUNT NUMBER</th>
+            <th style="text-align: center;">NAME</th>
+      
+            <th style="text-align: center;">AREA</th>
+            <th style="text-align: center;">BLK/LOT</th>
+            <th style="text-align: center;">READING</th>
+            <th style="text-align: center;">DATE DISCONNECTED</th>
+            <th style="text-align: center;">MONTH</th>
+            <th style="text-align: center;">DISCONNECTOR</th>
+            <th style="text-align: center;">REMARKS</th>
         </tr>
     </thead>
     <tbody>
         <?php
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "<tr>
-                    <td>{$row['id']}</td>
-                    <td>{$row['account_number_disconnected']}</td>
-                    <td>{$row['name']}</td>
-                    <td>{$row['consumer_status_disconnected']}</td>
-                    <td>{$row['area']}</td>
-                    <td>{$row['blk_lot']}</td>
-                    <td>{$row['reading']}</td>
-                    <td>{$row['date_disconnected']}</td>
-                    <td>" . date("F Y", strtotime($row['billing_month'])) . "</td>
-                    <td>{$row['disconnector']}</td>
-                    <td>{$row['remarks']}</td>
+                echo "<tr style='text-align: center;'>
+                    <td >{$row['id']}</td>
+                    <td >{$row['account_number_disconnected']}</td>
+                    <td >{$row['name']}</td>
+                
+                    <td >{$row['area']}</td>
+                    <td >{$row['blk_lot']}</td>
+                    <td >{$row['reading']}</td>
+                    <td >{$row['date_disconnected']}</td>
+                    <td >" . date("F Y", strtotime($row['billing_month'])) . "</td>
+                    <td >{$row['disconnector']}</td>
+                    <td >{$row['remarks']}</td>
                 </tr>";
             }
         } else {
@@ -181,23 +179,24 @@ if ($show_active || $show_disconnected || $show_meter_replacement) {
 <table class="table table-borderless datatable">
     <thead>
         <tr>
-            <th>#</th>
-            <th>NAME</th>
-            <th>AREA</th>
-            <th>BLK/LOT</th>
-            <th>OLD READING</th>
-            <th>NEW READING</th>
-            <th>SERIAL NUMBER</th>
-            <th>DATE FILED</th>
-            <th>YEAR</th>
-            <th>REMARKS</th>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">NAME</th>
+            <th style="text-align: center;">AREA</th>
+            <th style="text-align: center;">BLK/LOT</th>
+            <th style="text-align: center;">OLD READING</th>
+            <th style="text-align: center;">NEW READING</th>
+            <th style="text-align: center;">SERIAL NUMBER</th>
+            <th style="text-align: center;">DATE FILED</th>
+            <th style="text-align: center;">YEAR</th>
+            <th style="text-align: center;">REMARKS</th>
+            <th style="text-align: center;">MID</th>
         </tr>
     </thead>
     <tbody>
         <?php
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                echo "<tr>
+                echo "<tr style='text-align: center;'>
                     <td>{$row['id']}</td>
                     <td>{$row['name']}</td>
                     <td>{$row['area']}</td>
@@ -208,6 +207,7 @@ if ($show_active || $show_disconnected || $show_meter_replacement) {
                     <td>{$row['date_filed']}</td>
                     <td>{$row['year']}</td>
                     <td>{$row['remarks']}</td>
+                    <td>{$row['mid']}</td>
                 </tr>";
             }
         } else {

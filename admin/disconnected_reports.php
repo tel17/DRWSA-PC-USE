@@ -12,7 +12,11 @@ include("topbar.php");
 <?php
 include("sidebar.php");
 ?>
-
+<style>
+.datatable-top .datatable-search {
+    display: none !important;
+}
+</style>
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -39,10 +43,26 @@ include("sidebar.php");
                 <button type="button" class="btn btn-light" id="pdfBtn" title="Download PDF">PDF</button>
                 <button type="button" class="btn btn-light" id="excelBtn" title="Download Excel">EXCEL</button>
               </div>
-              <div>
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addDataModal"><i class="bi bi-plus"></i> Add Data</button>
-              </div>
-            </div>
+             
+            </div><br>
+
+                   <!-- Filter Inputs -->
+                   <div class="row mb-2 align-items-center">
+    <div class="col-md-3">
+        <input type="text" class="form-control" id="filterName" placeholder="Filter by Name">
+    </div>
+    <div class="col-md-3">
+        <input type="text" class="form-control" id="filterBlockLot" placeholder="Filter by Block & Lot">
+    </div>
+    
+    <!-- Button should be right-aligned and vertically centered -->
+    <div class="col-md-6 text-end">
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addDataModal">
+            <i class="bi bi-plus"></i> Add Data
+        </button>
+    </div>
+</div>
+
             <table class="table table-borderless datatable" id="Customer_Manager_Report">
               <thead>
                 <tr>
@@ -50,7 +70,7 @@ include("sidebar.php");
                   <th scope="col" style="text-align: center;">ACCOUNT NUMBER</th>
                   
                   <th scope="col" style="text-align: center;">NAME</th>
-                  <th scope="col" style="text-align: center;">CONSUMER STATUS</th>
+                  <!-- <th scope="col" style="text-align: center;">CONSUMER STATUS</th> -->
                   <th scope="col" style="text-align: center;">AREA</th>
                   <th scope="col" style="text-align: center;">BLK/LOT</th>
                   <th scope="col" style="text-align: center;">READING</th>
@@ -76,7 +96,7 @@ include("sidebar.php");
                       <td style="text-align: center;"><?php echo $row["id"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["account_number_disconnected"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["name"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["consumer_status_disconnected"]; ?></td>
+                      <!-- <td style="text-align: center;"><?php echo $row["consumer_status_disconnected"]; ?></td> -->
                       <td style="text-align: center;"><?php echo $row["area"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["blk_lot"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["reading"]; ?></td>
@@ -178,48 +198,67 @@ include("footer.php");
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                     <label for="consumer_status_disconnected" class="form-label">Consumer Status Disconnected</label>
                     <input type="text" class="form-control" id="consumer_status_disconnected" name="consumer_status_disconnected" readonly>
-                </div>
+                </div> -->
 
-                <div class="col-md-6">
-                    <label for="area" class="form-label">Area</label>
-                    <input type="text" class="form-control" id="area" name="area" readonly>
+             
+                  <div class="col-md-6">
+                    <label for="area" class="form-label">AREA</label>
+                    <select class="form-control" id="area" name="area" required>
+                      <option selected disabled>--SELECT AREA--</option>
+                      <?php 
+                        $query = "SELECT * FROM tbl_area";
+                        $result = $con->query($query);
+                        if(mysqli_num_rows($result) > 0){
+                          while ($userResult = $result->fetch_assoc()){
+                      ?>
+                            <option data-tokens="<?php echo $userResult['area']; ?>"><?php echo $userResult['area']; ?></option>
+                      <?php 
+                          }
+                        }
+                      ?>
+                    </select>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="blk_lot" class="form-label">Blk/Lot</label>
+                    <input type="text" class="form-control" id="blk_lot" name="blk_lot" readonly>
                 </div>
             </div>
 
             <div class="row mb-3">
-                <div class="col-md-6">
-                    <label for="blk_lot" class="form-label">Blk/Lot</label>
-                    <input type="text" class="form-control" id="blk_lot" name="blk_lot" readonly>
-                </div>
+                
 
                 <div class="col-md-6">
                     <label for="reading" class="form-label">Reading</label>
                     <input type="text" class="form-control" id="reading" name="reading" required>
                 </div>
-            </div>
 
-            <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="date_disconnected" class="form-label">Date Disconnected</label>
                     <input type="date" class="form-control" id="date_disconnected" name="date_disconnected" required>
                 </div>
+            </div>
+
+            <div class="row mb-3">
+               
 
                 <div class="col-md-6">
                     <label for="billing_month" class="form-label">Billing Month</label>
                     <input type="month" class="form-control" id="billing_month" name="billing_month" required>
                 </div>
-            </div>
-
-            <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="disconnector" class="form-label">Disconnector</label>
                     <input type="text" class="form-control" id="disconnector" name="disconnector" required>
                 </div>
+            </div>
 
-                <div class="col-md-6">
+            <div class="row mb-3">
+                
+
+                <div class="col-md">
                     <label for="remarks" class="form-label">Remarks</label>
                     <input type="text" class="form-control" id="remarks" name="remarks">
                 </div>
@@ -369,17 +408,48 @@ document.getElementById("account_number_disconnected").addEventListener("input",
     if (selectedAccount && accountData[selectedAccount]) {
         // Populate the fields with the selected account's data
         document.getElementById("name").value = accountData[selectedAccount]?.name || "";
-        document.getElementById("consumer_status_disconnected").value = accountData[selectedAccount]?.consumer_status || "";
+        // document.getElementById("consumer_status_disconnected").value = accountData[selectedAccount]?.consumer_status || "";
         document.getElementById("area").value = accountData[selectedAccount]?.area || "";
         document.getElementById("blk_lot").value = accountData[selectedAccount]?.blk_lot || "";
     } else {
         // Clear the fields if no account number is selected or not valid
         document.getElementById("name").value = "";
-        document.getElementById("consumer_status_disconnected").value = "";
+        // document.getElementById("consumer_status_disconnected").value = "";
         document.getElementById("area").value = "";
         document.getElementById("blk_lot").value = "";
     }
 });
+
+
+
+// for filtering 
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Function to apply column-based filtering
+    function applyFilter() {
+        let nameFilter = document.getElementById("filterName").value.trim().toLowerCase();
+        let blockLotFilter = document.getElementById("filterBlockLot").value.trim().toLowerCase();
+
+        // Get all table rows
+        document.querySelectorAll("#Customer_Manager_Report tbody tr").forEach(row => {
+            let nameCell = row.cells[2].textContent.trim().toLowerCase(); // NAME column
+            let blockLotCell = row.cells[4].textContent.trim().toLowerCase(); // BLOCK & LOT column
+
+            // Check if Name matches, then refine with Block & Lot
+            let nameMatches = nameFilter === "" || nameCell.includes(nameFilter);
+            let blockLotMatches = blockLotFilter === "" || blockLotCell.includes(blockLotFilter);
+
+            // Show row only if both conditions match
+            row.style.display = (nameMatches && blockLotMatches) ? "" : "none";
+        });
+    }
+
+    // Attach event listeners to filter inputs
+    document.getElementById("filterName").addEventListener("input", applyFilter);
+    document.getElementById("filterBlockLot").addEventListener("input", applyFilter);
+});
+
+
 </script>
 
 </body>

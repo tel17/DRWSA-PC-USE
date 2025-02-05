@@ -47,8 +47,8 @@
   <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
 
 
- <script src="assets\vendor\simple-datatables\simple-datatables.js"></script>
-
+ <script src="admin\assets\vendor\simple-datatables\simple-datatables.js"></script>
+ 
   
 
 <?php

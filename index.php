@@ -119,13 +119,13 @@ include("header.php");
 
         <!-- Secondary Buttons -->
         <div class="container secondary-buttons">
-            <button class="btn btn-primary" onclick="window.location.href='water-rate.html'">WATER RATE</button>
+            <!-- <button class="btn btn-primary" onclick="window.location.href='water-rate.html'">WATER RATE</button> -->
             <button class="btn btn-primary" onclick="window.location.href='summary-nrdm.html'">SUMMARY NRDM</button>
             <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#consumerModal">
                                                                                                     STATEMENT OF ACCOUNT
                                                                                                 </button> -->
-            <button class="btn btn-primary" onclick="window.location.href='disconnected.php'">DISCONNECTED</button>
-            <button class="btn btn-primary" onclick="window.location.href='active.php'">ACTIVE</button>
+            <!-- <button class="btn btn-primary" onclick="window.location.href='disconnected.php'">DISCONNECTED</button>
+            <button class="btn btn-primary" onclick="window.location.href='active.php'">ACTIVE</button> -->
             <!-- <button class="btn btn-primary" onclick="window.location.href='meter-replacement.html'">METER REPLACEMENT</button> -->
         </div>
         <br>

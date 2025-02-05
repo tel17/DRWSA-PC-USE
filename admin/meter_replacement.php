@@ -12,7 +12,11 @@ include("topbar.php");
 <?php
 include("sidebar.php");
 ?>
-
+<style>
+.datatable-top .datatable-search {
+    display: none !important;
+}
+</style>
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -43,6 +47,24 @@ include("sidebar.php");
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addDataModal"><i class="bi bi-plus"></i> Add Data</button>
               </div>
             </div>
+            <br>
+               <!-- Filter Inputs -->
+          <!-- Filter Inputs -->
+<div class="row mb-2">
+    <div class="col-md-3">
+        <input type="text" class="form-control" id="filterName" placeholder="Filter by Name">
+    </div>
+    <div class="col-md-3">
+        <input type="text" class="form-control" id="filterArea" placeholder="Filter by Area">
+    </div>
+    <div class="col-md-3">
+        <input type="text" class="form-control" id="filterBlockLot" placeholder="Filter by Block & Lot">
+    </div>
+    <div class="col-md-3">
+        <input type="text" class="form-control" id="filterYear" placeholder="Filter by Year">
+    </div>
+</div>
+
             <table class="table table-borderless datatable" id="Customer_Manager_Report">
               <thead>
                 <tr>
@@ -57,6 +79,7 @@ include("sidebar.php");
                   <th scope="col" style="text-align: center;">YEAR</th>
                   <th scope="col" style="text-align: center;">REMARKS</th>
                   <th scope="col" style="text-align: center;">MID</th>
+                  <th scope="col" style="text-align: center;">STATUS</th>
                 </tr>
               </thead>
               <tbody>
@@ -131,9 +154,22 @@ include("footer.php");
 
           <div class="mb-3">
             <label for="area" class="form-label">AREA</label>
-            <input type="text" class="form-control" id="area" name="area" required>
+            <select class="form-control" id="area" name="area" required>
+              <option selected disabled>--SELECT AREA--</option>
+              <?php 
+                $query = "SELECT * FROM tbl_area";
+                $result = $con->query($query);
+                if(mysqli_num_rows($result) > 0){
+                  while ($userResult = $result->fetch_assoc()){
+              ?>
+                    <option data-tokens="<?php echo $userResult['area']; ?>"><?php echo $userResult['area']; ?></option>
+              <?php 
+                  }
+                }
+              ?>
+            </select>
           </div>
-         
+
          
           <div class="mb-3">
             <label for="block_lot" class="form-label">BLOCK&LOT</label>
@@ -195,6 +231,10 @@ include("footer.php");
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.17/jspdf.plugin.autotable.min.js"></script>
 <!-- XLSX.js for Excel export -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+
+
+
+
 
 
 <script>
@@ -306,6 +346,44 @@ include("footer.php");
     // Save the file with the new name
     XLSX.writeFile(wb, fileName);
 });
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Initialize Simple DataTable
+    const table = new simpleDatatables.DataTable("#Customer_Manager_Report");
+
+    // Function to apply column-based filtering
+    function applyFilter() {
+        let nameFilter = document.getElementById("filterName").value.toLowerCase();
+        let areaFilter = document.getElementById("filterArea").value.toLowerCase();
+        let blockLotFilter = document.getElementById("filterBlockLot").value.toLowerCase();
+        let yearFilter = document.getElementById("filterYear").value.toLowerCase();
+
+        // Get all table rows
+        document.querySelectorAll("#Customer_Manager_Report tbody tr").forEach(row => {
+            let nameCell = row.cells[1].textContent.toLowerCase();
+            let areaCell = row.cells[2].textContent.toLowerCase();
+            let blockLotCell = row.cells[3].textContent.toLowerCase();
+            let yearCell = row.cells[8].textContent.toLowerCase();
+
+            // Match filters, if empty, allow all
+            let showRow = 
+                (nameFilter === "" || nameCell.includes(nameFilter)) &&
+                (areaFilter === "" || areaCell.includes(areaFilter)) &&
+                (blockLotFilter === "" || blockLotCell.includes(blockLotFilter)) &&
+                (yearFilter === "" || yearCell.includes(yearFilter));
+
+            row.style.display = showRow ? "" : "none"; // Hide or show row
+        });
+    }
+
+    // Attach event listeners to filter inputs
+    document.getElementById("filterName").addEventListener("input", applyFilter);
+    document.getElementById("filterArea").addEventListener("input", applyFilter);
+    document.getElementById("filterBlockLot").addEventListener("input", applyFilter);
+    document.getElementById("filterYear").addEventListener("input", applyFilter);
+});
+
 </script>
 
 </body>

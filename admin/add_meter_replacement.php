@@ -26,9 +26,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Execute the query
     if ($con->query($query) === TRUE) {
-        // If the query is successful
-        $message = "Data Added Successfully!";
-        $alert_type = "success";
+        header("Location: meter_replacement.php");
+        exit();
     } else {
         // If there's an error in the query
         $message = "Error: " . $con->error;
