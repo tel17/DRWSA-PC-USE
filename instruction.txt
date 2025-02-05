@@ -1,0 +1,5 @@
+username: admin@gmail.com
+admin: admin
+
+para gumana ang admin side
+ kulang pa ito 
