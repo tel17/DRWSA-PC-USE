@@ -37,22 +37,24 @@ include("header.php");
             <h5 class="card-title">Enter Details</h5>
             
             <form method="GET" action="">
-    <div class="row align-items-center">
+    <div class="row  align-items-center">
         <!-- Input Field for Name -->
-        <div class="col-md-8">
+        <div class="col-md-6">
             <label for="name" class="form-label">NAME</label>
             <input type="text" class="form-control" id="name" name="name" 
                    value="<?php echo isset($_GET['name']) ? $_GET['name'] : ''; ?>" required>
         </div>
 
         <!-- Buttons on the Right -->
-        <div class="col-md-4 d-flex justify-content-end mt-4">
-            <button type="submit" class="btn btn-primary me-2" name="search_active">Search By Active</button>
-            <button type="submit" class="btn btn-primary me-2" name="search_disconnected">Search By Disconnected</button>
+        <div class="col-md-6 d-flex flex-wrap justify-content-end gap-2 mt-3">
+            <button type="submit" class="btn btn-primary" name="search_active">Search By Active</button>
+            <button type="submit" class="btn btn-primary" name="search_disconnected">Search By Disconnected</button>
             <button type="submit" class="btn btn-primary" name="search_meter_replacement">Search By Meter Replacement</button>
+            <button type="submit" class="btn btn-primary" name="search_new_connection">Search By New Connection</button>
         </div>
     </div>
 </form>
+
 
 
           </div>
@@ -68,7 +70,7 @@ $search_name = isset($_GET['name']) ? mysqli_real_escape_string($con, trim($_GET
 $show_active = false;
 $show_disconnected = false;
 $show_meter_replacement = false;
-
+$show_new_connection = false;
 // Determine which table to show
 if (isset($_GET['search_active']) && !empty($search_name)) {
     $query = "SELECT * FROM tbl_active WHERE name LIKE '%$search_name%' ORDER BY name ASC";
@@ -79,10 +81,13 @@ if (isset($_GET['search_active']) && !empty($search_name)) {
 } elseif (isset($_GET['search_meter_replacement']) && !empty($search_name)) {
     $query = "SELECT * FROM tbl_meter_replacement WHERE name LIKE '%$search_name%' ORDER BY name ASC";
     $show_meter_replacement = true;
+} elseif (isset($_GET['search_new_connection']) && !empty($search_name)) {
+    $query = "SELECT * FROM tbl_newconnection WHERE name LIKE '%$search_name%' ORDER BY name ASC";
+    $show_new_connection = true;
 }
 
 // Execute query only if a valid search is made
-if ($show_active || $show_disconnected || $show_meter_replacement) {
+if ($show_active || $show_disconnected || $show_meter_replacement || $show_new_connection) {
     $result = $con->query($query);
 }
 ?>
@@ -116,7 +121,7 @@ if ($show_active || $show_disconnected || $show_meter_replacement) {
                     <td>{$row['blk_lot']}</td>
                     <td>{$row['reading']}</td>
                     <td>{$row['date_reconnected']}</td>
-                    <td>" . date("F Y", strtotime($row['billing_month'])) . "</td>
+                    <td>" . date("F Y", strtotime($row['month'])) . "</td>
                     <td>{$row['maintenance']}</td>
                     <td>{$row['remarks']}</td>
                 </tr>";
@@ -161,7 +166,7 @@ if ($show_active || $show_disconnected || $show_meter_replacement) {
                     <td >{$row['blk_lot']}</td>
                     <td >{$row['reading']}</td>
                     <td >{$row['date_disconnected']}</td>
-                    <td >" . date("F Y", strtotime($row['billing_month'])) . "</td>
+                    <td >" . date("F Y", strtotime($row['month'])) . "</td>
                     <td >{$row['disconnector']}</td>
                     <td >{$row['remarks']}</td>
                 </tr>";
@@ -208,6 +213,49 @@ if ($show_active || $show_disconnected || $show_meter_replacement) {
                     <td>{$row['year']}</td>
                     <td>{$row['remarks']}</td>
                     <td>{$row['mid']}</td>
+                </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='10'><center>No matching data found.</center></td></tr>";
+        }
+        ?>
+    </tbody>
+</table>
+<?php endif; ?>
+
+
+<!-- Table for New Connection -->
+<?php if ($show_new_connection): ?>
+<table class="table table-borderless datatable">
+    <thead>
+        <tr>
+            <th style="text-align: center;">#</th>
+            <th style="text-align: center;">ACCOUNT NUMBER</th>
+            <th style="text-align: center;">NAME</th>
+            <th style="text-align: center;">AREA</th>
+            <th style="text-align: center;">BLK/LOT</th>
+            <th style="text-align: center;">NEW METER NUMBER</th>
+            <th style="text-align: center;">DATE CONNECTED</th>
+            <th style="text-align: center;">MONTH</th>
+            <th style="text-align: center;">MAINTENANCE</th>
+            <th style="text-align: center;">REMARKS</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                echo "<tr style='text-align: center;'>
+                    <td>{$row['id']}</td>
+                    <td>{$row['account_number_new_connection']}</td>
+                    <td>{$row['name']}</td>
+                    <td>{$row['area']}</td>
+                    <td>{$row['blk_lot']}</td>
+                    <td>{$row['meter']}</td>
+                    <td>{$row['date_connect']}</td>
+                    <td>" . date("F Y", strtotime($row['month'])) . "</td>
+                    <td>{$row['new_connect_maintenance']}</td>
+                    <td>{$row['remarks']}</td>
                 </tr>";
             }
         } else {

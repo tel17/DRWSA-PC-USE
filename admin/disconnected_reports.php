@@ -76,6 +76,7 @@ include("sidebar.php");
                   <th scope="col" style="text-align: center;">READING</th>
                   <th scope="col" style="text-align: center;">DATE DISCON</th>
                   <th scope="col" style="text-align: center;">MONTH</th>
+                  <th scope="col" style="text-align: center;">YEAR</th>
                   <th scope="col" style="text-align: center;">DISCONNECTOR</th>
                   <th scope="col" style="text-align: center;">REMARKS</th>
              
@@ -101,12 +102,8 @@ include("sidebar.php");
                       <td style="text-align: center;"><?php echo $row["blk_lot"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["reading"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["date_disconnected"]; ?></td>
-                      <td style="text-align: center;">
-                            <?php 
-                                // Assuming $row["billing_month"] is in the DATE format (YYYY-MM-DD)
-                                echo date("F Y", strtotime($row["billing_month"])); // Format as 'Month Year' (e.g., February 2025)
-                            ?>
-                        </td>
+                      <td style="text-align: center;"><?php echo $row["month"]; ?></td>
+                        <td style="text-align: center;"><?php echo $row["year"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["disconnector"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["remarks"]; ?></td>
           
@@ -246,13 +243,18 @@ include("footer.php");
                
 
                 <div class="col-md-6">
-                    <label for="billing_month" class="form-label">Billing Month</label>
-                    <input type="month" class="form-control" id="billing_month" name="billing_month" required>
-                </div>
+                    <label for="month" class="form-label">Billing Month</label>
+                    <input type="month" class="form-control" id="month" name="month" required>
+                </div>  
                 <div class="col-md-6">
                     <label for="disconnector" class="form-label">Disconnector</label>
                     <input type="text" class="form-control" id="disconnector" name="disconnector" required>
                 </div>
+                <div class="col-md-6">
+                    <label for="year" class="form-label" hidden>Year</label>
+                    <input type="text" class="form-control" id="year" name="year" required readonly hidden>
+                </div>
+               
             </div>
 
             <div class="row mb-3">
@@ -448,7 +450,9 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("filterName").addEventListener("input", applyFilter);
     document.getElementById("filterBlockLot").addEventListener("input", applyFilter);
 });
-
+// for getting year today
+document.getElementById('year').value = new Date().getFullYear();
+</script>
 
 </script>
 

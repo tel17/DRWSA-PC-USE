@@ -20,10 +20,10 @@ include("sidebar.php");
 <main id="main" class="main">
 
   <div class="pagetitle">
-    <h1>Active</h1>
+    <h1>New Connection</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="index.html">Active</a></li>
+        <li class="breadcrumb-item"><a href="index.html">New Connection</a></li>
         <li class="breadcrumb-item active">Reports</li>
       </ol>
     </nav>
@@ -36,7 +36,7 @@ include("sidebar.php");
       <div class="col-12">
         <div class="card recent-sales overflow-auto">
           <div class="card-body">
-            <h5 class="card-title">Active<span>| Reports</span></h5>
+            <h5 class="card-title">New Connection<span>| Reports</span></h5>
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <div>
                 <button type="button" class="btn btn-light" id="printBtn" title="Print Table">PRINT</button>
@@ -46,8 +46,8 @@ include("sidebar.php");
              
             </div><br>
 
-<!-- Filter Inputs -->
-<div class="row mb-2 align-items-center">
+                   <!-- Filter Inputs -->
+                   <div class="row mb-2 align-items-center">
     <div class="col-md-3">
         <input type="text" class="form-control" id="filterName" placeholder="Filter by Name">
     </div>
@@ -72,19 +72,19 @@ include("sidebar.php");
                   <!-- <th scope="col" style="text-align: center;">CONSUMER STATUS</th> -->
                   <th scope="col" style="text-align: center;">AREA</th>
                   <th scope="col" style="text-align: center;">BLK/LOT</th>
-                  <th scope="col" style="text-align: center;">READING</th>
-                  <th scope="col" style="text-align: center;">DATE RECON</th>
+                  <th scope="col" style="text-align: center;">NEW METER NUMBER</th>
+                  <th scope="col" style="text-align: center;">DATE CONNECTED</th>
                   <th scope="col" style="text-align: center;">MONTH</th>
                   <th scope="col" style="text-align: center;">MAINTENANCE</th>
                   <th scope="col" style="text-align: center;">REMARKS</th>
-                  <th scope="col" style="text-align: center;">YEAR</th>
+             
                   <th scope="col" style="text-align: center;">Status</th>
                 </tr>
               </thead>
               <tbody>
                   <?php
-                      // Query to fetch data from tbl_disconnected
-                      $query = "SELECT * FROM tbl_active";
+                      // Query to fetch data from tbl_newconnection
+                      $query = "SELECT * FROM tbl_newconnection";
                       $result = $con->query($query);
 
                       // Check if any rows are returned
@@ -93,31 +93,28 @@ include("sidebar.php");
                   ?>
                   <tr>
                       <td style="text-align: center;"><?php echo $row["id"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["account_number_active"]; ?></td>
+                      <td style="text-align: center;"><?php echo $row["account_number_new_connection"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["name"]; ?></td>
-                      <!-- <td style="text-align: center;"><?php echo $row["consumer_status_active"]; ?></td> -->
+                      <!-- <td style="text-align: center;"><?php echo $row["consumer_status_disconnected"]; ?></td> -->
                       <td style="text-align: center;"><?php echo $row["area"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["blk_lot"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["reading"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["date_reconnected"]; ?></td>
+                      <td style="text-align: center;"><?php echo $row["meter"]; ?></td>
+                      <td style="text-align: center;"><?php echo $row["date_connect"]; ?></td>
                       <td style="text-align: center;">
                             <?php 
                                 // Assuming $row["billing_month"] is in the DATE format (YYYY-MM-DD)
                                 echo date("F Y", strtotime($row["month"])); // Format as 'Month Year' (e.g., February 2025)
                             ?>
                         </td>
-                      <td style="text-align: center;"><?php echo $row["maintenance"]; ?></td>
+                      <td style="text-align: center;"><?php echo $row["new_connect_maintenance"]; ?></td>
                       <td style="text-align: center;"><?php echo $row["remarks"]; ?></td>
-                      <td style="text-align: center;"><?php echo $row["year"]; ?></td>
+          
                      
                       <td>
                           <button type="button" class="btn btn-warning" title="Edit Information">
                               <i class="bi bi-pencil-square"></i> 
                           </button>
-
-                        
                       </td>
-                      
                   </tr>
                   <?php
                           }
@@ -155,42 +152,42 @@ include("footer.php");
         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="add_active_reports.php" method="POST" id="addForm">
+        <form action="add_new_connection.php" method="POST" id="addForm">
             <div class="row mb-3">
-            <div class="col-md-6">
-                    <label for="account_number_active" class="form-label">Account Number</label>
-                    <input list="account_numbers" class="form-control" id="account_number_active" name="account_number_active" required>
-                    <datalist id="account_numbers">
-                        <option value="">Select an Account Number</option>
-                        <?php
-                        // Fetch data from database
-                        $sql = "SELECT account_number, name, consumer_status, area, block FROM tbl_members_profile";
-                        $result = $con->query($sql);
+                <div class="col-md-6">
+                    <label for="account_number_new_connection" class="form-label"><small>Account Number New Connection</small></label>
+                    <input list="account_numbers" class="form-control" id="account_number_new_connection" name="account_number_new_connection" required>
+                        <datalist id="account_numbers">
+                            <option value="">Select an Account Number</option>
+                            <?php
+                            // Fetch data from database
+                            $sql = "SELECT account_number, name, consumer_status, area, block FROM tbl_members_profile";
+                            $result = $con->query($sql);
 
-                        // Prepare JavaScript object for mapping
-                        $accountData = [];
+                            // Prepare JavaScript object for mapping
+                            $accountData = [];
 
-                        if ($result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                $account_number = htmlspecialchars($row["account_number"]);
-                                $name = htmlspecialchars($row["name"]);
-                                $consumer_status = htmlspecialchars($row["consumer_status"]);
-                                $area = htmlspecialchars($row["area"]);
-                                $blk_lot = htmlspecialchars($row["block"]);
+                            if ($result->num_rows > 0) {
+                                while ($row = $result->fetch_assoc()) {
+                                    $account_number = htmlspecialchars($row["account_number"]);
+                                    $name = htmlspecialchars($row["name"]);
+                                    $consumer_status = htmlspecialchars($row["consumer_status"]);
+                                    $area = htmlspecialchars($row["area"]);
+                                    $blk_lot = htmlspecialchars($row["block"]);
 
-                                echo '<option value="' . $account_number . '"></option>';
+                                    echo '<option value="' . $account_number . '"></option>';
 
-                                // Store account data in array for JavaScript use
-                                $accountData[$account_number] = [
-                                    "name" => $name,
-                                    "consumer_status" => $consumer_status,
-                                    "area" => $area,
-                                    "blk_lot" => $blk_lot
-                                ];
+                                    $accountData[$account_number] = [
+                                        "name" => $name,
+                                        "consumer_status" => $consumer_status,
+                                        "area" => $area,
+                                        "blk_lot" => $blk_lot
+                                    ];
+                                }
                             }
-                        }
-                        ?>
-                    </datalist>
+                            ?>
+                        </datalist>
+
                 </div>
 
                 <div class="col-md-6">
@@ -201,13 +198,12 @@ include("footer.php");
 
             <div class="row mb-3">
                 <!-- <div class="col-md-6">
-                    <label for="consumer_status_active" class="form-label">Consumer Status Active</label>
-                    <input type="text" class="form-control" id="consumer_status_active" name="consumer_status_active" readonly>
+                    <label for="consumer_status_disconnected" class="form-label">Consumer Status Disconnected</label>
+                    <input type="text" class="form-control" id="consumer_status_disconnected" name="consumer_status_disconnected" readonly>
                 </div> -->
 
-                <div class="col-md-6">
-                   
-         
+             
+                  <div class="col-md-6">
                     <label for="area" class="form-label">AREA</label>
                     <select class="form-control" id="area" name="area" required>
                       <option selected disabled>--SELECT AREA--</option>
@@ -223,9 +219,9 @@ include("footer.php");
                         }
                       ?>
                     </select>
-              
-                </div>
-                <div class="col-md-6">
+                  </div>
+
+                  <div class="col-md-6">
                     <label for="blk_lot" class="form-label">Blk/Lot</label>
                     <input type="text" class="form-control" id="blk_lot" name="blk_lot" readonly>
                 </div>
@@ -235,35 +231,31 @@ include("footer.php");
                 
 
                 <div class="col-md-6">
-                    <label for="reading" class="form-label">Reading</label>
-                    <input type="text" class="form-control" id="reading" name="reading" required>
+                    <label for="meter" class="form-label">Meter</label>
+                    <input type="text" class="form-control" id="meter" name="meter" required>
                 </div>
+
                 <div class="col-md-6">
-                    <label for="date_reconnected" class="form-label">Date Reconnected</label>
-                    <input type="date" class="form-control" id="date_reconnected" name="date_reconnected" required>
+                    <label for="date_connect" class="form-label">Date Connected</label>
+                    <input type="date" class="form-control" id="date_connect" name="date_connect" required>
                 </div>
             </div>
 
             <div class="row mb-3">
-                
+               
 
                 <div class="col-md-6">
                     <label for="month" class="form-label">Billing Month</label>
                     <input type="month" class="form-control" id="month" name="month" required>
                 </div>
                 <div class="col-md-6">
-                    <label for="maintenance" class="form-label">Maintenance</label>
-                    <input type="text" class="form-control" id="maintenance" name="maintenance" required>
+                    <label for="new_connect_maintenance" class="form-label">NEW CONNECT MAINTENANCE</label>
+                    <input type="text" class="form-control" id="new_connect_maintenance" name="new_connect_maintenance" required>
                 </div>
-                <div class="col-md-6">
-                    <label for="year" class="form-label" hidden>Year</label>
-                    <input type="text" class="form-control" id="year" name="year" required readonly hidden>
-                </div>
-                
             </div>
 
             <div class="row mb-3">
-               
+                
 
                 <div class="col-md">
                     <label for="remarks" class="form-label">Remarks</label>
@@ -299,7 +291,7 @@ include("footer.php");
     // Show SweetAlert Success message
     Swal.fire({
       title: 'Data Added Successfully!',
-      text: 'Data for Active  has been added.',
+      text: 'New connection has been added.',
       icon: 'success',
       confirmButtonText: 'OK'
     }).then((result) => {
@@ -404,28 +396,29 @@ include("footer.php");
 
 
 
+// to show data
 
-// Pass the PHP array to JavaScript
 var accountData = <?php echo json_encode($accountData); ?>;
 
-document.getElementById("account_number_active").addEventListener("input", function () {
+document.getElementById("account_number_new_connection").addEventListener("input", function () {
     var selectedAccount = this.value;
 
     // Check if the selected account number exists in the accountData
     if (selectedAccount && accountData[selectedAccount]) {
         // Populate the fields with the selected account's data
         document.getElementById("name").value = accountData[selectedAccount]?.name || "";
-        // document.getElementById("consumer_status_active").value = accountData[selectedAccount]?.consumer_status || "";
+        // document.getElementById("consumer_status_disconnected").value = accountData[selectedAccount]?.consumer_status || "";
         document.getElementById("area").value = accountData[selectedAccount]?.area || "";
         document.getElementById("blk_lot").value = accountData[selectedAccount]?.blk_lot || "";
     } else {
         // Clear the fields if no account number is selected or not valid
         document.getElementById("name").value = "";
-        // document.getElementById("consumer_status_active").value = "";
+        // document.getElementById("consumer_status_disconnected").value = "";
         document.getElementById("area").value = "";
         document.getElementById("blk_lot").value = "";
     }
 });
+
 
 
 // for filtering 
@@ -455,8 +448,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("filterBlockLot").addEventListener("input", applyFilter);
 });
 
-// for getting year today
-document.getElementById('year').value = new Date().getFullYear();
+
 </script>
 
 </body>

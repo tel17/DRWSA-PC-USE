@@ -9,12 +9,21 @@
       </a>
     </li><!-- End Dashboard Nav -->
 
+    
     <li class="nav-item">
       <a class="nav-link collapsed" href="area_reports.php">
         <i class="bi bi-geo-alt"></i>
         <span>Area</span>
       </a>
     </li> 
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="daily_collection_report.php">
+        <i class="bi bi-file-earmark-spreadsheet"></i>
+        <span>Daily Collection Report</span>
+      </a>
+    </li>
+
 
      <li class="nav-item">
       <a class="nav-link collapsed" href="water_rate_reports.php">
@@ -45,9 +54,9 @@
     </li> 
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="#">
+      <a class="nav-link collapsed" href="new_connection_reports.php">
         <i class="bi bi-command"></i>
-        <span>New Connection | NO DATA PA ETO </span>
+        <span>New Connection </span>
       </a>
     </li> 
 

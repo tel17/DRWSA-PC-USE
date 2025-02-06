@@ -197,9 +197,9 @@ include("footer.php");
           </div>
 
           <div class="mb-3">
-            <label for="year" class="form-label">YEAR</label>
-            <input type="number" class="form-control" id="year" name="year" required min="1900" max="2099" step="1" value="2025" />
-        </div>
+                    <label for="year" class="form-label" hidden>Year</label>
+                    <input type="text" class="form-control" id="year" name="year" required readonly hidden>
+          </div>
 
           <div class="mb-3">
             <label for="remarks" class="form-label">REMARKS</label>
@@ -383,7 +383,8 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("filterBlockLot").addEventListener("input", applyFilter);
     document.getElementById("filterYear").addEventListener("input", applyFilter);
 });
-
+// for getting year today
+document.getElementById('year').value = new Date().getFullYear();
 </script>
 
 </body>
