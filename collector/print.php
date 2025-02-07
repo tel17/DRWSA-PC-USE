@@ -303,11 +303,22 @@ function printReceipt() {
         }
       </style>
     `);
-    printWindow.document.write(receiptContent);
+     // Write the receipt content to the print window
+     printWindow.document.write(receiptContent);
     printWindow.document.close();
     printWindow.focus();
-    printWindow.print();
-    printWindow.close();
+
+    
+// Open the print dialog
+printWindow.print();
+
+// Add a delay (e.g., 4 seconds) before going back to the previous page in the history
+setTimeout(function() {
+    // Go back to the previous page in the history
+    window.history.back();
+}, 4000);  // Delay of 2000 milliseconds (4 seconds)
+
+
 
 }
     
