@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 04, 2025 at 08:14 AM
+-- Generation Time: Feb 07, 2025 at 04:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -52,6 +52,33 @@ INSERT INTO `admin_db` (`id`, `account_id`, `email`, `password`, `firstname`, `l
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `residential_tariff_structure`
+--
+
+CREATE TABLE `residential_tariff_structure` (
+  `id` int(11) NOT NULL,
+  `min_consumed` int(11) NOT NULL,
+  `max_consumed` int(11) NOT NULL,
+  `rate_per_cubic` decimal(10,2) NOT NULL,
+  `base_rate` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `residential_tariff_structure`
+--
+
+INSERT INTO `residential_tariff_structure` (`id`, `min_consumed`, `max_consumed`, `rate_per_cubic`, `base_rate`) VALUES
+(1, 0, 4, 0.00, 131.50),
+(2, 5, 9, 29.00, 131.50),
+(3, 10, 19, 34.80, 276.50),
+(4, 20, 29, 43.40, 624.50),
+(5, 30, 39, 56.50, 1058.50),
+(6, 40, 49, 76.20, 1623.50),
+(7, 50, 999, 76.20, 2385.50);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_active`
 --
 
@@ -64,7 +91,8 @@ CREATE TABLE `tbl_active` (
   `blk_lot` varchar(255) NOT NULL,
   `reading` varchar(255) NOT NULL,
   `date_reconnected` date NOT NULL,
-  `billing_month` varchar(50) NOT NULL,
+  `month` varchar(50) NOT NULL,
+  `year` int(10) NOT NULL,
   `maintenance` varchar(255) NOT NULL,
   `remarks` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -73,11 +101,32 @@ CREATE TABLE `tbl_active` (
 -- Dumping data for table `tbl_active`
 --
 
-INSERT INTO `tbl_active` (`id`, `account_number_active`, `name`, `consumer_status_active`, `area`, `blk_lot`, `reading`, `date_reconnected`, `billing_month`, `maintenance`, `remarks`) VALUES
-(1, 12345, 'asd', 'asd', 'area ', 'qew2', 'qwe', '2025-02-04', 'march', 'sdf', 'sdf'),
-(2, 9999, 'TESTING LANG', 'DISCONNECTED', 'SILANGAN', 'q12', '13456', '2025-02-05', '2025-03-01', 'john doe', 'asd'),
-(3, 1324655, 'Ryan oliver', 'ACTIVE', 'silangan', '2 ', '13456', '2025-02-05', '2025-03-01', 'john doe', 'asd'),
-(4, 1324655, 'Ryan oliver', 'ACTIVE', 'silangan', '2 ', '13456', '2025-02-05', '2025-03-01', 'john doe', 'asd');
+INSERT INTO `tbl_active` (`id`, `account_number_active`, `name`, `consumer_status_active`, `area`, `blk_lot`, `reading`, `date_reconnected`, `month`, `year`, `maintenance`, `remarks`) VALUES
+(6, 1324655, 'Ryan oliver', '', 'SILANGAN', '2 ', '13456', '2025-02-06', '2025-02-01', 2025, 'john doe', 'asd'),
+(7, 9999, 'TESTING LANG', '', 'SILANGAN', 'q12', '13456', '2025-02-05', '2025-02-01', 2025, 'john doe', 'asd'),
+(8, 9999, 'TESTING LANG', '', 'SILANGAN', 'q12', '13456', '2025-02-07', '2025-02-01', 2025, 'john doe', 'asd'),
+(9, 1324655, 'Ryan oliver', '', 'SILANGAN', '2 ', '13456', '2025-02-06', '2025-02-01', 2025, 'john doe', 'asd'),
+(10, 1324655, 'Ryan oliver', '', 'SILANGAN', '2 ', '13456', '2025-02-06', '2025-03-01', 2025, 'john doe', 'asd');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_area`
+--
+
+CREATE TABLE `tbl_area` (
+  `id` int(11) NOT NULL,
+  `area` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_area`
+--
+
+INSERT INTO `tbl_area` (`id`, `area`) VALUES
+(0, 'SILANGAN'),
+(0, 'KANLURAN'),
+(0, 'JANOPOL');
 
 -- --------------------------------------------------------
 
@@ -97,10 +146,38 @@ CREATE TABLE `tbl_collectors_profile` (
 --
 
 INSERT INTO `tbl_collectors_profile` (`id`, `fullname`, `username`, `password`) VALUES
-(1, 'ryan oliver', 'ryansgeh', 'rehsuyrg3'),
-(2, 'asd', 'asd', 'asd'),
-(3, 'yuo', 'uois', 'jklj'),
-(4, '', '', '');
+(5, 'aa', 'aa', '$2y$10$L19B8xf.IiKq.FvH.vNrHuL4Aq3GeWkP2Y/UV4A.AbJ1kr386U3qa'),
+(6, 'hh', 'hh', '$2y$10$5hrbhtjEkq1HTCZ0b9CfSeNvcBO2tbV/Veyv6RnVcDUIE8wt8kt8y'),
+(7, 'chester', 'chester', '$2y$10$zGB09SeczZ7nW2/POEqUVORr187yZqlHJH0vNf2Di8c8RV76ptts.'),
+(8, 'zz', 'zz', '$2y$10$YX0ltgT.xmrkq/cr6nKS7uAJImER.dS6LHzzAc4k33EVbyfMF5082'),
+(9, 'oliver', 'oliver', '$2y$10$CyyVeOPIBDl35lDcNDyE3.IJOMxQ9hahQIgS8OW.maf1wBOdafePi');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_daily_collection_report`
+--
+
+CREATE TABLE `tbl_daily_collection_report` (
+  `id` int(11) NOT NULL,
+  `account_number` int(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `month` varchar(255) NOT NULL,
+  `or_number` int(255) NOT NULL,
+  `amount` int(255) NOT NULL,
+  `penalty` int(255) NOT NULL,
+  `SC` int(255) NOT NULL,
+  `discount` int(255) NOT NULL,
+  `blk_lot` int(255) NOT NULL,
+  `area` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_daily_collection_report`
+--
+
+INSERT INTO `tbl_daily_collection_report` (`id`, `account_number`, `name`, `month`, `or_number`, `amount`, `penalty`, `SC`, `discount`, `blk_lot`, `area`) VALUES
+(1, 123456, 'Arnold Jayson', 'JANUARY', 14523, 102, 0, 0, 0, 0, 'SILANGAN');
 
 -- --------------------------------------------------------
 
@@ -117,7 +194,8 @@ CREATE TABLE `tbl_disconnected` (
   `blk_lot` varchar(255) NOT NULL,
   `reading` varchar(255) NOT NULL,
   `date_disconnected` date NOT NULL,
-  `billing_month` varchar(50) NOT NULL,
+  `month` varchar(50) NOT NULL,
+  `year` int(10) NOT NULL,
   `disconnector` varchar(255) NOT NULL,
   `remarks` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -126,14 +204,15 @@ CREATE TABLE `tbl_disconnected` (
 -- Dumping data for table `tbl_disconnected`
 --
 
-INSERT INTO `tbl_disconnected` (`id`, `account_number_disconnected`, `name`, `consumer_status_disconnected`, `area`, `blk_lot`, `reading`, `date_disconnected`, `billing_month`, `disconnector`, `remarks`) VALUES
-(1, 123456, 'asd', 'asd', 'qwe', 'wer', 'wer', '2025-02-04', '2025-02', 'asd', 'fsdf'),
-(2, 234, 'random', 'DISCONNECTED', 'SILANGAN', 'q12', '13456', '2025-02-04', '0000-00', 'jhai', 'sample'),
-(3, 9999, 'TESTING LANG', 'DISCONNECTED', 'SILANGAN', 'q12', '13456', '2025-02-05', '0000-00', 'jhai', 'asd'),
-(4, 1324655, 'Ryan oliver', 'ACTIVE', 'silangan', '2 ', '13456', '2025-02-05', '0000-00', 'jhai', 'asd'),
-(5, 234, 'random', 'DISCONNECTED', 'SILANGAN', 'q12', '13456', '2025-02-05', '2025-03', 'jhai', 'asd'),
-(6, 234, 'random', 'DISCONNECTED', 'SILANGAN', 'q12', '13456', '2025-02-05', '2025-03', 'ryan', 'eeeeeeeeeeeeeeeeeeee'),
-(7, 1324655, 'Ryan oliver', 'ACTIVE', 'silangan', '2 ', '13456', '2025-02-04', '2025-02', 'jhai', 'asd');
+INSERT INTO `tbl_disconnected` (`id`, `account_number_disconnected`, `name`, `consumer_status_disconnected`, `area`, `blk_lot`, `reading`, `date_disconnected`, `month`, `year`, `disconnector`, `remarks`) VALUES
+(1, 123456, 'asd', 'asd', 'qwe', 'wer', 'wer', '2025-02-04', '2025-02', 0, 'asd', 'fsdf'),
+(5, 234, 'random', 'DISCONNECTED', 'SILANGAN', 'q12', '13456', '2025-02-05', '2025-03', 0, 'jhai', 'asd'),
+(6, 234, 'random', 'DISCONNECTED', 'SILANGAN', 'q12', '13456', '2025-02-05', '2025-03', 0, 'ryan', 'eeeeeeeeeeeeeeeeeeee'),
+(7, 1324655, 'Ryan oliver', 'ACTIVE', 'silangan', '2 ', '13456', '2025-02-04', '2025-02', 0, 'jhai', 'asd'),
+(8, 234, 'random', 'DISCONNECTED', 'SILANGAN', 'q12', '13456', '2025-02-05', '2025-03', 0, 'jhai', 'asd'),
+(9, 1324655, 'Ryan oliver', '', 'SILANGAN', '2 ', '13456', '2025-02-06', '2025-02', 2025, 'jhai', 'asd'),
+(10, 9999, 'TESTING LANG', '', 'SILANGAN', 'q12', '13456', '2025-02-07', '2025-02', 2025, 'jhai', 'asd'),
+(11, 9999, 'TESTING LANG', '', 'SILANGAN', 'q12', '13456', '2025-02-07', '2025-02', 2025, 'jhai', 'asd');
 
 -- --------------------------------------------------------
 
@@ -176,7 +255,7 @@ CREATE TABLE `tbl_members_profile` (
 
 INSERT INTO `tbl_members_profile` (`id`, `account_number`, `name`, `area`, `block`, `age`, `status`, `gender`, `contact`, `birthplace`, `education_attainment`, `family_member_1`, `family_member_2`, `family_member_3`, `income`, `cedula`, `clearance`, `meter_number`, `date_filed`, `birthday`, `amount`, `month_for_data`, `beneficiary_1`, `beneficiary_2`, `beneficiary_3`, `consumer_status`) VALUES
 (25, 1324655, 'Ryan oliver', 'silangan', '2 ', 12, 'married', 'male', 90746465, 'cale', 'asdffg', 'asd', '', '', '123', 'qwe', 'we', 1232, '2025-02-03', '2025-02-03', 213, 'jan', 'qwe', 'qwe', 'qwe', 'ACTIVE'),
-(26, 9999, 'TESTING LANG', 'SILANGAN', 'q12', 323, 'asd', 'male', 2147483647, 'qe', 'hj', 'qwe', '', '', '123', 'qwe', 'wre', 1232, '2025-02-03', '2025-02-03', 123, 'jan', 'qwe', 'qwe', 'qwe', 'ACTIVE'),
+(26, 9999, 'TESTING LANG', 'SILANGAN', 'q12', 323, 'asd', 'male', 2147483647, 'qe', 'hj', 'qwe', '', '', '123', 'qwe', 'wre', 1232, '2025-02-03', '2025-02-03', 123, 'jan', 'qwe', 'qwe', 'qwe', 'DISCONNECTED'),
 (27, 234, 'random', 'SILANGAN', 'q12', 323, 'DISCONNECTED', 'male', 2147483647, 'qe', 'hj', 'qwe', '', '', '123', 'qwe', 'wre', 1232, '2025-02-04', '2025-02-04', 12, 'jan', 'qwe', 'qwe', 'qwe', 'DISCONNECTED'),
 (28, 9999, 'TESTING LANG', 'SILANGAN', 'q12', 323, 'asd', 'male', 2147483647, 'qe', 'hj', 'qwe', '', '', '123', 'qwe', 'wre', 1232, '2025-02-03', '2025-02-03', 123, 'jan', 'qwe', 'qwe', 'qwe', 'DISCONNECTED');
 
@@ -205,7 +284,80 @@ CREATE TABLE `tbl_meter_replacement` (
 --
 
 INSERT INTO `tbl_meter_replacement` (`id`, `name`, `area`, `block_lot`, `old_reading`, `new_reading`, `serial_number`, `date_filed`, `year`, `remarks`, `mid`) VALUES
-(1, 'TESTING LANG', 'SILANGAN', 'asd', '12345', '4124', '123465', '2025-02-03', 2025, 'asd', 213);
+(1, 'TESTING LANG', 'SILANGAN', 'asd', '12345', '4124', '123465', '2025-02-03', 2025, 'asd', 213),
+(2, 'random', 'silangan', 'asd', '12345', '4124', '123465', '2025-02-05', 2025, 'sdf', 234),
+(3, 'random', 'SILANGAN', 'asd', '12345', '4124', '123465', '2025-02-13', 2025, 'asd', 123),
+(4, 'random', 'KANLURAN', 'asd', '12345', '4124', '123465', '2025-02-06', 2025, 'fgh', 1234),
+(5, 'iop', 'JANOPOL', 'asd', '12345', '4124', '123465', '2025-02-07', 2025, 'sample remarks', 123);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_newconnection`
+--
+
+CREATE TABLE `tbl_newconnection` (
+  `id` int(11) NOT NULL,
+  `account_number_new_connection` int(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `area` varchar(255) NOT NULL,
+  `blk_lot` varchar(255) NOT NULL,
+  `meter` varchar(255) NOT NULL,
+  `date_connect` date NOT NULL,
+  `month` varchar(50) NOT NULL,
+  `new_connect_maintenance` varchar(255) NOT NULL,
+  `remarks` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_newconnection`
+--
+
+INSERT INTO `tbl_newconnection` (`id`, `account_number_new_connection`, `name`, `area`, `blk_lot`, `meter`, `date_connect`, `month`, `new_connect_maintenance`, `remarks`) VALUES
+(1, 1324655, 'Ryan oliver', 'SILANGAN', '2 ', '13465879', '2025-02-07', '2025-03', 'JOHN DOE', 'asd'),
+(2, 234, 'random', 'KANLURAN', 'q12', '13465879', '2025-02-06', '2025-03', 'JOHN DOE', 'asd'),
+(3, 1324655, 'Ryan oliver', 'SILANGAN', '2 ', '13465879', '2025-02-06', '2025-02', 'JOHN DOE', 'asd');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_reading`
+--
+
+CREATE TABLE `tbl_reading` (
+  `id` int(11) NOT NULL,
+  `account_number` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `area` varchar(255) NOT NULL,
+  `blk_lot` varchar(255) NOT NULL,
+  `present_1` int(255) NOT NULL,
+  `previous_1` int(255) NOT NULL,
+  `present_2` int(255) NOT NULL,
+  `previous_2` int(255) NOT NULL,
+  `consumed` int(255) NOT NULL,
+  `remarks` varchar(255) NOT NULL,
+  `total_consumed` int(255) NOT NULL,
+  `amount` int(255) NOT NULL,
+  `sc_discount` int(255) NOT NULL,
+  `free_of_charge` varchar(255) NOT NULL,
+  `discount` int(255) NOT NULL,
+  `month` varchar(255) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `due_date` date NOT NULL,
+  `disc_date` date NOT NULL,
+  `billing_period` date NOT NULL,
+  `grand_total` int(255) NOT NULL,
+  `reader_name` varchar(255) NOT NULL,
+  `penalty` int(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_reading`
+--
+
+INSERT INTO `tbl_reading` (`id`, `account_number`, `name`, `area`, `blk_lot`, `present_1`, `previous_1`, `present_2`, `previous_2`, `consumed`, `remarks`, `total_consumed`, `amount`, `sc_discount`, `free_of_charge`, `discount`, `month`, `category`, `due_date`, `disc_date`, `billing_period`, `grand_total`, `reader_name`, `penalty`) VALUES
+(1, 9999, 'TESTING LANG', 'JANOPOL', '2 ', 123, 42, 234, 324, 23, 'wer', 23, 234, 234, '2', 234, 'jan', 'RESIDENTIAL', '2025-02-06', '2025-02-06', '2025-02-06', 234, 'chester', 0),
+(2, 12345678, 'TESTING LANG', 'SILANGAN', '2 ', 123, 3242, 2423, 234, 345, 'ad', 345, 1234, 123, '345', 345, 'jan', 'COMMERCIAL', '2025-02-08', '2025-02-08', '2025-02-08', 345, 'chester', 0);
 
 -- --------------------------------------------------------
 
@@ -247,6 +399,12 @@ ALTER TABLE `admin_db`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `residential_tariff_structure`
+--
+ALTER TABLE `residential_tariff_structure`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_active`
 --
 ALTER TABLE `tbl_active`
@@ -256,6 +414,12 @@ ALTER TABLE `tbl_active`
 -- Indexes for table `tbl_collectors_profile`
 --
 ALTER TABLE `tbl_collectors_profile`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_daily_collection_report`
+--
+ALTER TABLE `tbl_daily_collection_report`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -277,6 +441,18 @@ ALTER TABLE `tbl_meter_replacement`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_newconnection`
+--
+ALTER TABLE `tbl_newconnection`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tbl_reading`
+--
+ALTER TABLE `tbl_reading`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user_db`
 --
 ALTER TABLE `user_db`
@@ -293,22 +469,34 @@ ALTER TABLE `admin_db`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `residential_tariff_structure`
+--
+ALTER TABLE `residential_tariff_structure`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `tbl_active`
 --
 ALTER TABLE `tbl_active`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_collectors_profile`
 --
 ALTER TABLE `tbl_collectors_profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT for table `tbl_daily_collection_report`
+--
+ALTER TABLE `tbl_daily_collection_report`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_disconnected`
 --
 ALTER TABLE `tbl_disconnected`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `tbl_members_profile`
@@ -320,7 +508,19 @@ ALTER TABLE `tbl_members_profile`
 -- AUTO_INCREMENT for table `tbl_meter_replacement`
 --
 ALTER TABLE `tbl_meter_replacement`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `tbl_newconnection`
+--
+ALTER TABLE `tbl_newconnection`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `tbl_reading`
+--
+ALTER TABLE `tbl_reading`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user_db`
