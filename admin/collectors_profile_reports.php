@@ -72,10 +72,18 @@ include("sidebar.php");
 
                     <!-- Edit Button -->
                     <td>
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#editDataModal" 
-  data-id="<?php echo $row['id']; ?>">
-    <i class="bi bi-pencil"></i> Edit Data
-  </button>
+                    
+                    <td>
+    <button type="button" class="btn btn-primary edit-btn"
+        data-id="<?php echo $row['id']; ?>"
+        data-fullname="<?php echo $row['fullname']; ?>"
+        data-username="<?php echo $row['username']; ?>"
+        data-password="<?php echo $row['password']; ?>"
+        data-toggle="modal"
+        data-target="#editDataModal">
+        <i class="bi bi-pencil"></i> EDIT DATA
+    </button>
+</td>
   
                     </td>
                 </tr>
@@ -155,47 +163,35 @@ include("footer.php");
         <h5 class="modal-title" id="editDataModalLabel">Edit Data</h5>
         <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
       </div>
+      <div class="modal-body">
+        <form action="edit_collectors_profile.php" method="POST" id="editForm">
+          <input type="hidden" id="editId" name="id">
 
-      <?php
-      // Query to fetch data from tbl_collectors_profile
-      $query = "SELECT * FROM tbl_collectors_profile";
-      $result = $con->query($query);
+          <div class="mb-3">
+            <label for="editFullname" class="form-label">Fullname</label>
+            <input type="text" class="form-control" id="editFullname" name="fullname" required>
+          </div>
 
-      if ($result->num_rows > 0) {
-          // There is data, process it
-          while ($row = $result->fetch_assoc()) {
-              echo '
-              <div class="modal-body">
-                <form action="edit_collectors_profile.php" method="POST" id="editForm">
-                    <input type="hidden" id="editId" name="id" value="' . $row['id'] . '" required>
-                    <div class="mb-3">
-                        <label for="editFullname" class="form-label">Fullname</label>
-                        <input type="text" class="form-control" id="editFullname" name="fullname" value="' . $row['fullname'] . '" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editUsername" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="editUsername" name="username" value="' . $row['username'] . '" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editPassword" class="form-label">Password</label>
-                        <input type="text" class="form-control" id="editPassword" name="password" value="' . $row['password'] . '" required>
-                    </div>
+          <div class="mb-3">
+            <label for="editUsername" class="form-label">Username</label>
+            <input type="text" class="form-control" id="editUsername" name="username" required>
+          </div>
 
-                    <div style="float:right;">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-success">Save Changes</button>
-                    </div>
-                </form>
-              </div>';
-          }
-      } else {
-          echo '<p>No data available</p>';
-      }
-      ?>
+          <div class="mb-3">
+            <label for="editPassword" class="form-label">Password</label>
+            <input type="text" class="form-control" id="editPassword" name="password" required>
+          </div>
 
+          <div style="float:right;">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-success">Save Changes</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </div>
+
 
 
 
@@ -216,6 +212,23 @@ include("footer.php");
     Swal.fire({
       title: 'Data Added Successfully!',
       text: 'Collectors profile  has been added.',
+      icon: 'success',
+      confirmButtonText: 'OK'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Submit the form after closing the SweetAlert
+        this.submit();
+      }
+    });
+  });
+   // Trigger SweetAlert after form submission
+   document.getElementById('editForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission to show SweetAlert first
+
+    // Show SweetAlert Success message
+    Swal.fire({
+      title: 'Data Updated Successfully!',
+      text: 'Collectors profile  has been updated.',
       icon: 'success',
       confirmButtonText: 'OK'
     }).then((result) => {
@@ -318,6 +331,26 @@ include("footer.php");
 });
 
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Get all edit buttons
+    const editButtons = document.querySelectorAll(".edit-btn");
+
+    editButtons.forEach(button => {
+        button.addEventListener("click", function () {
+            // Get data from button attributes
+            const id = this.getAttribute("data-id");
+            const fullname = this.getAttribute("data-fullname");
+            const username = this.getAttribute("data-username");
+            const password = this.getAttribute("data-password");
+
+            // Set modal input fields
+            document.getElementById("editId").value = id;
+            document.getElementById("editFullname").value = fullname;
+            document.getElementById("editUsername").value = username;
+            document.getElementById("editPassword").value = password;
+        });
+    });
+});
 
 </script>
 

@@ -310,10 +310,7 @@ function printReceipt() {
     printWindow.close();
 
 }
-    // Wait a short time before redirecting to ensure the print is complete
-    printWindow.onafterprint = function () {
-        window.location.href = "reading_reports.php";
-    };
+    
     </script>
 </body>
 </html>

@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Redirect or give feedback
     if ($stmt->affected_rows > 0) {
-        echo "Data updated successfully!";
+        header("Location: collectors_profile_reports.php");
+        exit();
     } else {
         echo "No changes made.";
     }

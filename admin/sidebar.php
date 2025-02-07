@@ -24,13 +24,32 @@
       </a>
     </li>
 
-
-     <li class="nav-item">
-      <a class="nav-link collapsed" href="water_rate_reports_residential.php">
+    <li class="nav-item">
+    <a class="nav-link collapsed" data-bs-toggle="collapse" href="#waterRateSubmenu" aria-expanded="false" aria-controls="waterRateSubmenu">
         <i class="bi bi-moisture"></i>
-        <span>Water Rate | Residential </span>
-      </a>
-    </li> 
+        <span>Water Rate</span>
+        <i class="bi bi-chevron-down ms-auto dropdown-arrow"></i>
+    </a>
+    <ul id="waterRateSubmenu" class="collapse sidebar-submenu">
+        <li>
+            <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'water_rate_reports_residential.php') ? 'active' : ''; ?>" href="water_rate_reports_residential.php" onclick="event.stopPropagation();">
+                <i class="bi <?php echo (basename($_SERVER['PHP_SELF']) == 'water_rate_reports_residential.php') ? 'bi-circle-fill shaded-circle' : 'bi-circle'; ?>"></i>
+                <span>Residential</span>
+            </a>
+        </li>
+        <li>
+            <a class="nav-link <?php echo (basename($_SERVER['PHP_SELF']) == 'water_rate_reports_commercial.php') ? 'active' : ''; ?>" href="water_rate_reports_commercial.php" onclick="event.stopPropagation();">
+                <i class="bi <?php echo (basename($_SERVER['PHP_SELF']) == 'water_rate_reports_commercial.php') ? 'bi-circle-fill shaded-circle' : 'bi-circle'; ?>"></i>
+                <span>Commercial</span>
+            </a>
+        </li>
+    </ul>
+</li>
+
+
+
+
+
 
     <li class="nav-item">
       <a class="nav-link collapsed" href="meter_replacement.php">
