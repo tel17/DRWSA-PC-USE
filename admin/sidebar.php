@@ -26,9 +26,9 @@
 
 
      <li class="nav-item">
-      <a class="nav-link collapsed" href="water_rate_reports.php">
+      <a class="nav-link collapsed" href="water_rate_reports_residential.php">
         <i class="bi bi-moisture"></i>
-        <span>Water rate | NO DATA PA ETO  </span>
+        <span>Water Rate | Residential </span>
       </a>
     </li> 
 
