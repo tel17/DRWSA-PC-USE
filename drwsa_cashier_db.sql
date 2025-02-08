@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 07, 2025 at 04:08 AM
+-- Generation Time: Feb 08, 2025 at 01:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -146,11 +146,14 @@ CREATE TABLE `tbl_collectors_profile` (
 --
 
 INSERT INTO `tbl_collectors_profile` (`id`, `fullname`, `username`, `password`) VALUES
-(5, 'aa', 'aa', '$2y$10$L19B8xf.IiKq.FvH.vNrHuL4Aq3GeWkP2Y/UV4A.AbJ1kr386U3qa'),
+(5, 'aa', 'aaa', '$2y$10$SHBlkIuiHksAFPzWfIlyZemcmy1aq6htKTzFAIDeBafAkhAd8l08u'),
 (6, 'hh', 'hh', '$2y$10$5hrbhtjEkq1HTCZ0b9CfSeNvcBO2tbV/Veyv6RnVcDUIE8wt8kt8y'),
 (7, 'chester', 'chester', '$2y$10$zGB09SeczZ7nW2/POEqUVORr187yZqlHJH0vNf2Di8c8RV76ptts.'),
-(8, 'zz', 'zz', '$2y$10$YX0ltgT.xmrkq/cr6nKS7uAJImER.dS6LHzzAc4k33EVbyfMF5082'),
-(9, 'oliver', 'oliver', '$2y$10$CyyVeOPIBDl35lDcNDyE3.IJOMxQ9hahQIgS8OW.maf1wBOdafePi');
+(8, 'zz', 'zz', '$2y$10$K9ITqTA7kuadYIRGFVbzx.t2vlsZ.Vo9JoLRGuGLF7IvBgy.LqWZa'),
+(9, 'oliver', 'oliver', '$2y$10$BrQyrc2T8BUpjQqn4AXPeeRoVrOS6sCP88xq5WzvLlzIjfIcZdmRG'),
+(10, 'oliver', 'aa', '$2y$10$36aXUCWmmXb6jGDbEMfhdOVI4cV/SfUsHk6w/ZHspvqcWUy3WHUny'),
+(11, 'hha', 'aa', '$2y$10$YivwHsX3H01Bx2IrqGOp4uh0XKPSw12fitCf.k6pSOj3oQqg0.Zta'),
+(12, 'yy', 'yy', '$2y$10$b9e0chryAZUPEFavqts0P.lkbFvB/3jSQAnwTa8uiY9wSQF1fk4/.');
 
 -- --------------------------------------------------------
 
@@ -362,6 +365,55 @@ INSERT INTO `tbl_reading` (`id`, `account_number`, `name`, `area`, `blk_lot`, `p
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tb_commercial_tariff`
+--
+
+CREATE TABLE `tb_commercial_tariff` (
+  `id` int(11) NOT NULL,
+  `category` enum('Commercial A','Commercial B') NOT NULL,
+  `first` decimal(10,2) NOT NULL,
+  `second` decimal(10,2) NOT NULL,
+  `third` decimal(10,2) NOT NULL,
+  `fourth` decimal(10,2) NOT NULL,
+  `last` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_commercial_tariff`
+--
+
+INSERT INTO `tb_commercial_tariff` (`id`, `category`, `first`, `second`, `third`, `fourth`, `last`) VALUES
+(1, 'Commercial A', 790.50, 60.60, 75.70, 102.20, 148.20),
+(2, 'Commercial B', 650.00, 60.60, 75.70, 102.20, 148.20);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tb_tariff`
+--
+
+CREATE TABLE `tb_tariff` (
+  `id` int(11) NOT NULL,
+  `category` varchar(50) NOT NULL DEFAULT 'residential',
+  `first` decimal(10,2) NOT NULL,
+  `second` decimal(10,2) NOT NULL,
+  `third` decimal(10,2) NOT NULL,
+  `fourth` decimal(10,2) NOT NULL,
+  `fifth` decimal(10,2) NOT NULL,
+  `sixth` decimal(10,2) NOT NULL,
+  `last` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tb_tariff`
+--
+
+INSERT INTO `tb_tariff` (`id`, `category`, `first`, `second`, `third`, `fourth`, `fifth`, `sixth`, `last`) VALUES
+(1, 'residential', 131.50, 29.00, 34.80, 43.40, 56.50, 76.20, 76.20);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_db`
 --
 
@@ -453,6 +505,18 @@ ALTER TABLE `tbl_reading`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tb_commercial_tariff`
+--
+ALTER TABLE `tb_commercial_tariff`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `tb_tariff`
+--
+ALTER TABLE `tb_tariff`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `user_db`
 --
 ALTER TABLE `user_db`
@@ -484,7 +548,7 @@ ALTER TABLE `tbl_active`
 -- AUTO_INCREMENT for table `tbl_collectors_profile`
 --
 ALTER TABLE `tbl_collectors_profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tbl_daily_collection_report`
@@ -521,6 +585,18 @@ ALTER TABLE `tbl_newconnection`
 --
 ALTER TABLE `tbl_reading`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tb_commercial_tariff`
+--
+ALTER TABLE `tb_commercial_tariff`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `tb_tariff`
+--
+ALTER TABLE `tb_tariff`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `user_db`

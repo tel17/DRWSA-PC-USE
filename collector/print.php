@@ -316,7 +316,7 @@ printWindow.print();
 setTimeout(function() {
     // Go back to the previous page in the history
     window.history.back();
-}, 4000);  // Delay of 2000 milliseconds (4 seconds)
+}, 7000);  // Delay of 2000 milliseconds (4 seconds)
 
 
 
