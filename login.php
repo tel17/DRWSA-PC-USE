@@ -6,7 +6,7 @@
 ?>
 
 <body>
-<link href="images/logodwell.png" rel="icon">
+
   <main>
     <div class="container">
 

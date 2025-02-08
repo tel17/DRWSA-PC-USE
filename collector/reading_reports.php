@@ -145,7 +145,7 @@ include("sidebar.php");
       <!-- End Recent Sales -->
     </div>
   </section>
-</main>x
+</main>
 <!-- End Main -->
 
 <?php 

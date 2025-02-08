@@ -130,15 +130,15 @@
       </a>
     </li>
 
-    <!-- <li class="nav-item">
-      <a class="nav-link collapsed" href="maintenance_reports.php">
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="reading_reports_visor.php">
         <i class="bi bi-gear-wide-connected"></i>
-        <span>Maintenance Reports</span>
+        <span>Reading Reports</span>
       </a>
-    </li>
+    </li> 
 
 
-
+<!-- 
     <li class="nav-item">
       <a class="nav-link collapsed" href="inventory_reports.php">
         <i class="bi bi-file-earmark-spreadsheet"></i>
@@ -169,7 +169,7 @@
         <i class="bi bi-moisture"></i>
         <span>Chlorine Monitoring</span>
       </a>
-    </li> -->
+    </li> --> 
 
 
   </ul>
