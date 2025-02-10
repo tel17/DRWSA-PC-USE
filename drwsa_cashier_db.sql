@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2025 at 01:10 PM
+-- Generation Time: Feb 10, 2025 at 01:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -48,33 +48,6 @@ CREATE TABLE `admin_db` (
 INSERT INTO `admin_db` (`id`, `account_id`, `email`, `password`, `firstname`, `lastname`, `account_type`, `contact`, `position`, `account_created`, `image_url`) VALUES
 (1, '922831912', 'admin@gmail.com', '21232f297a57a5a743894a0e4a801fc3', 'admin', 'admin', 'admin', '09548381222', 'Admin', '2024-09-23', 'Screenshot_2017-01-17-16-56-56.jpg'),
 (2, '123456789', 'hakdog@gmail.com', '6bb02b9216e00e07e59f66787653dd18', 'hakdog', 'hakdog', 'admin2', '09075656823', 'admin', '2025-01-02', '123456');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `residential_tariff_structure`
---
-
-CREATE TABLE `residential_tariff_structure` (
-  `id` int(11) NOT NULL,
-  `min_consumed` int(11) NOT NULL,
-  `max_consumed` int(11) NOT NULL,
-  `rate_per_cubic` decimal(10,2) NOT NULL,
-  `base_rate` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `residential_tariff_structure`
---
-
-INSERT INTO `residential_tariff_structure` (`id`, `min_consumed`, `max_consumed`, `rate_per_cubic`, `base_rate`) VALUES
-(1, 0, 4, 0.00, 131.50),
-(2, 5, 9, 29.00, 131.50),
-(3, 10, 19, 34.80, 276.50),
-(4, 20, 29, 43.40, 624.50),
-(5, 30, 39, 56.50, 1058.50),
-(6, 40, 49, 76.20, 1623.50),
-(7, 50, 999, 76.20, 2385.50);
 
 -- --------------------------------------------------------
 
@@ -150,7 +123,7 @@ INSERT INTO `tbl_collectors_profile` (`id`, `fullname`, `username`, `password`) 
 (6, 'hh', 'hh', '$2y$10$5hrbhtjEkq1HTCZ0b9CfSeNvcBO2tbV/Veyv6RnVcDUIE8wt8kt8y'),
 (7, 'chester', 'chester', '$2y$10$zGB09SeczZ7nW2/POEqUVORr187yZqlHJH0vNf2Di8c8RV76ptts.'),
 (8, 'zz', 'zz', '$2y$10$K9ITqTA7kuadYIRGFVbzx.t2vlsZ.Vo9JoLRGuGLF7IvBgy.LqWZa'),
-(9, 'oliver', 'oliver', '$2y$10$BrQyrc2T8BUpjQqn4AXPeeRoVrOS6sCP88xq5WzvLlzIjfIcZdmRG'),
+(9, 'oliver', 'oliver', '$2y$10$DXPw.BXXXnuVOEDpBaUQseljLhLA.VfJEPwDvW73iTf5eZgpbvqkG'),
 (10, 'oliver', 'aa', '$2y$10$36aXUCWmmXb6jGDbEMfhdOVI4cV/SfUsHk6w/ZHspvqcWUy3WHUny'),
 (11, 'hha', 'aa', '$2y$10$YivwHsX3H01Bx2IrqGOp4uh0XKPSw12fitCf.k6pSOj3oQqg0.Zta'),
 (12, 'yy', 'yy', '$2y$10$b9e0chryAZUPEFavqts0P.lkbFvB/3jSQAnwTa8uiY9wSQF1fk4/.');
@@ -340,7 +313,7 @@ CREATE TABLE `tbl_reading` (
   `consumed` int(255) NOT NULL,
   `remarks` varchar(255) NOT NULL,
   `total_consumed` int(255) NOT NULL,
-  `amount` int(255) NOT NULL,
+  `amount` decimal(10,2) NOT NULL,
   `sc_discount` int(255) NOT NULL,
   `free_of_charge` varchar(255) NOT NULL,
   `discount` int(255) NOT NULL,
@@ -351,16 +324,22 @@ CREATE TABLE `tbl_reading` (
   `billing_period` date NOT NULL,
   `grand_total` int(255) NOT NULL,
   `reader_name` varchar(255) NOT NULL,
-  `penalty` int(255) NOT NULL
+  `penalty` int(255) NOT NULL,
+  `payment_status` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_reading`
 --
 
-INSERT INTO `tbl_reading` (`id`, `account_number`, `name`, `area`, `blk_lot`, `present_1`, `previous_1`, `present_2`, `previous_2`, `consumed`, `remarks`, `total_consumed`, `amount`, `sc_discount`, `free_of_charge`, `discount`, `month`, `category`, `due_date`, `disc_date`, `billing_period`, `grand_total`, `reader_name`, `penalty`) VALUES
-(1, 9999, 'TESTING LANG', 'JANOPOL', '2 ', 123, 42, 234, 324, 23, 'wer', 23, 234, 234, '2', 234, 'jan', 'RESIDENTIAL', '2025-02-06', '2025-02-06', '2025-02-06', 234, 'chester', 0),
-(2, 12345678, 'TESTING LANG', 'SILANGAN', '2 ', 123, 3242, 2423, 234, 345, 'ad', 345, 1234, 123, '345', 345, 'jan', 'COMMERCIAL', '2025-02-08', '2025-02-08', '2025-02-08', 345, 'chester', 0);
+INSERT INTO `tbl_reading` (`id`, `account_number`, `name`, `area`, `blk_lot`, `present_1`, `previous_1`, `present_2`, `previous_2`, `consumed`, `remarks`, `total_consumed`, `amount`, `sc_discount`, `free_of_charge`, `discount`, `month`, `category`, `due_date`, `disc_date`, `billing_period`, `grand_total`, `reader_name`, `penalty`, `payment_status`) VALUES
+(20, 12345678, 'TESTING LANG', 'JANOPOL', '2 ', 0, 0, 9, 8, 1, 'asd', 9, 131.50, 7, '', 13, 'January', 'residential', '2025-02-10', '2025-02-10', '2025-02-11', 112, 'chester', 0, 'cashier'),
+(21, 234, 'random', 'SILANGAN', 'q12', 0, 0, 9, 8, 1, 'asd', 9, 131.50, 7, '', 13, 'January', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 112, 'chester', 0, 'collector'),
+(22, 123546, 'random', 'JANOPOL', '2 ', 0, 0, 9, 8, 1, '', 9, 131.50, 7, '', 7, 'December', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 118, 'chester', 0, 'unpaid'),
+(23, 456, 'random', 'JANOPOL', '2 ', 9, 8, 0, 9, 1, 'asd', 18, 131.50, 7, '', 3, 'November', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 122, 'chester', 0, 'cashier'),
+(24, 9999, 'ads', 'JANOPOL', '2 ', 0, 0, 9, 8, 1, 'sample remarks', 9, 790.50, 40, '', 0, 'January', 'commercial_a', '2025-02-11', '2025-02-10', '2025-02-11', 751, 'chester', 0, 'collector'),
+(25, 456, 'wer', 'JANOPOL', '2 ', 9, 8, 0, 9, 1, 'sample remarks', 18, 131.50, 0, '', 0, 'January', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 132, 'chester', 0, 'cashier'),
+(26, 234, 'random', 'JANOPOL', '2 ', 0, 0, 15, 8, 7, 'sample remarks', 15, 189.50, 0, '', 0, 'November', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 190, 'chester', 0, 'unpaid');
 
 -- --------------------------------------------------------
 
@@ -451,12 +430,6 @@ ALTER TABLE `admin_db`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `residential_tariff_structure`
---
-ALTER TABLE `residential_tariff_structure`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `tbl_active`
 --
 ALTER TABLE `tbl_active`
@@ -533,12 +506,6 @@ ALTER TABLE `admin_db`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `residential_tariff_structure`
---
-ALTER TABLE `residential_tariff_structure`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
 -- AUTO_INCREMENT for table `tbl_active`
 --
 ALTER TABLE `tbl_active`
@@ -584,7 +551,7 @@ ALTER TABLE `tbl_newconnection`
 -- AUTO_INCREMENT for table `tbl_reading`
 --
 ALTER TABLE `tbl_reading`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `tb_commercial_tariff`
