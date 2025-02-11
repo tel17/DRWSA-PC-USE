@@ -28,17 +28,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $total_consumed = $_POST['total_consumed'];
     $grand_total = $_POST['grand_total'];
     $payment_status = $_POST['payment_status'];
+    $timestamp = date('Y-m-d H:i:s');
 
     // Corrected SQL Insert Query
     $query = "INSERT INTO tbl_reading (
         account_number, name, area, blk_lot, present_1, previous_1, present_2, previous_2, 
         consumed, remarks, total_consumed, amount, sc_discount, free_of_charge, discount, month, 
-        category, due_date, disc_date, billing_period, grand_total, reader_name, payment_status
+        category, due_date, disc_date, billing_period, grand_total, reader_name, payment_status, timestamp
     ) VALUES (
         '$account_number', '$name', '$area', '$blk_lot', '$present_1', '$previous_1', '$present_2', '$previous_2', 
         '$consumed', '$remarks', '$total_consumed', '$amount', '$sc_discount', '$free_of_charge', '$discount', '$month', 
-        '$category', '$due_date', '$disc_date', '$billing_period', '$grand_total', '$reader_name', '$payment_status'
+        '$category', '$due_date', '$disc_date', '$billing_period', '$grand_total', '$reader_name', '$payment_status', '$timestamp'
     )";
+    
 
   // Execute the query
   if ($con->query($query) === TRUE) {
@@ -51,116 +53,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
    
 }
 
-
-
-// Function to calculate water tariff based on usage type
-function calculateTariff($consumedCuM, $tariffData, $usageType) {
-    $tariff = null;
-    foreach ($tariffData as $data) {
-        if ($data['category'] == $usageType) {
-            $tariff = $data;
-            break;
-        }
-    }
-
-    if ($tariff === null) {
-        http_response_code(500);
-        echo "Failed to retrieve tariff rates for $usageType";
-        exit();
-    }
-
-    if ($usageType == 'residential') {
-        if ($consumedCuM <= 5) {
-            return $tariff['first'];
-        } elseif ($consumedCuM <= 10) {
-            return ($tariff['second'] * ($consumedCuM - 5)) + $tariff['first'];
-        } elseif ($consumedCuM <= 20) {
-            return ($tariff['third'] * ($consumedCuM - 10)) + ($tariff['second'] * 5) + $tariff['first'];
-        } elseif ($consumedCuM <= 30) {
-            return ($tariff['fourth'] * ($consumedCuM - 20)) + ($tariff['third'] * 10) + ($tariff['second'] * 5) + $tariff['first'];
-        } elseif ($consumedCuM <= 40) {
-            return ($tariff['fifth'] * ($consumedCuM - 30)) + ($tariff['fourth'] * 10) + ($tariff['third'] * 10) + ($tariff['second'] * 5) + $tariff['first'];
-        } elseif ($consumedCuM <= 50) {
-            return ($tariff['sixth'] * ($consumedCuM - 40)) + ($tariff['fifth'] * 10) + ($tariff['fourth'] * 10) + ($tariff['third'] * 10) + ($tariff['second'] * 5) + $tariff['first'];
-        } else {
-            return ($tariff['last'] * ($consumedCuM - 50)) + ($tariff['sixth'] * 10) + ($tariff['fifth'] * 10) + ($tariff['fourth'] * 10) + ($tariff['third'] * 10) + ($tariff['second'] * 5) + $tariff['first'];
-        }
-    } elseif ($usageType == 'Commercial A' || $usageType == 'Commercial B') {
-        // This will handle both 'Commercial A' and 'Commercial B'
-        if ($consumedCuM <= 15) {
-            return $tariff['first'];
-        } elseif ($consumedCuM <= 30) {
-            return ($tariff['second'] * ($consumedCuM - 15)) + $tariff['first'];
-        } elseif ($consumedCuM <= 500) {
-            return ($tariff['third'] * ($consumedCuM - 30)) + ($tariff['second'] * 15) + $tariff['first'];
-        } elseif ($consumedCuM <= 1000) {
-            return ($tariff['fourth'] * ($consumedCuM - 500)) + ($tariff['third'] * 470) + ($tariff['second'] * 15) + $tariff['first'];
-        } else {
-            return ($tariff['last'] * ($consumedCuM - 1000)) + ($tariff['fourth'] * 500) + ($tariff['third'] * 470) + ($tariff['second'] * 15) + $tariff['first'];
-        }
-    }
-}
-
-// Function to get current tariff rates
-function getCurrentTariffRates($con) {
-    $residentialQuery = "SELECT * FROM tb_tariff WHERE category = 'residential'";
-    $commercialQuery = "SELECT * FROM tb_commercial_tariff WHERE category IN ('Commercial A', 'Commercial B')";
-
-    $residentialResult = $con->query($residentialQuery);
-    $commercialResult = $con->query($commercialQuery);
-
-    if (!$residentialResult || !$commercialResult) {
-        http_response_code(500);
-        echo "Failed to retrieve tariff rates: " . $con->error;
-        exit();
-    }
-
-    $currentTariffs = [];
-
-    while ($row = $residentialResult->fetch_assoc()) {
-        $currentTariffs[] = [
-            'category' => $row['category'],
-            'first' => $row['first'],
-            'second' => $row['second'],
-            'third' => $row['third'],
-            'fourth' => $row['fourth'],
-            'fifth' => $row['fifth'],
-            'sixth' => $row['sixth'],
-            'last' => $row['last']
-        ];
-    }
-
-    while ($row = $commercialResult->fetch_assoc()) {
-        $currentTariffs[] = [
-            'category' => $row['category'],
-            'first' => $row['first'],
-            'second' => $row['second'],
-            'third' => $row['third'],
-            'fourth' => $row['fourth'],
-            'last' => $row['last']
-        ];
-    }
-
-    return $currentTariffs;
-}
-
-if (isset($_GET['consumedCuM']) && isset($_GET['usageType'])) {
-    $consumedCuM = (float) $_GET['consumedCuM'];
-    $usageType = $_GET['usageType'];
-
-    if ($usageType == 'commercial_a') {
-        $usageType = 'Commercial A';
-    } elseif ($usageType == 'commercial_b') {
-        $usageType = 'Commercial B';
-    }
-
-    $tariffData = getCurrentTariffRates($con);
-    $tariff = calculateTariff($consumedCuM, $tariffData, $usageType);
-
-    header('Content-Type: application/json');
-    echo json_encode(['tariff' => $tariff]);
-    exit();
-}
 
 
 $con->close();
@@ -266,7 +158,15 @@ value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"
                                     
                                     <div class="col-lg-3">
                                 <label for="month">Month:</label>
-                                <select name="month" id="month" class="form-control" required>
+                                <input type="text" name="month" id="month" class="form-control" required value="<?php echo date('F'); ?>" />
+
+
+  
+
+
+
+
+                                <!-- <select name="month" id="month" class="form-control" required>
                                     <option value="">-SELECT MONTH-</option>
                                     <?php
                                         $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
@@ -274,7 +174,7 @@ value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"
                                             echo '<option value="' . $month . '">' . $month . '</option>';
                                         }
                                     ?>
-                                </select>
+                                </select> -->
                             </div>
                                     <div class="col-lg-3">
                                     <label for="usageType">Select Usage Type:</label>
@@ -362,15 +262,18 @@ value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"
                                     </div>
                                     <div class="col-lg-4">
                                         <input type="text" name="grand_total" id="grand_total" class="form-control"  readonly>
-                                        <select name="payment_status" class="form-control" required style="text-align:center; margin-top:10px;">
+                                        <select name="payment_status" id="payment_status"class="form-control" required style="text-align:center; margin-top:10px;">
                                         <option class="bg-danger" value="unpaid">Unpaid</option>
                                         <option value="collector">Paid to Collector</option>
                                         <option value="cashier">Paid to Cashier</option>
+                                        <option value="free">Free of Charge</option>
                                     </select>
                                     </div>
                                     
                                 </div>
-                               
+                                <!-- timestamp/ -->
+                                <input type="hidden" name="timestamp" value="<?php echo date('Y-m-d H:i:s'); ?>" />
+
                                 
                                 <div class="row" style="float:right;">
                                     <div class="col-lg-12 text-right">
@@ -592,7 +495,14 @@ function calculateTariff() {
           function applyFreeOfCharge() {
         document.getElementById('grand_total').value = '0';
         document.getElementById('free_of_charge').value = 'FREE OF CHARGE';
+        document.getElementById('payment_status').value = 'free';
+        
     }
+
+
+    // Function to automatically update the month in the input field
+  const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+  document.getElementById('month').value = currentMonth;
     </script>
 </body>
 </html>

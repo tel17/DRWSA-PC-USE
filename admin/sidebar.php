@@ -27,7 +27,7 @@
     <li class="nav-item">
     <a class="nav-link collapsed" data-bs-toggle="collapse" href="#waterRateSubmenu" aria-expanded="false" aria-controls="waterRateSubmenu">
         <i class="bi bi-moisture"></i>
-        <span>Water Rate</span>
+        <span>Water Rate Price</span>
         <i class="bi bi-chevron-down ms-auto dropdown-arrow"></i>
     </a>
     <ul id="waterRateSubmenu" class="collapse sidebar-submenu">

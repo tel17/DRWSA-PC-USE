@@ -144,11 +144,11 @@ if ($result->num_rows > 0) {
         <div class="section" style="margin-bottom: 0px">
             <h4 style="text-align:center" >READING</h4>
             <div class="form-group">
-                <label for="present_reading">Present Reading:</label>
+                <label for="present_reading">Present Reading (NEW METER):</label>
                 <input type="number" id="present_reading" name="present_reading"  value="<?php echo $row['present_1']; ?>" required>
             </div>
             <div class="form-group">
-                <label for="previous_reading">Previous Reading:</label>
+                <label for="previous_reading">Previous Reading (NEW METER):</label>
                 <input type="number" id="previous_reading" name="previous_reading"  value="<?php echo $row['previous_1']; ?>" required>
             </div>
             <div class="form-group">
@@ -231,8 +231,8 @@ function printReceipt() {
         Due Date: ${document.getElementById('due_date').value || 'N/A'}<br>
         Disconnection Date: ${document.getElementById('disconnection_date').value || 'N/A'}
         <h3>READING</h3>
-        Present: ${document.getElementById('present_reading').value || 'N/A'}<br>
-        Previous: ${document.getElementById('previous_reading').value || 'N/A'}<br>
+        Present (NEW METER) : ${document.getElementById('present_reading').value || 'N/A'}<br>
+        Previous (NEW METER) : ${document.getElementById('previous_reading').value || 'N/A'}<br>
         Cu.M. Consumed: ${document.getElementById('cum_consumed').value || 'N/A'}
         <h3>COMPUTATION</h3>
         Previous Bill: ${document.getElementById('previous_bill').value || 'N/A'}<br>

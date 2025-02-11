@@ -120,3 +120,4 @@ function calculateTariff($consumedCuM, $tariffData, $usageType) {
         }
     }
 }
+?>
