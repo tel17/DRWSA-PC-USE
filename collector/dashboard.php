@@ -46,28 +46,31 @@
       <!-- Card 1: Total Number of Unpaid -->
       <div class="card">
         <div class="card-header">
-          <h5>Total Number of Unpaid</h5>
-        </div>
-        <div class="card-body" style="height:5px;">
-          <?php
-            // Get the selected area from the GET request
-            $areaFilter = isset($_GET['area']) ? $_GET['area'] : '';
+       
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Total Number of Unpaid:</span>
+            <?php
+                // Get the selected area from the GET request
+                $areaFilter = isset($_GET['area']) ? $_GET['area'] : '';
 
-            // Modify the query to filter by area if an area is selected
-            $query = "SELECT COUNT(*) AS unpaid_count FROM tbl_reading WHERE payment_status = 'unpaid'";
-            if ($areaFilter && $areaFilter != 'all') {
-                $query .= " AND area = '$areaFilter'";
-            }
+                // Modify the query to filter by area if an area is selected
+                $query = "SELECT COUNT(*) AS unpaid_count FROM tbl_reading WHERE payment_status = 'unpaid'";
+                if ($areaFilter && $areaFilter != 'all') {
+                    $query .= " AND area = '$areaFilter'";
+                }
 
-            $result = $con->query($query);
-            if ($result) {
-                $row = $result->fetch_assoc();
-                echo "<p>" . $row['unpaid_count'] . "</p>"; // Display the count
-            } else {
-                echo "<p>Error fetching data.</p>";
-            }
-          ?>
+                $result = $con->query($query);
+                if ($result) {
+                    $row = $result->fetch_assoc();
+                    echo "<span>" . $row['unpaid_count'] . "</span>"; // Display the count
+                } else {
+                    echo "<span>Error fetching data.</span>";
+                }
+            ?>
         </div>
+
+        </div>
+        
         <div class="card-header">
           <h5>Total Grand Total of Unpaid</h5>
         </div>
@@ -94,25 +97,28 @@
       <!-- Card 3: Paid to Collector -->
       <div class="card">
         <div class="card-header">
-          <h5>Total Number of Paid to Collector</h5>
-        </div>
-        <div class="card-body"style="height:5px;" >
-          <?php
-            // Modify the query to count 'Paid to Collector' records
-            $query = "SELECT COUNT(*) AS paid_to_collector_count FROM tbl_reading WHERE payment_status = 'collector'";
-            if ($areaFilter && $areaFilter != 'all') {
-                $query .= " AND area = '$areaFilter'";
-            }
+        
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span>Total Number of Paid to Collector:</span>
+                <?php
+                    // Modify the query to count 'Paid to Collector' records
+                    $query = "SELECT COUNT(*) AS paid_to_collector_count FROM tbl_reading WHERE payment_status = 'collector'";
+                    if ($areaFilter && $areaFilter != 'all') {
+                        $query .= " AND area = '$areaFilter'";
+                    }
 
-            $result = $con->query($query);
-            if ($result) {
-                $row = $result->fetch_assoc();
-                echo "<p>" . $row['paid_to_collector_count'] . "</p>"; // Display the count
-            } else {
-                echo "<p>Error fetching data.</p>";
-            }
-          ?>
+                    $result = $con->query($query);
+                    if ($result) {
+                        $row = $result->fetch_assoc();
+                        echo "<span>" . $row['paid_to_collector_count'] . "</span>"; // Display the count
+                    } else {
+                        echo "<span>Error fetching data.</span>";
+                    }
+                ?>
+            </div>
+
         </div>
+
         <div class="card-header">
           <h5>Total Grand Total of Paid to Collector</h5>
         </div>
@@ -138,25 +144,28 @@
       <!-- Card 4: Paid to Cashier -->
       <div class="card">
         <div class="card-header">
-          <h5>Total Number of Paid to Cashier</h5>
-        </div>
-        <div class="card-body" style="height:5px;">
-          <?php
-            // Modify the query to count 'Paid to Cashier' records
-            $query = "SELECT COUNT(*) AS paid_to_cashier_count FROM tbl_reading WHERE payment_status = 'cashier'";
-            if ($areaFilter && $areaFilter != 'all') {
-                $query .= " AND area = '$areaFilter'";
-            }
+       
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span>Total Number of Paid to Cashier:</span>
+              <?php
+                  // Modify the query to count 'Paid to Cashier' records
+                  $query = "SELECT COUNT(*) AS paid_to_cashier_count FROM tbl_reading WHERE payment_status = 'cashier'";
+                  if ($areaFilter && $areaFilter != 'all') {
+                      $query .= " AND area = '$areaFilter'";
+                  }
 
-            $result = $con->query($query);
-            if ($result) {
-                $row = $result->fetch_assoc();
-                echo "<p>" . $row['paid_to_cashier_count'] . "</p>"; // Display the count
-            } else {
-                echo "<p>Error fetching data.</p>";
-            }
-          ?>
+                  $result = $con->query($query);
+                  if ($result) {
+                      $row = $result->fetch_assoc();
+                      echo "<span>" . $row['paid_to_cashier_count'] . "</span>"; // Display the count
+                  } else {
+                      echo "<span>Error fetching data.</span>";
+                  }
+              ?>
+          </div>
+
         </div>
+
         <div class="card-header">
           <h5>Total Grand Total of Paid to Cashier</h5>
         </div>
@@ -183,24 +192,26 @@
       <!-- Card 5: Free of Charge -->
       <div class="card">
         <div class="card-header">
-          <h5>Total Number of Free of Charge</h5>
-        </div>
-        <div class="card-body" style="height:5px;">
-          <?php
-            // Modify the query to count 'Free of Charge' records
-            $query = "SELECT COUNT(*) AS free_of_charge_count FROM tbl_reading WHERE payment_status = 'free'";
-            if ($areaFilter && $areaFilter != 'all') {
-                $query .= " AND area = '$areaFilter'";
-            }
+      
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Total Number of Free of Charge:</span>
+            <?php
+                // Modify the query to count 'Free of Charge' records
+                $query = "SELECT COUNT(*) AS free_of_charge_count FROM tbl_reading WHERE payment_status = 'free'";
+                if ($areaFilter && $areaFilter != 'all') {
+                    $query .= " AND area = '$areaFilter'";
+                }
 
-            $result = $con->query($query);
-            if ($result) {
-                $row = $result->fetch_assoc();
-                echo "<p>" . $row['free_of_charge_count'] . "</p>"; // Display the count
-            } else {
-                echo "<p>Error fetching data.</p>";
-            }
-          ?>
+                $result = $con->query($query);
+                if ($result) {
+                    $row = $result->fetch_assoc();
+                    echo "<span>" . $row['free_of_charge_count'] . "</span>"; // Display the count
+                } else {
+                    echo "<span>Error fetching data.</span>";
+                }
+            ?>
+        </div>
+
         </div>
       </div>
 
@@ -231,7 +242,71 @@
     </div>
   </div>
 
+  <div class="card "style="width:100%">
+  <div class="card-header"style="width:100%">
+    <h5 style="text-align:center;">System Logs</h5>
+  </div>
+  <div class="card-body"style="width:100%">
+    <table id="logsTable" class="display nowrap" style="width:100%">
+      <thead>
+        <tr>
+          
+          <th style="text-align:center;">Username</th>
+          <th style="text-align:center;">Login Time</th>
+          <th style="text-align:center;">Logout Time</th>
+        </tr>
+      </thead>
+      <tbody>
+      <?php
+// Set the default time zone for PHP
+date_default_timezone_set('Asia/Manila'); // Replace with your desired time zone if different
+
+$query = "SELECT id, username, login_time, logout_time FROM system_logs ORDER BY login_time DESC";
+$result = $con->query($query);
+
+while ($row = $result->fetch_assoc()) {
+    // Convert login time from UTC to Asia/Manila time zone
+    $login_time = new DateTime($row['login_time'], new DateTimeZone('UTC'));
+    $login_time->setTimezone(new DateTimeZone('Asia/Manila')); // Convert to Asia/Manila time zone
+    
+    // Manually adjust time by subtracting 1 hour (if necessary)
+    $login_time->modify('-1 hour'); // Adjust time by subtracting 1 hour
+
+    // Convert logout time from UTC to Asia/Manila time zone
+    $logout_time = $row['logout_time'] ? new DateTime($row['logout_time'], new DateTimeZone('UTC')) : null;
+    if ($logout_time) {
+        $logout_time->setTimezone(new DateTimeZone('Asia/Manila')); // Convert to Asia/Manila time zone
+        
+        // Manually adjust logout time by subtracting 1 hour (if necessary)
+        $logout_time->modify('-1 hour'); // Adjust time by subtracting 1 hour
+    }
+
+    // Display the times with the desired format
+    echo "<tr>
+        <td style='text-align: center;'>{$row['username']}</td>
+        <td style='text-align: center;'>" . $login_time->format('F j, Y g:i A') . "</td>
+        <td style='text-align: center;'>" . ($logout_time ? $logout_time->format('F j, Y g:i A') : '<span class="text-danger">Still Logged In</span>') . "</td>
+      </tr>";
+
+}
+?>
+
+
+
+
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
 </main>
+<!-- DataTables CSS -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+<!-- jQuery and DataTables JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <?php include("footer.php"); ?>
 
@@ -248,6 +323,19 @@
     margin-top: 20px;
   }
 </style>
+<script>
+  $(document).ready(function () {
+    $('#logsTable').DataTable({
+      "scrollX": true, // Enables horizontal scrolling if needed
+      "paging": true, // Enables pagination
+      "searching": true, // Enables search
+      "order": [[2, "desc"]], // Orders by login time (most recent first)
+      "pageLength": 5, // Shows only 5 rows on the first page
+      "lengthMenu": [5, 10, 25, 50, 100] // Options for the user to select page size
+    });
+  });
+</script>
+
 
 </body>
 </html>

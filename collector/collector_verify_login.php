@@ -25,6 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['collector_username'] = $row['username'];
                 $_SESSION['collector_name'] = $row['fullname'];
 
+                // Log the login event
+                $login_time = date('Y-m-d H:i:s');
+                $log_stmt = $con->prepare("INSERT INTO system_logs (username, login_time) VALUES (?, ?)");
+                $log_stmt->bind_param("ss", $username, $login_time);
+                $log_stmt->execute();
+                $log_stmt->close();
+
                 // Store success message in session
                 $_SESSION['success'] = "Login Successfully!";
                 header("Location: dashboard.php"); // Redirect to dashboard.php
