@@ -29,14 +29,7 @@ include("header.php");
         }
 
         /* Danger buttons */
-        .btn-danger {
-            width: 200px;
-            height: 55px;
-            margin: 5px;
-            background-color: rgb(204, 23, 23);
-            color: white;
-            border-radius: 6px;
-        }
+        
 
         /* Center the buttons */
         .container.mt-3 {
@@ -105,25 +98,21 @@ include("header.php");
 </head>
 
 <body>
-    <div class="nav-container">
-        <br>
-        <!-- Navbar -->
-        <div class="container navbar-buttons">
-            <button class="btn btn-primary" onclick="window.location.href='summary_of_reading.php'">SUMMARY OF READING</button>
-            <button class="btn btn-primary" onclick="window.location.href='account.php'">ACCOUNT</button>
-           
-            <button class="btn btn-primary" data-toggle="modal" data-target="#officialReceiptModal">OFFICIAL RECEIPT</button>
-
-            <button class="btn btn-danger" onclick="window.location.href='daily-collection-report.html'">DAILY COLLECTION REPORT</button>
-        </div>
-
-        <!-- Secondary Buttons -->
-        <div class="container secondary-buttons">
-            
-            <button class="btn btn-primary" onclick="window.location.href='summary_ndrm.php'">SUMMARY NRDM</button>
-        </div>
-        <br>
+<div class="nav-container">
+    <br>
+    <!-- Navbar -->
+    <div class="container navbar-buttons d-flex justify-content-between">
+        <button class="btn btn-primary" onclick="window.location.href='summary_of_reading.php'">SUMMARY OF READING</button>
+        <button class="btn btn-primary" onclick="window.location.href='account.php'">ACCOUNT</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#officialReceiptModal">OFFICIAL RECEIPT</button>
+        <button class="btn btn-primary" onclick="window.location.href='daily-collection-report.html'">DAILY COLLECTION REPORT</button>
+        <button class="btn btn-primary" onclick="window.location.href='summary_ndrm.php'">SUMMARY NRDM</button>
     </div>
+
+   
+    <br>
+</div>
+
 
     <!-- Updated grid layout for columns -->
     <div class="row-grid">
@@ -175,7 +164,7 @@ include("header.php");
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Login</button>
+                    <button type="submit" class="btn btn-info">Login</button>
                 </div>
             </form>
         </div>

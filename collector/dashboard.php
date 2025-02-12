@@ -85,7 +85,8 @@
             $result = $con->query($query);
             if ($result) {
                 $row = $result->fetch_assoc();
-                echo "<p>" . number_format($row['total_grand_total'], 2) . "</p>"; // Display the sum formatted
+                echo "<p style='font-weight: bold; text-align: center; font-size: 20px;'>" . number_format($row['total_grand_total'], 2) . "</p>";
+ // Display the sum formatted
             } else {
                 echo "<p>Error fetching data.</p>";
             }
@@ -133,7 +134,8 @@
             $result = $con->query($query);
             if ($result) {
                 $row = $result->fetch_assoc();
-                echo "<p>" . number_format($row['paid_to_collector_grand_total'], 2) . "</p>"; // Display the sum formatted
+                echo "<p style='font-weight: bold; text-align: center; font-size: 20px;'>" . number_format($row['paid_to_collector_grand_total'], 2) . "</p>";
+ // Display the sum formatted
             } else {
                 echo "<p>Error fetching data.</p>";
             }
@@ -180,7 +182,8 @@
             $result = $con->query($query);
             if ($result) {
                 $row = $result->fetch_assoc();
-                echo "<p>" . number_format($row['paid_to_cashier_grand_total'], 2) . "</p>"; // Display the sum formatted
+                echo "<p style='font-weight: bold; text-align: center; font-size: 20px;'>" . number_format($row['paid_to_cashier_grand_total'], 2) . "</p>";
+
             } else {
                 echo "<p>Error fetching data.</p>";
             }
@@ -189,10 +192,9 @@
       </div>
 
  
-      <!-- Card 5: Free of Charge -->
-      <div class="card">
-        <div class="card-header">
-      
+     <!-- Card 5: Free of Charge -->
+<div class="card">
+    <div class="card-header">
         <div style="display: flex; justify-content: space-between; align-items: center;">
             <span>Total Number of Free of Charge:</span>
             <?php
@@ -211,18 +213,13 @@
                 }
             ?>
         </div>
+    </div>
 
-        </div>
-      </div>
-
-    
-      <!-- Card 8: Total Grand Total of Free of Charge -->
-      <!-- <div class="card">
-        <div class="card-header">
-          <h5>Total Grand Total of Free of Charge</h5>
-        </div>
-        <div class="card-body">
-          <?php
+    <div class="card-header">
+        <h5>Total Grand Total of Free of Charge</h5>
+    </div>
+    <div class="card-body">
+        <?php
             // Modify the query to sum grand_total for 'Free of Charge' records
             $query = "SELECT SUM(grand_total) AS free_of_charge_grand_total FROM tbl_reading WHERE payment_status = 'free'";
             if ($areaFilter && $areaFilter != 'all') {
@@ -232,13 +229,19 @@
             $result = $con->query($query);
             if ($result) {
                 $row = $result->fetch_assoc();
-                echo "<p>" . number_format($row['free_of_charge_grand_total'], 2) . "</p>"; // Display the sum formatted
+                echo "<p style='font-weight: bold; text-align: center; font-size: 20px;'>" . number_format($row['free_of_charge_grand_total'], 2) . "</p>";
+ // Display the sum formatted
             } else {
                 echo "<p>Error fetching data.</p>";
             }
-          ?>
-        </div>
-      </div> -->
+        ?>
+    </div>
+</div>
+
+
+    
+    
+    
     </div>
   </div>
 

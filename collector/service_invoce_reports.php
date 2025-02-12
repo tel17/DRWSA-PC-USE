@@ -70,7 +70,7 @@
                     <td style="text-align: center;"><?php echo $row["service_invoice"]; ?></td>
                     <!-- Show the Edit button only if teller name matches -->
                     <td>
-                        <button type="button" class="btn btn-warning editBtn" 
+                    <button type="button" class="btn btn-warning editBtn" 
                             data-toggle="modal" data-target="#editDataModal"
                             data-id="<?php echo $row['id']; ?>"
                             data-date_received="<?php echo $row['date_received']; ?>"
@@ -193,18 +193,19 @@
   <?php include("footer.php"); ?>
 
   <script>
-    // Populate edit form with data when edit button is clicked
-    document.addEventListener("DOMContentLoaded", function() {
-    document.querySelectorAll(".editBtn").forEach(button => {
-        button.addEventListener("click", function() {
-            document.getElementById("edit-id").value = this.getAttribute("data-id");
-            document.getElementById("edit-date_received").value = this.getAttribute("data-date_received");
-            document.getElementById("edit-teller_name").value = this.getAttribute("data-teller_name");
-            document.getElementById("edit-series").value = this.getAttribute("data-series");
-            document.getElementById("edit-service_invoice").value = this.getAttribute("data-service_invoice");
-        });
-    });
+document.addEventListener("DOMContentLoaded", function() {
+   document.querySelectorAll(".editBtn").forEach(button => {
+       button.addEventListener("click", function() {
+           console.log(this.getAttribute("data-id"));
+           document.getElementById("edit-id").value = this.getAttribute("data-id");
+           document.getElementById("edit-date_received").value = this.getAttribute("data-date_received");
+           document.getElementById("edit-teller_name").value = this.getAttribute("data-teller_name");
+           document.getElementById("edit-series").value = this.getAttribute("data-series");
+           document.getElementById("edit-service_invoice").value = this.getAttribute("data-service_invoice");
+       });
+   });
 });
+
 
 
     // Handle the update process
