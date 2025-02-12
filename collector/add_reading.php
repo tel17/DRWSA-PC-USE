@@ -151,7 +151,7 @@ $con->close();
                                     <div class="col-lg-3">
                                     <label for="reader_name">Reader Name:</label>
                                     <input type="text" name="reader_name" id="reader_name" class="form-control" 
-value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control" required readonly
+value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"  readonly
  required >
                                         
                                     </div>

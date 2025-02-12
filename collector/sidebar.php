@@ -17,6 +17,14 @@
       </a>
     </li> 
 
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="service_invoce_reports.php">
+        <i class="bi bi-receipt"></i>
+        <span>Service/Invoice Reports</span>
+      </a>
+    </li> 
+
    
 
     

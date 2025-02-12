@@ -109,24 +109,18 @@ include("header.php");
         <br>
         <!-- Navbar -->
         <div class="container navbar-buttons">
-            <button class="btn btn-primary" onclick="window.location.href='summary-of-reading.html'">SUMMARY OF READING</button>
+            <button class="btn btn-primary" onclick="window.location.href='summary_of_reading.php'">SUMMARY OF READING</button>
             <button class="btn btn-primary" onclick="window.location.href='account.php'">ACCOUNT</button>
-            <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#readingEntryModal">READING</button> -->
-            <!-- <button class="btn btn-primary" onclick="window.location.href='members_profile.php'">MEMBER'S PROFILE</button> -->
-            <button class="btn btn-primary" onclick="window.location.href='official-receipt.html'">OFFICIAL RECEIPT</button>
+           
+            <button class="btn btn-primary" data-toggle="modal" data-target="#officialReceiptModal">OFFICIAL RECEIPT</button>
+
             <button class="btn btn-danger" onclick="window.location.href='daily-collection-report.html'">DAILY COLLECTION REPORT</button>
         </div>
 
         <!-- Secondary Buttons -->
         <div class="container secondary-buttons">
-            <!-- <button class="btn btn-primary" onclick="window.location.href='water-rate.html'">WATER RATE</button> -->
+            
             <button class="btn btn-primary" onclick="window.location.href='summary_ndrm.php'">SUMMARY NRDM</button>
-            <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#consumerModal">
-                                                                                                    STATEMENT OF ACCOUNT
-                                                                                                </button> -->
-            <!-- <button class="btn btn-primary" onclick="window.location.href='disconnected.php'">DISCONNECTED</button>
-            <button class="btn btn-primary" onclick="window.location.href='active.php'">ACTIVE</button> -->
-            <!-- <button class="btn btn-primary" onclick="window.location.href='meter-replacement.html'">METER REPLACEMENT</button> -->
         </div>
         <br>
     </div>
@@ -161,232 +155,63 @@ include("header.php");
         </div>
     </div>
 
-    <!-- Modal Trigger Button -->
-
-    <!-- Modal HTML -->
-    <div class="modal fade" id="readingEntryModal" tabindex="-1" role="dialog" aria-labelledby="readingEntryModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header d-flex justify-content-center">
-                    <button type="button" class="close position-absolute" style="right: 10px;" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+   <!-- Official Receipt Modal -->
+   <div class="modal fade" id="officialReceiptModal" tabindex="-1" role="dialog" aria-labelledby="officialReceiptModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="officialReceiptModalLabel">Login Official Receipt</h5>
+            </div>
+            <form id="loginForm" method="post">
                 <div class="modal-body">
-                    <!-- Modal Content -->
-                    <div class="nav-container">
-                        <h1>READING ENTRY AND COMPUTATION</h1>
+                    <div class="form-group">
+                        <label for="username" class="col-form-label">Username:</label>
+                        <input type="text" id="username" name="username" class="form-control" required>
                     </div>
-                    <div class="container d-flex justify-content-between align-items-center mb-3">
-                        <p id="date" class="date mb-0" style="font-weight: bold;"></p>
-                        <p id="time" class="time mb-0" style="font-weight: bold;"></p>
-                    </div>
-                    <div class="row">
-                        <!-- First Column -->
-                            <!-- First Row with two inputs -->
-                            <div class="form-group">
-                                <label for="accountNum" class="form-label">ACCOUNT NO.:</label>
-                                <input type="text" id="account" class="form-input form-control" placeholder="Account number" required>
-                            </div>
-
-                            <!-- Second Row with two inputs -->
-                            <div class="form-group">
-                                <label for="name" class="form-label">NAME:</label>
-                                <input type="text" id="name" class="form-input form-control" placeholder="Enter consumer name" required>
-                            </div>
-
-                            <!-- Third Row with two inputs -->
-                            <div class="row-2">
-                                <div class="form-group">
-                                    <label for="area" class="form-label">AREA:</label>
-                                    <input type="text" id="area" class="form-input form-control" placeholder="Enter consumer area" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="block" class="form-label">BLK/LOT:</label>
-                                    <input type="text" id="block" class="form-input form-control" placeholder="Enter the blk/lot" required>
-                                </div>
-                            </div>
-
-                            <!-- Fourth Row with two inputs -->
-                            <p style="padding-left: 550px; font-weight: bold;">OLD READING</p>
-                            <div class="row-2">
-                                <div class="form-group">
-                                    <label for="presentReading" class="form-label">PRESENT:</label>
-                                    <input type="number" id="presentReading" class="form-input form-control" placeholder="" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="oldReading" class="form-label"><br></label>
-                                    <input type="number" id="oldReading" class="form-input form-control" placeholder="" required>
-                                </div>
-                            </div>
-
-                            <!-- Fifth Row with two inputs -->
-                            <div class="row-2">
-                                <div class="form-group">
-                                    <label for="previousReading" class="form-label">PREVIOUS:</label>
-                                    <input type="number" id="previousReading" class="form-input form-control" placeholder="" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="check" class="form-label"><br></label>
-                                    <input type="number" id="check" class="form-input form-control" placeholder="" required>
-                                </div>
-                            </div>
-
-                            <!-- Sixth Row with two inputs -->
-                            <div class="row-2">
-                                <div class="form-group">
-                                    <label for="consumed" class="form-label">CONSUMED:</label>
-                                    <input type="number" id="consumed" class="form-input form-control" placeholder="Enter consumed amount" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="remarks" class="form-label">REMARKS:</label>
-                                    <input type="text" id="remarks" class="form-input form-control" placeholder="Enter remarks" required>
-                                </div>
-                            </div>
-
-                            <!-- Seventh Row -->
-                            <div class="form-group">
-                                <label for="totalCorrection" class="form-label">TOTAL COR:</label>
-                                <input type="number" id="totalCorrection" class="form-input form-control" placeholder="" required>
-                            </div>
-
-                            <!-- Eighth Row -->
-                            <div class="form-group">
-                                <label for="amount" class="form-label">AMOUNT:</label>
-                                <input type="number" id="amount" class="form-input form-control" placeholder="Enter amount" required>
-                            </div>
-
-                            <div class="row-2">
-                                <div class="form-group">
-                                    <label for="scDiscount" class="form-label">S.C DISCOUNT:</label>
-                                    <input type="number" id="scDiscount" class="form-input form-control" placeholder="Enter discount" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="freeCharge" class="form-label">FREE OF CHARGE:</label>
-                                    <input type="text" id="freeCharge" class="form-input form-control" placeholder="Enter free charge" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="percentDiscount" class="form-label">% DISCOUNT:</label>
-                                <input type="text" id="percentDiscount" class="form-input form-control" placeholder="Enter discount percentage" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="month" class="form-label">MONTH:</label>
-                               <select name="month" id="month" class="form-control">
-                                    <option value="" disabled selected>Choose a month</option>
-                                    <?php
-                                    $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-                                    foreach ($months as $month) {
-                                        echo '<option value="' . $month . '">' . $month . '</option>';
-                                    }
-                                    ?>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="category" class="form-label">CATEGORY:</label>
-                                <select name="category" id="category" class="form-control">
-                                    <option value="Residential">Residential</option>
-                                    <option value="Commercial">Commercial</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="dueDate" class="form-label">DUE DATE:</label>
-                                <input type="date" id="dueDate" class="form-input form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="discDate" class="form-label">DISC. DATE:</label>
-                                <input type="date" id="discDate" class="form-input form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="billingPeriod" class="form-label">BILLING PERIOD:</label>
-                                <input type="date" id="billingPeriod" class="form-input form-control" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="others" class="form-label">OTHERS:</label>
-                                <input type="text" id="others" class="form-input form-control" placeholder="Enter other details" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="grandtotal" class="form-label">GRAND TOTAL:</label>
-                                <input type="text" id="grandtotal" class="form-input form-control" placeholder="" readonly>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="searchByName" class="form-label">SEARCH BY NAME:</label>
-                                <input type="search" id="searchByName" class="form-input form-control" placeholder="Enter consumer name to search">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="reader" class="form-label">READER:</label>
-                                <input type="text" id="reader" class="form-input form-control" placeholder="Enter reader's name">
-                            </div>
-                            <!-- Buttons -->
-                            <div class="form-group mt-4">
-                              <button id="update" class="btn btn-success">UPDATE</button>
-                              <button id="compute" class="btn btn-info">COMPUTE</button>
-                              <button id="print" class="btn btn-warning" onclick="printReceipt()">PRINT</button>
-                              <button id="scDiscountButton" class="btn btn-success">S.C DISCOUNT</button>
-                              <button id="percentDiscountButton" class="btn btn-info">% DISCOUNT</button>
-                              <button id="oldMeterReading" class="btn btn-warning">OLD METER READING</button>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <label for="password" class="col-form-label">Password:</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Login</button>
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- modal for consumer account  -->
-     <!-- Modal -->
-<div class="modal fade" id="consumerModal" tabindex="-1" aria-labelledby="consumerModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="consumerModalLabel">Enter Consumer Name</h5>
-                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input type="text" id="consumerName" class="form-control" placeholder="Enter consumer name">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" onclick="redirectToConsumer()">Proceed</button>
-            </div>
+            </form>
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+   
 <!-- dito end -->
 
 <script>
-function redirectToConsumer() {
-        let consumerName = document.getElementById('consumerName').value.trim();
-        if (consumerName === "") {
-            alert("Please enter the consumer name.");
-        } else {
-            window.location.href = "consumer_account.php?name=" + encodeURIComponent(consumerName);
-        }
+ document.getElementById("loginForm").addEventListener("submit", function(event) {
+    // Prevent form from submitting the traditional way
+    event.preventDefault();
+
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
+
+    if (username === "vina" && password === "vina123") {
+        // Redirect to service_invoice_reports.php with the username in the URL
+        window.location.href = "service_invoice_reports.php?username=" + encodeURIComponent(username);
+    } else {
+        alert("Invalid username or password.");
     }
+});
+
 </script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <!-- Popper.js -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script> -->
     <!-- Bootstrap JS -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="assets/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
