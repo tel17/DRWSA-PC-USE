@@ -72,7 +72,7 @@
         </div>
         
         <div class="card-header">
-          <h5>Total Grand Total of Unpaid</h5>
+          <h5>Amount to be collected </h5>
         </div>
         <div class="card-body">
           <?php
@@ -247,7 +247,7 @@
     <h5 style="text-align:center;">System Logs</h5>
   </div>
   <div class="card-body"style="width:100%">
-    <table id="logsTable" class="display nowrap" style="width:100%">
+  <table class="table table-borderless datatable" id="logsTable">
       <thead>
         <tr>
           
@@ -301,12 +301,7 @@ while ($row = $result->fetch_assoc()) {
 </div>
 
 </main>
-<!-- DataTables CSS -->
-<link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 
-<!-- jQuery and DataTables JS -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <?php include("footer.php"); ?>
 
