@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
         document.getElementById('area').value = element.getAttribute('data-area') || '';
         document.getElementById('discount').value = element.getAttribute('data-discount') || '';
         document.getElementById('blk_lot').value = element.getAttribute('data-blk_lot') || '';
+        document.getElementById('or_number').value = element.getAttribute('data-or_number') || '';
         
         // Handle amount in words
         document.getElementById('amount_in_words').value = numberToWords(element.getAttribute('data-grand_total') || 0);

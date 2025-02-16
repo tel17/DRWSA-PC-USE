@@ -28,6 +28,7 @@ if (isset($_GET['q'])) {
                 data-payment_status="'.htmlspecialchars($payment_status, ENT_QUOTES).'"
                 data-sc_discount="'.htmlspecialchars($sc_discount, ENT_QUOTES).'"
                 data-discount="'.htmlspecialchars($row['discount'], ENT_QUOTES).'"
+                data-or_number="'.htmlspecialchars($row['or_number'], ENT_QUOTES).'"
                 style="cursor: pointer; padding: 10px;">
 
 
