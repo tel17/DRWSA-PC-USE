@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2025 at 02:10 AM
+-- Generation Time: Feb 16, 2025 at 01:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -78,8 +78,30 @@ INSERT INTO `system_logs` (`id`, `username`, `login_time`, `logout_time`) VALUES
 (9, 'oliver', '2025-02-11 17:26:30', '2025-02-11 17:39:43'),
 (10, 'oliver', '2025-02-11 17:28:54', '2025-02-11 17:29:01'),
 (11, 'chester', '2025-02-11 17:29:07', '2025-02-11 17:30:42'),
-(12, 'chester', '2025-02-12 02:02:58', NULL),
-(13, 'Oliver', '2025-02-12 02:06:55', NULL);
+(12, 'chester', '2025-02-12 02:02:58', '2025-02-12 02:28:30'),
+(14, 'chester', '2025-02-12 02:28:34', '2025-02-12 02:33:47'),
+(15, 'Oliver', '2025-02-12 02:28:54', '2025-02-12 02:33:30'),
+(16, 'chester', '2025-02-12 02:33:51', '2025-02-12 02:33:56'),
+(17, 'Oliver', '2025-02-12 02:33:57', '2025-02-12 02:34:03'),
+(18, 'chester', '2025-02-12 02:34:05', '2025-02-12 02:34:33'),
+(20, 'chester', '2025-02-12 03:50:10', '2025-02-12 04:47:48'),
+(21, 'oliver', '2025-02-12 04:47:52', '2025-02-12 04:48:11'),
+(23, 'chester', '2025-02-12 05:59:13', '2025-02-12 06:12:24'),
+(25, 'chester', '2025-02-12 07:44:53', '2025-02-12 08:44:11'),
+(26, 'chester', '2025-02-12 08:44:15', '2025-02-12 08:44:21'),
+(27, 'chester', '2025-02-12 08:44:25', '2025-02-12 08:45:19'),
+(28, 'chester', '2025-02-12 08:46:04', '2025-02-12 08:55:30'),
+(29, 'chester', '2025-02-12 08:55:34', '2025-02-12 09:00:58'),
+(30, 'Oliver', '2025-02-12 08:57:45', '2025-02-12 09:02:18'),
+(31, 'oliver', '2025-02-12 09:01:02', '2025-02-12 09:01:10'),
+(32, 'chester', '2025-02-12 09:01:14', '2025-02-12 09:12:20'),
+(33, 'Oliver', '2025-02-12 09:02:53', '2025-02-12 09:12:10'),
+(34, 'Oliver', '2025-02-12 09:36:24', NULL),
+(35, 'chester', '2025-02-12 09:40:05', '2025-02-12 09:41:40'),
+(36, 'Oliver', '2025-02-12 09:43:33', NULL),
+(37, 'Oliver', '2025-02-12 10:06:31', '2025-02-12 10:12:32'),
+(38, 'chester', '2025-02-14 14:23:47', NULL),
+(39, 'chester', '2025-02-16 06:28:31', NULL);
 
 -- --------------------------------------------------------
 
@@ -152,14 +174,8 @@ CREATE TABLE `tbl_collectors_profile` (
 --
 
 INSERT INTO `tbl_collectors_profile` (`id`, `fullname`, `username`, `password`) VALUES
-(5, 'aa', 'aaa', '$2y$10$SHBlkIuiHksAFPzWfIlyZemcmy1aq6htKTzFAIDeBafAkhAd8l08u'),
-(6, 'hh', 'hh', '$2y$10$5hrbhtjEkq1HTCZ0b9CfSeNvcBO2tbV/Veyv6RnVcDUIE8wt8kt8y'),
 (7, 'chester', 'chester', '$2y$10$zGB09SeczZ7nW2/POEqUVORr187yZqlHJH0vNf2Di8c8RV76ptts.'),
-(8, 'zz', 'zz', '$2y$10$K9ITqTA7kuadYIRGFVbzx.t2vlsZ.Vo9JoLRGuGLF7IvBgy.LqWZa'),
-(9, 'oliver', 'oliver', '$2y$10$DXPw.BXXXnuVOEDpBaUQseljLhLA.VfJEPwDvW73iTf5eZgpbvqkG'),
-(10, 'oliver', 'aa', '$2y$10$36aXUCWmmXb6jGDbEMfhdOVI4cV/SfUsHk6w/ZHspvqcWUy3WHUny'),
-(11, 'hha', 'aa', '$2y$10$YivwHsX3H01Bx2IrqGOp4uh0XKPSw12fitCf.k6pSOj3oQqg0.Zta'),
-(12, 'yy', 'yy', '$2y$10$b9e0chryAZUPEFavqts0P.lkbFvB/3jSQAnwTa8uiY9wSQF1fk4/.');
+(13, 'oliver', 'oliver', '$2y$10$x6ECfxLbbDdmbiERFMgzre.N5BJ1NsJ9UmK0ucZ6F6lNaH95jP4qe');
 
 -- --------------------------------------------------------
 
@@ -330,6 +346,29 @@ INSERT INTO `tbl_newconnection` (`id`, `account_number_new_connection`, `name`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `tbl_or_service_invoice`
+--
+
+CREATE TABLE `tbl_or_service_invoice` (
+  `id` int(11) NOT NULL,
+  `date_received` date NOT NULL,
+  `teller_name` varchar(255) NOT NULL,
+  `series` int(255) NOT NULL,
+  `service_invoice` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_or_service_invoice`
+--
+
+INSERT INTO `tbl_or_service_invoice` (`id`, `date_received`, `teller_name`, `series`, `service_invoice`) VALUES
+(25, '2025-02-12', 'chester', 350, '123456-985456'),
+(26, '2025-02-14', 'oliver', 88, '1951-2000'),
+(27, '2025-02-13', 'vina', 361, '17951-180001');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_reading`
 --
 
@@ -359,22 +398,20 @@ CREATE TABLE `tbl_reading` (
   `reader_name` varchar(255) NOT NULL,
   `penalty` int(255) NOT NULL,
   `timestamp` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `payment_status` varchar(255) NOT NULL
+  `payment_status` varchar(255) NOT NULL,
+  `or_number` int(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `tbl_reading`
 --
 
-INSERT INTO `tbl_reading` (`id`, `account_number`, `name`, `area`, `blk_lot`, `present_1`, `previous_1`, `present_2`, `previous_2`, `consumed`, `remarks`, `total_consumed`, `amount`, `sc_discount`, `free_of_charge`, `discount`, `month`, `category`, `due_date`, `disc_date`, `billing_period`, `grand_total`, `reader_name`, `penalty`, `timestamp`, `payment_status`) VALUES
-(20, 12345678, 'TESTING LANG', 'JANOPOL', '2 ', 0, 0, 9, 8, 1, 'asd', 9, 131.50, 7, '', 13, 'January', 'residential', '2025-02-10', '2025-02-10', '2025-02-11', 112, 'chester', 0, '2025-02-11 05:08:43', 'cashier'),
-(22, 123546, 'random', 'JANOPOL', '2 ', 0, 0, 9, 8, 1, '', 9, 131.50, 7, '', 7, 'December', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 118, 'chester', 0, '2025-02-11 05:08:43', 'unpaid'),
-(23, 456, 'random', 'JANOPOL', '2 ', 9, 8, 0, 9, 1, 'asd', 18, 131.50, 7, '', 3, 'November', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 122, 'chester', 0, '2025-02-11 05:08:43', 'cashier'),
-(24, 9999, 'ads', 'JANOPOL', '2 ', 0, 0, 9, 8, 1, 'sample remarks', 9, 790.50, 40, '', 0, 'January', 'commercial_a', '2025-02-11', '2025-02-10', '2025-02-11', 751, 'chester', 0, '2025-02-11 05:08:43', 'collector'),
-(25, 456, 'wer', 'JANOPOL', '2 ', 9, 8, 0, 9, 1, 'sample remarks', 18, 131.50, 0, '', 0, 'January', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 132, 'chester', 0, '2025-02-11 05:08:43', 'cashier'),
-(26, 234, 'random', 'JANOPOL', '2 ', 0, 0, 15, 8, 7, 'sample remarks', 15, 189.50, 0, '', 0, 'November', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 190, 'chester', 0, '2025-02-11 05:08:43', 'unpaid'),
-(27, 12345678, 'randomsssss', 'JANOPOL', '2 ', 0, 0, 100, 50, 50, 'sample remarks', 100, 3073.00, 154, '', 154, 'November', 'commercial_b', '2025-02-11', '2025-02-11', '2025-02-11', 2766, 'chester', 0, '2025-02-11 05:08:43', 'unpaid'),
-(28, 456, 'random', 'SILANGAN', '2 ', 0, 0, 9, 8, 1, 'asd', 9, 131.50, 7, '', 26, 'January', 'residential', '2025-02-12', '2025-02-12', '2025-02-04', 99, 'chester', 0, '2025-02-11 05:08:43', 'unpaid');
+INSERT INTO `tbl_reading` (`id`, `account_number`, `name`, `area`, `blk_lot`, `present_1`, `previous_1`, `present_2`, `previous_2`, `consumed`, `remarks`, `total_consumed`, `amount`, `sc_discount`, `free_of_charge`, `discount`, `month`, `category`, `due_date`, `disc_date`, `billing_period`, `grand_total`, `reader_name`, `penalty`, `timestamp`, `payment_status`, `or_number`) VALUES
+(24, 9999, 'ads', 'JANOPOL', '2 ', 0, 0, 9, 8, 1, 'sample remarks', 9, 790.50, 40, '', 0, 'January', 'commercial_a', '2025-02-11', '2025-02-10', '2025-02-11', 751, 'chester', 0, '2025-02-16 05:47:12', 'collector', 123456789),
+(25, 456, 'wer', 'JANOPOL', '2 ', 9, 8, 0, 9, 1, 'sample remarks', 18, 131.50, 0, '', 0, 'January', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 132, 'chester', 0, '2025-02-11 05:08:43', 'cashier', 0),
+(26, 234, 'random', 'JANOPOL', '2 ', 0, 0, 15, 8, 7, 'sample remarks', 15, 189.50, 0, '', 0, 'November', 'residential', '2025-02-10', '2025-02-10', '2025-02-10', 190, 'chester', 0, '2025-02-14 13:32:23', 'cashier', 0),
+(27, 12345678, 'randomsssss', 'JANOPOL', '2 ', 0, 0, 100, 50, 50, 'sample remarks', 100, 3073.00, 154, '', 154, 'November', 'commercial_b', '2025-02-11', '2025-02-11', '2025-02-11', 2766, 'chester', 0, '2025-02-14 13:32:55', 'cashier', 0),
+(28, 456, 'random', 'SILANGAN', '2 ', 0, 0, 9, 8, 1, 'asd', 9, 131.50, 7, '', 26, 'January', 'residential', '2025-02-12', '2025-02-12', '2025-02-04', 99, 'chester', 0, '2025-02-12 07:49:48', 'free', 0);
 
 -- --------------------------------------------------------
 
@@ -513,6 +550,12 @@ ALTER TABLE `tbl_newconnection`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `tbl_or_service_invoice`
+--
+ALTER TABLE `tbl_or_service_invoice`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `tbl_reading`
 --
 ALTER TABLE `tbl_reading`
@@ -550,7 +593,7 @@ ALTER TABLE `admin_db`
 -- AUTO_INCREMENT for table `system_logs`
 --
 ALTER TABLE `system_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `tbl_active`
@@ -562,7 +605,7 @@ ALTER TABLE `tbl_active`
 -- AUTO_INCREMENT for table `tbl_collectors_profile`
 --
 ALTER TABLE `tbl_collectors_profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `tbl_daily_collection_report`
@@ -595,10 +638,16 @@ ALTER TABLE `tbl_newconnection`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `tbl_or_service_invoice`
+--
+ALTER TABLE `tbl_or_service_invoice`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+--
 -- AUTO_INCREMENT for table `tbl_reading`
 --
 ALTER TABLE `tbl_reading`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `tb_commercial_tariff`
