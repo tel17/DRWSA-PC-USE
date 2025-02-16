@@ -7,6 +7,7 @@
 
 <?php include("sidebar.php"); ?>
 
+
 <main id="main" class="main">
 
   <div class="pagetitle">
@@ -60,7 +61,7 @@
               </div>
 
               <a href="add_reading.php?areaFilter=<?php echo isset($_GET['areaFilter']) ? $_GET['areaFilter'] : ''; ?>" class="btn btn-success" title="Edit Information">
-                <i class="bi bi-pencil-square"></i> 
+                <i class="bi bi-plus-square"></i> 
               </a>
             </div>
 
@@ -89,6 +90,7 @@
                   <th scope="col" style="text-align: center;">DUE DATE</th>
                   <th scope="col" style="text-align: center;">DISC DATE</th>
                   <th scope="col" style="text-align: center;">BILLING PERIOD</th>
+                  <th scope="col" style="text-align: center;">OR NUMBER</th>
                   <th scope="col" style="text-align: center;">GRAND TOTAL</th>
                   <th scope="col" style="text-align: center;">READER NAME</th>
                 </tr>
@@ -116,13 +118,14 @@
                         while ($row = $result->fetch_assoc()) {
                 ?>
                 <tr>
-                    <td style="text-align: center; width: 100px; display: flex; justify-content: space-between; align-items: center;">
+                    <td style="text-align: center; width: 150px; display: flex; justify-content: space-between; align-items: center;">
                         <button class="btn btn-danger delete-btn" data-id="<?php echo $row['id']; ?>">
                             <i class="bi bi-trash"></i> 
                         </button>
                         <a href="print.php?id=<?php echo $row['id']; ?>" class="btn btn-primary" id="printButton<?php echo $row['id']; ?>" onclick="printReceipt(<?php echo $row['id']; ?>)">
                             <i class="bi bi-printer"></i>
                         </a>
+                        <button class="btn btn-warning edit-btn" data-toggle="modal" data-target="#editPaymentModal"><i class="bi bi-pencil-square"></i></button>
                     </td>
 
                     <td style="text-align: center; width:50px;">
@@ -163,6 +166,7 @@
                     <td style="text-align: center;"><?php echo $row["due_date"]; ?></td>
                     <td style="text-align: center;"><?php echo $row["disc_date"]; ?></td>
                     <td style="text-align: center;"><?php echo $row["billing_period"]; ?></td>
+                    <td style="text-align: center;"><?php echo $row["or_number"]; ?></td>
                     <td style="text-align: center;"><?php echo $row["grand_total"]; ?></td>
                     <td style="text-align: center;"><?php echo $row["reader_name"]; ?></td>
                 </tr>
@@ -257,6 +261,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
+<?php include('edit_payment_modal.php'); ?>
+
 
 </body>
 </html>

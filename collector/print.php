@@ -1,14 +1,14 @@
 <?php
 // Assuming your database connection is already established
 include("header.php");
-
+ 
 // Get the 'id' from the URL query parameter
 $id = $_GET['id']; // Fetch the id from the URL query string
-
+ 
 // Query to fetch the specific row from tbl_reading
 $query = "SELECT * FROM tbl_reading WHERE id = '$id'";
 $result = $con->query($query);
-
+ 
 // Check if the query returned a result
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -88,7 +88,7 @@ if ($result->num_rows > 0) {
 // Query to fetch data from tbl_reading
 $query = "SELECT * FROM tbl_reading WHERE id = 'id'";
 $result = $con->query($query);
-
+ 
 // Check if any rows are returned
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
@@ -107,7 +107,7 @@ if ($result->num_rows > 0) {
                 </div>
             </div>
         </div>
-
+ 
         <div class="form-group">
             <label for="account_number">Account No.:</label>
             <input type="text" id="account_number" name="account_number"  value="<?php echo $row['account_number']; ?>" required>
@@ -140,7 +140,7 @@ if ($result->num_rows > 0) {
             <label for="disconnection_date">Disconnection Date:</label>
             <input type="date" id="disconnection_date" name="disconnection_date"  value="<?php echo $row['disc_date']; ?>"><br>
         </div>
-
+ 
         <div class="section" style="margin-bottom: 0px">
             <h4 style="text-align:center" >READING</h4>
             <div class="form-group">
@@ -156,7 +156,7 @@ if ($result->num_rows > 0) {
                 <input type="number" id="cum_consumed" name="cum_consumed"  value="<?php echo $row['consumed']; ?>"><br>
             </div>
         </div>
-
+ 
         <div class="section">
             <h4 style="text-align:center; margin-top:0px">COMPUTATION</h4>
             <div class="form-group">
@@ -184,7 +184,7 @@ if ($result->num_rows > 0) {
                 <input type="number" id="penalty" name="penalty" value="<?php echo $row['penalty']; ?>" ><br>
             </div>
         </div>
-
+ 
         <div>
             <h5 style="font-weight: lighter; font-size: 10px;">Mangyaring dalhin ang "NOTICE" na ito kung magbabayad sa tanggapan. Ang serbisyo ng tubig ay puputulin anumang oras kung hindi makakabayad sa takdang panahon. Ang reconnection fee ay nagkakahalaga ng 200.00 pesos. Maraming salamat po.</h4>
             <h4 style="font-weight: lighter;font-size: 10px;">Mag message po muna kayo sa ating FB page para po sa mga inquiry o payment, ito po ang Link via QR Code.</h4>
@@ -199,10 +199,10 @@ if ($result->num_rows > 0) {
                 </div>
             </div>
         </div>
-
+ 
     </form>
    
-
+ 
     <script>
         // Automatically trigger the print dialog when the page loads
         window.onload = function () {
@@ -258,70 +258,73 @@ function printReceipt() {
         <img src="sample_gcash.jpg" alt="G-CASH QR Code" style="width: 120px; height: auto; object-fit: cover;">
     </div>
     </div>
- <div>
- <h1>   </h1>
- <h1>   </h1>
+    <br>
+\n
+    <div style="text-align: center; font-size: 12px; margin-top: 40px;">
+        </div>
+    <div style="text-align: center; font-size: 12px; margin-top: 40px;">
+        \n&copy; ${new Date().getFullYear()} Darasa Rural Waterworks and Sanitation Association. All rights reserved.
     </div>
 </footer>
     `;
-
+ 
     const printWindow = window.open('', '_self');
     printWindow.document.write(`
       <style>
-        @media print {
-          @page {
-            size: 100mm 315mm;
-            margin-bottom: 0px;
-          }
-          body {
+    @media print {
+        @page {
+            size: 80mm 350mm;
+            margin: 0;
+            margin-top: 0mm;
+            margin-bottom: 0mm;
+        }
+        body {
             -webkit-print-color-adjust: exact;
             font-size: 15px;
-            margin-left: 5px;
+            margin: 0;
             padding: 0;
-            margin-top: 0px;
-            margin-bottom: 0px;
             width: 100%;
             justify-content: center;
             align-items: center;
             text-align: left;
-          }
-          p {
+        }
+        p {
             margin-bottom: 0;
             font-size: 15px;
             text-align: left;
-          }
-           h2, h3 {
-                margin-bottom: 0;
-                font-size: 18px;
-                text-align: center;
-            }
-          img {
+        }
+        h2, h3 {
+            margin-bottom: 0;
+            font-size: 18px;
+            text-align: center;
+        }
+        img {
             width: 100%;
             height: auto;
-            object-fit: cover;
-          }
+            object-fit: contain;
         }
-      </style>
+    }
+</style>
     `);
      // Write the receipt content to the print window
      printWindow.document.write(receiptContent);
     printWindow.document.close();
     printWindow.focus();
-
-    
+ 
+   
 // Open the print dialog
 printWindow.print();
-
+ 
 // Add a delay (e.g., 4 seconds) before going back to the previous page in the history
 setTimeout(function() {
     // Go back to the previous page in the history
     window.history.back();
-}, 7000);  // Delay of 2000 milliseconds (4 seconds)
-
-
-
+}, 10000);  // Delay of 2000 milliseconds (4 seconds)
+ 
+ 
+ 
 }
-    
+   
     </script>
 </body>
 </html>

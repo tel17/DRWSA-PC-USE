@@ -102,11 +102,21 @@ include("header.php");
     <br>
     <!-- Navbar -->
     <div class="container navbar-buttons d-flex justify-content-between">
-        <button class="btn btn-primary" onclick="window.location.href='summary_of_reading.php'">SUMMARY OF READING</button>
+    <button class="btn btn-primary" onclick="window.location.href='summary_of_reading.php'"accesskey="s">
+  <span style="text-decoration: underline;">S</span>UMMARY OF READING
+</button>
+
         <button class="btn btn-primary" onclick="window.location.href='account.php'">ACCOUNT</button>
-        <button class="btn btn-primary" data-toggle="modal" data-target="#officialReceiptModal">OFFICIAL RECEIPT</button>
-        <button class="btn btn-primary" onclick="window.location.href='daily-collection-report.html'">DAILY COLLECTION REPORT</button>
-        <button class="btn btn-primary" onclick="window.location.href='summary_ndrm.php'">SUMMARY NRDM</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#officialReceiptModal" accesskey="o">
+  <span style="text-decoration: underline;">O</span>FFICIAL RECEIPT
+</button>
+
+<button class="btn btn-primary" onclick="window.location.href='daily-collection-report.html'">DAILY COLLECTION REPORT</button>
+<button class="btn btn-primary" onclick="window.location.href='summary_ndrm.php'" accesskey="u">
+  <span >S</span><span style="text-decoration: underline;">U</span>MMARY NRDM
+</button>
+
+
     </div>
 
    

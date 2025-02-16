@@ -1,449 +1,509 @@
+<?php
+include("header.php");
+include("dbcon.php");
+
+// Handle form submission
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
+    $account_number = $_POST['account_number'];
+    if (!empty($account_number)) {
+        $payment_status = 'cashier'; // Always set to Cashier as per requirements
+
+        $query = "UPDATE tbl_reading SET payment_status = ? WHERE account_number = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("ss", $payment_status, $account_number);
+        $stmt->execute();
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Darasa Rural Waterworks</title>
-
-    <!-- Bootstrap CSS -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
-
-    <style>
-      
-        .nav-container {
-            background-color: #1a68d6;
-            text-align: center;
-            color: white;
-            padding: 10px;
-        }
-
-        .row {
-            display: grid;
-            grid-template-columns: 2.5fr 1fr; /* 2 equal columns */
-            height: 100vh; /* Full viewport height */
-            margin: 0;
-        }
-
-        .column {
-            padding: 20px;
-            text-align: center;
-         
-            height: 100%;
-        }
-
-     
-
-        .date-time {
-            font-size: 30px;
-            font-family: Arial, sans-serif;
-            font-weight: bold;
-            text-align: right;
-            margin-left: auto;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: row; /* Labels on the left and inputs on the right */
-            justify-content: flex-start;
-            margin-bottom: 15px;
-        }
-
-        .form-label {
-            width: 30%; /* Set width for label */
-            text-align: left;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        .form-input {
-            width: 60%; /* Set width for input fields */
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-
-        .row-1, .row-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .form-input {
-            width: 100%; /* Ensure the input fields occupy the full space */
-        }
-
-        .row-2 label {
-            margin-right: 20px; /* Adds gap between the labels */
-        }
-
-        .row-8 {
-            display: flex;
-            align-items: center;
-            gap: 20px; /* Add some space between the elements */
-            margin-bottom: 15px;
-        }
-
-        .row-8 .form-group {
-            display: flex;
-            flex-direction: row;
-            gap: 50px; /* Add space between input fields */
-        }
-
-        .row-8 select {
-            width: 150px; /* Adjust width as needed */
-            margin-bottom: 0;
-            height:45px;
-        }
-
-        .row-8 .form-group input {
-            width: 150px; /* Adjust input field width as needed */
-            margin-bottom: 0;
-        }
-        button {
-            width: 150px;
-        }
-        .form-group button {
-            margin-right: 15px; /* Adds space between the buttons */
-        }
-    </style>
-</head>
-
-<body>
-    <div class="nav-container">
-        <h1>CONFIRMATION</h1>
-    </div>
-
-    <div class="row">
-        <!-- First Column -->
-        <div class="column">
-        
-            <!-- First Row with two inputs -->
-            <div class="row-1">
-                <div class="form-group">
-                    <label for="account" class="form-label">ACCOUNT#:</label>
-                    <input type="text" id="account" class="form-input" placeholder="Account number">
-                </div>
-
-                <div class="form-group">
-                    <label for="ornumber" class="form-label">O.R NO.:</label>
-                    <input type="text" id="ornumber" class="form-input" placeholder="OR number">
-                </div>
-            </div>
-
-            <!-- Second Row with two inputs -->
-            <div class="row-2">
-                <div class="form-group">
-                    <label for="name" class="form-label">NAME:</label>
-                    <input type="text" id="name" class="form-input" placeholder="Enter your name">
-                </div>
-
-                <div class="form-group">
-                    <label for="date" class="form-label">DATE:</label>
-                    <input type="text" id="date" class="form-input" placeholder="Enter the date">
-                </div>
-            </div>
-
-            <!-- Third Row with two inputs -->
-            <div class="row-2">
-                <div class="form-group">
-                    <label for="area" class="form-label">AREA:</label>
-                    <input type="text" id="area" class="form-input" placeholder="Enter your area">
-                </div>
-
-                <div class="form-group">
-                    <label for="block" class="form-label">BLK/LOT:</label>
-                    <input type="text" id="block" class="form-input" placeholder="Enter the blk/lot">
-                </div>
-            </div>
-
-            <!-- Fourth Row with two inputs -->
-            <div class="row-2">
-                <div class="form-group">
-                    <label for="year" class="form-label">YEAR:</label>
-                    <input type="text" id="year" class="form-input" placeholder="Enter the year">
-                </div>
-
-                <div class="form-group">
-                    <label for="tin" class="form-label">TIN#:</label>
-                    <input type="text" id="tin" class="form-input" placeholder="Enter the tin#">
-                </div>
-            </div>
-
-            <!-- Fifth Row with two inputs -->
-            <div class="row-2">
-                <div class="form-group">
-                    <label for="inwords" class="form-label">A/IN WORDS:</label>
-                    <input type="text" id="inwords" class="form-input" placeholder="Enter your a/in words">
-                </div>
-
-                <div class="form-group">
-                    <label for="check" class="form-label">CHECK #:</label>
-                    <input type="text" id="check" class="form-input" placeholder="Enter the check#">
-                </div>
-            </div>
-
-            <!-- Sixth Row with two inputs -->
-            <div class="row-2">
-                <div class="form-group">
-                    <label for="style" class="form-label">STYLE:</label>
-                    <input type="text" id="style" class="form-input" placeholder="Enter your style">
-                </div>
-
-                <div class="form-group">
-                    <label for="remarks" class="form-label">REMARKS:</label>
-                    <input type="text" id="remarks" class="form-input" placeholder="Enter the remarks">
-                </div>
-            </div>
-
-            <!-- Seventh Row with labels -->
-            <div class="row-7">
-                <div class="form-group">
-                    <label for="month" class="form-label">MONTH</label>
-                    <label for="amount" class="form-label">AMOUNT</label>
-                    <label for="penalty" class="form-label">PENALTY</label>
-                    <label for="senior" class="form-label">SENIOR</label>
-                    <label for="recon" class="form-label">RECON</label>
-                    <label for="mails" class="form-label">MAIL'S</label>
-                    <label for="another" class="form-label"></label>
-                </div>
-            </div>
-
-            <!-- Eighth Row with inputs -->
-            <div class="row-8">
-                <div class="form-group">
-                    <select name="month" id="month">
-                        <option value=""></option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="amount" class="form-input" placeholder="Enter the amount">
-                    <input type="text" id="penalty" class="form-input" placeholder="Enter the penalty">
-                    <input type="text" id="senior" class="form-input" placeholder="Enter the senior">
-                    <input type="text" id="recon" class="form-input" placeholder="Enter the recon">
-                    <input type="text" id="mail" class="form-input" placeholder="Enter the mail">
-                    <button class="btn btn-secondary">1ADD</button>
-                </div>
-            </div>
-
-            <!-- Nineth Row with inputs -->
-            <div class="row-8">
-                <div class="form-group">
-                    <select name="month" id="month">
-                        <option value=""></option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="amount" class="form-input" placeholder="Enter the amount">
-                    <input type="text" id="penalty" class="form-input" placeholder="Enter the penalty">
-                    <input type="text" id="senior" class="form-input" placeholder="Enter the senior">
-                    <input type="text" id="recon" class="form-input" placeholder="Enter the recon">
-                    <input type="text" id="mail" class="form-input" placeholder="Enter the mail">
-                    <button class="btn btn-secondary">2ADD</button>
-                </div>
-            </div>
-
-            <!-- ten row -->
-            <div class="row-8">
-                <div class="form-group">
-                    <select name="month" id="month">
-                        <option value=""></option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="amount" class="form-input" placeholder="Enter the amount">
-                    <input type="text" id="penalty" class="form-input" placeholder="Enter the penalty">
-                    <input type="text" id="senior" class="form-input" placeholder="Enter the senior">
-                    <input type="text" id="recon" class="form-input" placeholder="Enter the recon">
-                    <input type="text" id="mail" class="form-input" placeholder="Enter the mail">
-                    <button class="btn btn-secondary">3ADD</button>
-                </div>
-            </div>
-
-            <!-- eleventh row -->
-            <div class="row-8">
-                <div class="form-group">
-                    <select name="month" id="month">
-                        <option value=""></option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <input type="text" id="amount" class="form-input" placeholder="Enter the amount">
-                    <input type="text" id="penalty" class="form-input" placeholder="Enter the penalty">
-                    <input type="text" id="senior" class="form-input" placeholder="Enter the senior">
-                    <input type="text" id="recon" class="form-input" placeholder="Enter the recon">
-                    <input type="text" id="mail" class="form-input" placeholder="Enter the mail">
-                    <button class="btn btn-secondary">4ADD</button>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Second Column -->
-        <div class="column">
-            <p id="date-time" class="date-time"></p>
-                        <div class="row-column-2 mt-4">
-                            <div class="form-group">
-                                <label for="totalamount" class="form-label">TOTAL AMOUNT:</label>
-                                <input type="number" id="totalamount" class="form-input" placeholder=" " style="color:red; text-align:right; font-size:50px;">
-                            </div>
-                        </div>
-
-                        <div class="row-column-2 mt-4">
-                            <div class="form-group">
-                                <label for="senior" class="form-label">SENIOR CITIZEN:</label>
-                                <input type="number" id="senior" class="form-input" placeholder=" "style="color:red; text-align:right; font-size:30px;">
-                            </div>
-                        </div>
-
-                        <div class="row-column-2 mt-4">
-                            <div class="form-group">
-                                <label for="averagebill" class="form-label">AVERAGE BILL:</label>
-                                <input type="number" id="averagebill" class="form-input" placeholder=" "style="color:red; text-align:right; font-size:30px;">
-                            </div>
-                        </div>
-
-                        <div class="row-column-2 mt-4">
-                            <div class="form-group">
-                                <label for="change" class="form-label">CHANGE:</label>
-                                <input type="number" id="change" class="form-input" placeholder=" "style="color:red; text-align:right; font-size:30px;">
-                            </div>
-                        </div>
-
-                        <div class="row-column-2 mt-4" style="display: flex; align-items: center; gap: 10px;">
-                            <span class="radio-group" style="display: flex; align-items: center; gap: 5px;">
-                                <label style="margin: 0; display: flex; align-items: center; gap: 5px;">
-                                    <input type="checkbox" name="discount" value="option1"> DISCOUNT
-                                </label>
-                            </span>
-
-                            <!-- Input fields aligned on the right of the radio button -->
-                            <input type="text" class="form-input" placeholder="" style="flex: 1; max-width: 100%; color:red; text-align:right;">
-                      
-                        </div>
-
-                        <div class="row-column-2 mt-4" style="display: flex; align-items: center; gap: 10px;">
-                            <span class="radio-group-2" style="display: flex; align-items: center; gap: 5px;">
-                                <label style="margin: 0; display: flex; align-items: center; gap: 5px;">
-                                    <input type="checkbox" name="monthlydues" value="option1"> MONTHLY DUES
-                                   
-                                </label>
-                            </span>
-
-                            <!-- Input fields aligned on the right of the radio button -->
-                            <input type="text" class="form-input" placeholder="" style="flex: 1; max-width: 100%; color:red; text-align:right;">
-                      
-                        </div>
-
-
-
-                        <div class="row-column-2 mt-4">
-                            <div class="form-group">
-                                <label for="cash" class="form-label">CASH:</label>
-                                <input type="number" id="cash" class="form-input" placeholder=" "style="color:red; text-align:right;">
-                            </div>
-                        </div>
-
-
-                        <div class="row-column-2 mt-4">
-                            <div class="form-group">
-                                <label for="cashier" class="form-label">CASHIER:</label>
-                                <input type="text" id="cashier" class="form-input" placeholder=" " style="color:red; text-align:right; text-transform: uppercase;">
-                            </div>
-                        </div>
-
-                           
-                        <!-- buttons -->
-
-                        <div class="row-column-2 mt-4">
-                            <div class="form-group">
-                                <button id="print" class="btn btn-primary" >PRINT</button>
-                                <button id="average" class="btn btn-primary" >AVERAGE</button>
-                                <button id="dailycollection" class="btn btn-primary" >DAILY COLLECTION</button>
-                            </div>
-                        </div>
-
-                            
-                        </div>
-                    </div>
-
-
-
-                        
-                       
-        </div>
-    </div>
-
-    <!-- Bootstrap JS and Popper.js -->
-    <script src="assets/js/main.js"></script>
-
+    <title>Document</title>
     <script>
+    function searchConsumers(query) {
+        // Reset search results display
+        var searchResults = document.getElementById('search_results');
+        searchResults.style.display = 'block';
+        searchResults.style.opacity = '1';
         
-        // JavaScript to update date and time
-        function updateDateTime() {
-            const now = new Date();
-            const date = now.toLocaleDateString();  
-            const time = now.toLocaleTimeString();  
-            document.getElementById('date-time').innerText = `${date} ${time}`;
+        if (query.length > 0) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    searchResults.innerHTML = this.responseText;
+                    searchResults.style.display = 'block';
+                }
+            };
+            xhr.open("GET", "search.php?q=" + encodeURIComponent(query), true);
+            xhr.send();
+        } else {
+            searchResults.innerHTML = '';
+            searchResults.style.display = 'none';
         }
-        setInterval(updateDateTime, 1000);
-        updateDateTime();
+    }
 
 
+    function populateForm(element) {
+        // Explicitly populate each field to ensure they get set
+        document.getElementById('account_number').value = element.getAttribute('data-account') || '';
+        document.getElementById('total_amount').value = element.getAttribute('data-grand_total') || '';
+        document.getElementById('senior_citizen').value = element.getAttribute('data-sc_discount') || '';
+        document.getElementById('payment_status').value = element.getAttribute('data-payment_status') || '';
+        document.getElementById('update_payment_status').value = element.getAttribute('data-payment_status') === 'unpaid' ? 'cashier' : element.getAttribute('data-payment_status') || '';
+        
+        // Populate other fields
+        document.getElementById('name').value = element.getAttribute('data-name') || '';
+        document.getElementById('area').value = element.getAttribute('data-area') || '';
+        document.getElementById('discount').value = element.getAttribute('data-discount') || '';
+        document.getElementById('blk_lot').value = element.getAttribute('data-blk_lot') || '';
+        
+        // Handle amount in words
+        document.getElementById('amount_in_words').value = numberToWords(element.getAttribute('data-grand_total') || 0);
 
+        // Handle payment status field
+        var updatePaymentStatus = document.getElementById('update_payment_status');
+        updatePaymentStatus.disabled = element.getAttribute('data-payment_status') === 'collector';
+
+        // Clear and hide search results with animation
+        const searchResults = document.getElementById('search_results');
+        searchResults.style.opacity = '1';
+        let opacity = 1;
+        const fadeOut = setInterval(() => {
+            opacity -= 0.1;
+            searchResults.style.opacity = opacity;
+            if (opacity <= 0) {
+                clearInterval(fadeOut);
+                searchResults.innerHTML = '';
+                searchResults.style.display = 'none';
+            }
+        }, 50);
+        
+        // Clear search input
+        document.querySelector('input[name="search_query"]').value = '';
+
+    }
 
 
     </script>
-</body>
 
+    <style>
+        label {
+            font-size: 25;
+        }
+        #search_results {
+        position: absolute;
+        z-index: 1000;
+        background: white;
+        border: 1px solid #ccc;
+        width: 100%; /* Set width to 100% of parent element */
+        max-width: 700px; /* Set max-width to match search bar width */
+        max-height: 300px;
+        overflow-y: auto;
+        display: none;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        left: 15px; /* Align with search bar */
+        right: 15px; /* Align with search bar */
+        margin: auto; /* Center horizontally */
+    }
+
+
+        .list-group-item {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .list-group-item:hover {
+            background-color: #f8f9fa;
+        }
+    </style>
+
+</head>
+
+<main class="main" style="margin: 20px;">
+
+    <section class="section dashboard">
+        <div class="row">
+            <!-- Start of Left side columns -->
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="card">
+                        <div class="card-body">
+                            <h1 class="card-title" style="text-align: center; font-size: 40;">Confirmation</h1>
+                            <div class="row">
+                                <div class="col-lg-6 offset-lg-3">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <input type="text" name="search_query" class="form-control" placeholder="Search by account number, name, or area..." onkeyup="searchConsumers(this.value)">
+                                        </div>
+                                        
+                                    </div>
+                                    <div id="search_results"></div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+</div>
+                            <form action="" method="POST" id="addForm">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label for="account_number">Account Number:</label>
+                                        <input type="text" name="account_number" id="account_number" class="form-control" style="height: 50px;" readonly>
+                                    </div>
+
+                                    
+                                    <div class="col-lg-3">
+                                        <label for="or_number">O.R No.:</label>
+                                        <input type="number" id="or_number" name="or_number" class="form-control" style="height: 50px;" required>
+                                    </div>
+                                    
+                                    <div class="col-lg-3" style="text-align: right;">
+                                        <div class="mt-3">
+                                            <label for="senior_citizen" class="form-label"><h3>Senior Citizen:</h3></label>
+                                        </div>
+                                    </div>
+                                                
+                                    <div class="col-lg-3">
+                                        <input type="text" name="senior_citizen" id="senior_citizen" class="form-control" style="height: 70px; margin-bottom: 10px; font-size: 30"  readonly>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label for="name">Name:</label>
+                                        <input type="text" name="name" id="name" class="form-control" style="height: 50px;" readonly>
+                                    </div>
+                                                
+                                    <div class="col-lg-3">
+                                        <label for="date">Date:</label>
+                                        <input type="date" id="date" name="date" class="form-control" style="height: 50px;" required>
+                                    </div>
+                                                
+                                    <div class="col-lg-3" style="text-align: right;">
+                                        <div class="mt-3">
+                                            <label for="average_bill" class="form-label"><h3>Average Bill:</h3></label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <input type="text" name="average_bill" id="average_bill" class="form-control" style="height: 70px; margin-bottom: 10px; font-size: 30">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label for="area">Area:</label>
+                                        <input type="text" name="area" id="area" class="form-control" readonly>
+                                    </div>
+                                                
+                                    <div class="col-lg-3">
+                                        <label for="blk_lot">BLK/LOT:</label>
+                                        <input type="text" name="blk_lot" id="blk_lot" class="form-control" style="height: 50px;">
+                                    </div>
+                                                
+                                    <div class="col-lg-3" style="text-align: right;">
+                                        <div class="mt-3">
+                                            <label for="payment_status" class="form-label"><h3>Paid to:</h3></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" name="payment_status" id="payment_status" class="form-control" style="height: 70px; font-size: 20; margin-bottom: 10px;" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label for="year">Year:</label>
+                                        <select id="year" name="year" class="form-control">
+                                            <?php
+                                            $startYear = 1900;
+                                            $endYear = date('Y');
+                                            for ($i = $endYear; $i >= $startYear; $i--) {
+                                                echo '<option value="' . $i . '">' . $i . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <label for="tin_number">TIN Number:</label>
+                                        <input type="number" id="tin_number" name="tin_number" class="form-control" style="height: 50px;" >
+                                    </div>
+                                    
+                                    <div class="col-lg-3" style="text-align: right;">
+                                        <div class="mt-3">
+                                            <label for="discount" class="form-label"><h3>Discount:</h3></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" name="discount" id="discount" class="form-control" style="height: 60px; margin-bottom: 0px;">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label for="amount_in_words">A/IN WORDS:</label>
+                                        <input type="text" name="amount_in_words" id="amount_in_words" class="form-control" style="height: 50px;" readonly>
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <label for="check_number">Check Number:</label>
+                                        <input type="number" name="check_number" id="check_number" class="form-control" style="height: 50px;">
+                                    </div>
+                                    
+                                   <div class="col-lg-3" style="text-align: right;">
+                                        <div class="mt-2">
+                                            <label for="payment_status" class="form-label"><h3> Update Payment Status:</h3></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" name="update_payment_status" id="update_payment_status" class="form-control" style="height: 60px; margin-bottom: 10px; font-size: 30">
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label for="style">Style:</label>
+                                        <input type="text" id="style" name="style" class="form-control" style="height: 50px;">
+                                    </div>
+
+                                    <div class="col-lg-3">
+                                        <label for="remarks">Remarks:</label>
+                                        <input type="text" name="remarks" id="remarks" class="form-control" style="height: 50px;">
+                                    </div>
+                                    
+                                    <div class="col-lg-3" style="text-align: right;">
+                                        <div class="mt-3">
+                                            <label for="total_amount" class="form-label"><h3>Total Amount:</h3></label>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-lg-3">
+                                        <input type="text" name="total_amount" id="total_amount" class="form-control" style="height: 70px; margin-bottom: 10px; font-size: 30" readonly>
+                                    </div>
+                                </div>
+                               <div class="row">
+                                    <div class="col-lg-1">
+                                        <label for="month1">Month</label>
+                                        <select name="month1" id="month1" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                            <option value="">Select Month</option>
+                                            <?php
+                                            $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+                                            foreach ($months as $month) {
+                                                echo '<option value="' . $month . '">' . $month . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <label for="amounts1">Amount</label>
+                                        <input type="number" name="amounts1" id="amounts1" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <label for="penalty1">Penalty</label>
+                                        <input type="number" name="penalty1" id="penalty1" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <label for="senior1">Senior</label>
+                                        <input type="number" name="senior1" id="senior1" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <label for="recon1">Recon</label>
+                                        <input type="number" name="recon1" id="recon1" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <label for="materials1">Materials</label>
+                                        <input type="number" name="materials1" id="materials1" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-3" style="text-align: right;">
+                                        <div class="mt-3">
+                                            <label for="payment_status" class="form-label"><h3>Cash:</h3></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" name="cash" id="cash" class="form-control" style="height: 70px; margin-bottom: 10px; font-size: 30" oninput="calculateChange()">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-1">
+                                        <select name="month2" id="month2" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                            <option value="">Select Month</option>
+                                            <?php
+                                            $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+                                            foreach ($months as $month) {
+                                                echo '<option value="' . $month . '">' . $month . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="amounts2" id="amounts2" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="penalty2" id="penalty2" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="senior2" id="senior2" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="recon2" id="recon2" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="materials2" id="materials2" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-3" style="text-align: right;">
+                                        <div class="mt-3">
+                                            <label for="change" class="form-label"><h3>Change:</h3></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="text" name="change" id="change" class="form-control" style="height: 70px; margin-bottom: 10px; font-size: 30; color: black;" readonly>
+                                    </div>
+                                    
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-1">
+                                        <select name="month3" id="month3" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                            <option value="">Select Month</option>
+                                            <?php
+                                            $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+                                            foreach ($months as $month) {
+                                                echo '<option value="' . $month . '">' . $month . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="amounts3" id="amounts3" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="penalty3" id="penalty3" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="senior3" id="senior3" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="recon3" id="recon3" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="materials3" id="materials3" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-1">
+                                        <select name="month4" id="month4" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                            <option value="">Select Month</option>
+                                            <?php
+                                            $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+                                            foreach ($months as $month) {
+                                                echo '<option value="' . $month . '">' . $month . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="amounts4" id="amounts4" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="penalty4" id="penalty4" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="senior4" id="senior4" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="recon4" id="recon4" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <input type="number" name="materials4" id="materials4" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
+                                    </div>
+                                </div>
+                                <div style="margin: 10px; padding: 20px; margin-left: 10px;">                           
+                                    <span style="float: right;">
+                                        <button type="submit" class="btn btn-primary " style="font-size: 20">Print</button>
+                                        <button type="submit" class="btn btn-success" style="font-size: 20">Average</button>
+                                        <button type="submit" class="btn btn-danger" style="font-size: 20">Daily Collection</button>
+                                    </span>
+                                </div>
+                                
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+</body>
 </html>
+<script> 
+function numberToWords(num) {
+    if (!num) return 'Zero';
+    
+    const ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
+    const teens = ["", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+    const tens = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+    const thousands = ["", "Thousand", "Million", "Billion"];
+
+    function convertLessThanThousand(num) {
+        let words = "";
+        if (num >= 100) {
+            words += ones[Math.floor(num / 100)] + " Hundred ";
+            num %= 100;
+        }
+        if (num >= 11 && num <= 19) {
+            words += teens[num - 10] + " ";
+        } else {
+            if (num >= 10) {
+                words += tens[Math.floor(num / 10)] + " ";
+                num %= 10;
+            }
+            if (num > 0) {
+                words += ones[num] + " ";
+            }
+        }
+        return words.trim();
+    }
+
+    num = parseInt(num, 10);
+    if (isNaN(num)) return "Invalid Number";
+
+    let wordResult = "", i = 0;
+
+    while (num > 0) {
+        let chunk = num % 1000;
+        if (chunk) {
+            wordResult = convertLessThanThousand(chunk) + " " + thousands[i] + " " + wordResult;
+        }
+        num = Math.floor(num / 1000);
+        i++;
+    }
+
+    return wordResult.trim();
+}
+
+
+// to get the change
+
+
+    function calculateChange() {
+        var cash = parseFloat(document.getElementById('cash').value) || 0;
+        var totalAmount = parseFloat(document.getElementById('total_amount').value) || 0;
+        var changeField = document.getElementById('change');
+
+        var change = cash - totalAmount;
+        changeField.value = change.toFixed(2); // Ensure two decimal places
+
+        // Apply red color if change is negative
+        if (change < 0) {
+            changeField.style.color = 'red';
+        } else {
+            changeField.style.color = 'green'; // Reset to default color if positive
+        }
+    }
+</script>
