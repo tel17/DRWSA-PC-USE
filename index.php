@@ -111,7 +111,7 @@ include("header.php");
   <span style="text-decoration: underline;">O</span>FFICIAL RECEIPT
 </button>
 
-<button class="btn btn-primary" onclick="window.location.href='daily-collection-report.html'">DAILY COLLECTION REPORT</button>
+<button class="btn btn-primary" onclick="window.location.href='daily_collection_reports.php'">DAILY COLLECTION REPORT</button>
 <button class="btn btn-primary" onclick="window.location.href='summary_ndrm.php'" accesskey="u">
   <span >S</span><span style="text-decoration: underline;">U</span>MMARY NRDM
 </button>

@@ -1,12 +1,10 @@
 <?php
+include("dbcon.php");
 include("header.php");
 ?>
 <body>
-<?php
-include("topbar.php");
-include("sidebar.php");
-?>
-<main id="main" class="main">
+
+<main  class="main">
   <div class="pagetitle">
     <h1>Daily Collection Reports</h1>
     <nav>
@@ -120,8 +118,8 @@ include("sidebar.php");
                 ?>
                 <tr>
                 <tr>
-  <td colspan="12" class="text-center">No records found.</td>
-</tr>
+                <td colspan="12" class="text-center">No records found.</td>
+                </tr>
 
                 </tr>
                 <?php

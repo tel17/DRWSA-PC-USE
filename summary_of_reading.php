@@ -31,7 +31,7 @@
 
         .row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 2fr;
             min-height: calc(100vh - 60px);
             margin-top: 50px;
             padding: 20px;

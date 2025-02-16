@@ -2,11 +2,11 @@
 <footer id="footer" class="footer">
   <center>
     <div class="copyright">
-      &copy; Copyright 2024. All Rights Reserved
+      &copy; Copyright 2025. All Rights Reserved
     </div>
     <div class="credits">
       
-    <a href="index.php" ><img src="images/dogwell.png" width="7%" alt=""></a>
+    <a href="index.php" ><img src="images/NEW-LOGO.png" width="7%" alt=""></a>
     </div>
 </center>
   </footer><!-- End Footer -->
