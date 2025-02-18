@@ -70,6 +70,7 @@
                 <tr>
                   <th scope="col" style="text-align: center;">ACTION</th>
                   <th scope="col" style="text-align: center;">STATUS</th>
+                  <th scope="col" style="text-align: center;">DATE PAID</th>
                   <th scope="col" style="text-align: center;">ACCOUNT NUMBER</th>
                   <th scope="col" style="text-align: center;">NAME</th>
                   <th scope="col" style="text-align: center;">AREA</th>
@@ -125,7 +126,17 @@
                         <a href="print.php?id=<?php echo $row['id']; ?>" class="btn btn-primary" id="printButton<?php echo $row['id']; ?>" onclick="printReceipt(<?php echo $row['id']; ?>)">
                             <i class="bi bi-printer"></i>
                         </a>
-                        <button class="btn btn-warning edit-btn" data-toggle="modal" data-target="#editPaymentModal"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btn btn-warning edit-btn" data-toggle="modal" data-target="#editPaymentModal" 
+                            data-status="<?php echo $row['payment_status']; ?>"
+                            data-account-number="<?php echo $row['account_number']; ?>"
+                            data-name="<?php echo $row['name']; ?>"
+                            data-reading-id="<?php echo $row['id']; ?>"
+                            <?php if ($row["payment_status"] !== 'unpaid') echo 'disabled title="Cannot edit paid records"'; ?>>
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+
+
+
                     </td>
 
                     <td style="text-align: center; width:50px;">
@@ -145,6 +156,7 @@
                             }
                         ?>
                     </td>
+                    <td style="text-align: center; center; width: 150px;"><?php echo $row["date_paid"]; ?></td>
 
                     <td style="text-align: center;"><?php echo $row["account_number"]; ?></td>
                     <td style="text-align: center;"><?php echo $row["name"]; ?></td>
@@ -263,6 +275,54 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <?php include('edit_payment_modal.php'); ?>
+
+<script>
+$(document).ready(function() {
+    // Ensure jQuery is loaded
+    if (typeof jQuery === 'undefined') {
+        console.error('jQuery is not loaded!');
+        return;
+    }
+
+    // Handle edit button click
+    $(document).on('click', '.edit-btn', function(e) {
+        try {
+            if ($(this).is(':disabled')) {
+                return false;
+            }
+            
+            // Get data from the button
+            var accountNumber = $(this).data('account-number');
+            var name = $(this).data('name');
+            var readingId = $(this).data('reading-id');
+            
+            console.log('Account Number:', accountNumber);
+            console.log('Name:', name);
+            console.log('Reading ID:', readingId);
+            
+            // Populate modal fields
+            $('#account_number').val(accountNumber);
+            $('#name').val(name);
+            $('#readingId').val(readingId);
+            
+            // Debug: Check if fields are being set
+            console.log('Modal Account Number:', $('#account_number').val());
+            console.log('Modal Name:', $('#name').val());
+            console.log('Modal Reading ID:', $('#readingId').val());
+            
+            // Ensure modal is properly initialized
+            $('#editPaymentModal').modal('show');
+        } catch (error) {
+            console.error('Error in edit button click handler:', error);
+        }
+    });
+
+
+
+
+});
+</script>
+
 
 
 </body>

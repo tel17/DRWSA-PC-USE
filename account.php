@@ -7,13 +7,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
     $account_number = $_POST['account_number'];
     if (!empty($account_number)) {
         $payment_status = 'cashier'; // Always set to Cashier as per requirements
+        $date_paid = $_POST['date'];
+        $tin_number = $_POST['tin_number'];
+        $check_number = $_POST['check_number'];
+        $or_number = $_POST['or_number'];
 
-        $query = "UPDATE tbl_reading SET payment_status = ? WHERE account_number = ?";
+        // Update payment status for unpaid balances
+        $query = "UPDATE tbl_reading SET payment_status = 'cashier' WHERE account_number = ? AND payment_status = 'unpaid'";
         $stmt = $con->prepare($query);
-        $stmt->bind_param("ss", $payment_status, $account_number);
+        $stmt->bind_param("i", $account_number);
         $stmt->execute();
+
+        // Update main table with new payment information
+        $query = "UPDATE tbl_reading SET payment_status = ?, date_paid = ?, tin_number = ?, check_number = ?, or_number = ? WHERE account_number = ?";
+        $stmt = $con->prepare($query);
+        $stmt->bind_param("ssssis", $payment_status, $date_paid, $tin_number, $check_number, $or_number, $account_number);
+        $stmt->execute();
+        
+        // Trigger SweetAlert
+        echo "<script>
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Database updated successfully.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+              </script>";
     }
+
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
     function searchConsumers(query) {
         // Reset search results display
@@ -47,46 +72,93 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
 
 
     function populateForm(element) {
-        // Explicitly populate each field to ensure they get set
-        document.getElementById('account_number').value = element.getAttribute('data-account') || '';
-        document.getElementById('total_amount').value = element.getAttribute('data-grand_total') || '';
-        document.getElementById('senior_citizen').value = element.getAttribute('data-sc_discount') || '';
-        document.getElementById('payment_status').value = element.getAttribute('data-payment_status') || '';
-        document.getElementById('update_payment_status').value = element.getAttribute('data-payment_status') === 'unpaid' ? 'cashier' : element.getAttribute('data-payment_status') || '';
-        
-        // Populate other fields
-        document.getElementById('name').value = element.getAttribute('data-name') || '';
-        document.getElementById('area').value = element.getAttribute('data-area') || '';
-        document.getElementById('discount').value = element.getAttribute('data-discount') || '';
-        document.getElementById('blk_lot').value = element.getAttribute('data-blk_lot') || '';
-        document.getElementById('or_number').value = element.getAttribute('data-or_number') || '';
-        
-        // Handle amount in words
-        document.getElementById('amount_in_words').value = numberToWords(element.getAttribute('data-grand_total') || 0);
+    // Explicitly populate each field to ensure they get set
+    document.getElementById('account_number').value = element.getAttribute('data-account') || '';
+    document.getElementById('total_amount').value = element.getAttribute('data-grand_total') || '';
+    document.getElementById('senior_citizen').value = element.getAttribute('data-sc_discount') || '';
+    document.getElementById('payment_status').value = element.getAttribute('data-payment_status') || '';
+    document.getElementById('update_payment_status').value = element.getAttribute('data-payment_status') === 'unpaid' ? 'cashier' : element.getAttribute('data-payment_status') || '';
 
-        // Handle payment status field
-        var updatePaymentStatus = document.getElementById('update_payment_status');
-        updatePaymentStatus.disabled = element.getAttribute('data-payment_status') === 'collector';
+    // Populate other fields
+    document.getElementById('name').value = element.getAttribute('data-name') || '';
+    document.getElementById('area').value = element.getAttribute('data-area') || '';
+    document.getElementById('discount').value = element.getAttribute('data-discount') || '';
+    document.getElementById('blk_lot').value = element.getAttribute('data-blk_lot') || '';
+    document.getElementById('or_number').value = element.getAttribute('data-or_number') || '';
+    // month1
+    document.getElementById('month1').value = element.getAttribute('data-month1') || '';
+    document.getElementById('amounts1').value = element.getAttribute('data-amounts1') || '';
+    document.getElementById('penalty1').value = element.getAttribute('data-penalty1') || '';
+    document.getElementById('senior1').value = element.getAttribute('data-senior1') || '';
+    document.getElementById('recon1').value = element.getAttribute('data-recon1') || '';
+    document.getElementById('materials1').value = element.getAttribute('data-materials1') || '';
+    //month 2
+    document.getElementById('month2').value = element.getAttribute('data-month2') || '';
+    document.getElementById('amounts2').value = element.getAttribute('data-amounts2') || '';
+    document.getElementById('penalty2').value = element.getAttribute('data-penalty2') || '';
+    document.getElementById('senior2').value = element.getAttribute('data-senior2') || '';
+    document.getElementById('recon2').value = element.getAttribute('data-recon2') || '';
+    document.getElementById('materials2').value = element.getAttribute('data-materials2') || '';
+    //month 3
+    document.getElementById('month3').value = element.getAttribute('data-month3') || '';
+    document.getElementById('amounts3').value = element.getAttribute('data-amounts3') || '';
+    document.getElementById('penalty3').value = element.getAttribute('data-penalty3') || '';
+    document.getElementById('senior3').value = element.getAttribute('data-senior3') || '';
+    document.getElementById('recon3').value = element.getAttribute('data-recon3') || '';
+    document.getElementById('materials3').value = element.getAttribute('data-materials3') || '';
+    //month 4
+    document.getElementById('month4').value = element.getAttribute('data-month4') || '';
+    document.getElementById('amounts4').value = element.getAttribute('data-amounts4') || '';
+    document.getElementById('penalty4').value = element.getAttribute('data-penalty4') || '';
+    document.getElementById('senior4').value = element.getAttribute('data-senior4') || '';
+    document.getElementById('recon4').value = element.getAttribute('data-recon4') || '';
+    document.getElementById('materials4').value = element.getAttribute('data-materials4') || '';
+    // Handle amount in words
+    document.getElementById('amount_in_words').value = numberToWords(element.getAttribute('data-grand_total') || 0);
 
-        // Clear and hide search results with animation
-        const searchResults = document.getElementById('search_results');
-        searchResults.style.opacity = '1';
-        let opacity = 1;
-        const fadeOut = setInterval(() => {
-            opacity -= 0.1;
-            searchResults.style.opacity = opacity;
-            if (opacity <= 0) {
-                clearInterval(fadeOut);
-                searchResults.innerHTML = '';
-                searchResults.style.display = 'none';
-            }
-        }, 50);
-        
-        // Clear search input
-        document.querySelector('input[name="search_query"]').value = '';
+    // Call computeUnpaidBalances after populating the form fields
+    computeUnpaidBalances();
+    addUnpaidBalancesToTotalAmount();
 
+    // Handle payment status field
+    var updatePaymentStatus = document.getElementById('update_payment_status');
+    updatePaymentStatus.disabled = element.getAttribute('data-payment_status') === 'collector';
+
+    // Clear and hide search results with animation
+    const searchResults = document.getElementById('search_results');
+    searchResults.style.opacity = '1';
+    let opacity = 1;
+    const fadeOut = setInterval(() => {
+        opacity -= 0.1;
+        searchResults.style.opacity = opacity;
+        if (opacity <= 0) {
+            clearInterval(fadeOut);
+            searchResults.innerHTML = '';
+            searchResults.style.display = 'none';
+        }
+    }, 50);
+
+    // Clear search input
+    document.querySelector('input[name="search_query"]').value = '';
+
+    // SweetAlert for payment status
+    let paymentStatus = element.getAttribute('data-payment_status');
+    if (paymentStatus === 'collector') {
+        Swal.fire({
+            title: 'Payment Status',
+            text: 'The payment has already been paid to the collector.',
+            icon: 'success',
+            confirmButtonText: 'Okay'
+        });
+    } else if (paymentStatus === 'cashier') {
+        Swal.fire({
+            title: 'Payment Status',
+            text: 'The payment has already been paid to the cashier.',
+            icon: 'success',
+            confirmButtonText: 'Okay'
+        });
     }
-
+}
 
     </script>
 
@@ -109,6 +181,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
         right: 15px; /* Align with search bar */
         margin: auto; /* Center horizontally */
     }
+.form-control {
+    border: 1px solid #999; /* Darken the border color */
+    border-radius: 0; /* Optional: Remove rounded corners */
+}
 
 
         .list-group-item {
@@ -138,14 +214,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
                                         <div class="col-lg-12">
                                             <input type="text" name="search_query" class="form-control" placeholder="Search by account number, name, or area..." onkeyup="searchConsumers(this.value)">
                                         </div>
-                                        
                                     </div>
                                     <div id="search_results"></div>
                                 </div>
                             </div>
                         </div>
                         </form>
-</div>
+                    </div>
                             <form action="" method="POST" id="addForm">
                                 <div class="row">
                                     <div class="col-lg-3">
@@ -285,18 +360,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
                                         <input type="text" name="total_amount" id="total_amount" class="form-control" style="height: 70px; margin-bottom: 10px; font-size: 30" readonly>
                                     </div>
                                 </div>
-                               <div class="row">
+                                <div class="row">
                                     <div class="col-lg-1">
                                         <label for="month1">Month</label>
-                                        <select name="month1" id="month1" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
-                                            <option value="">Select Month</option>
-                                            <?php
-                                            $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-                                            foreach ($months as $month) {
-                                                echo '<option value="' . $month . '">' . $month . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                        <input type="text" name="month1" id="month1" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
                                     </div>
                                     <div class="col-lg-1">
                                         <label for="amounts1">Amount</label>
@@ -330,15 +397,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
 
                                 <div class="row">
                                     <div class="col-lg-1">
-                                        <select name="month2" id="month2" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
-                                            <option value="">Select Month</option>
-                                            <?php
-                                            $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-                                            foreach ($months as $month) {
-                                                echo '<option value="' . $month . '">' . $month . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                        <input type="text" name="month2" id="month2" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
                                     </div>
                                     <div class="col-lg-1">
                                         <input type="number" name="amounts2" id="amounts2" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
@@ -356,27 +415,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
                                         <input type="number" name="materials2" id="materials2" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
                                     </div>
                                     <div class="col-lg-3" style="text-align: right;">
-                                        <div class="mt-3">
+                                        <div class="mt-2">
                                             <label for="change" class="form-label"><h3>Change:</h3></label>
                                         </div>
                                     </div>
                                     <div class="col-lg-3">
-                                        <input type="text" name="change" id="change" class="form-control" style="height: 70px; margin-bottom: 10px; font-size: 30; color: black;" readonly>
+                                        <input type="text" name="change" id="change" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 30; color: black;" readonly>
                                     </div>
-                                    
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-1">
-                                        <select name="month3" id="month3" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
-                                            <option value="">Select Month</option>
-                                            <?php
-                                            $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-                                            foreach ($months as $month) {
-                                                echo '<option value="' . $month . '">' . $month . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                        <input type="text" name="month3" id="month3" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
                                     </div>
                                     <div class="col-lg-1">
                                         <input type="number" name="amounts3" id="amounts3" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
@@ -397,15 +447,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
 
                                 <div class="row">
                                     <div class="col-lg-1">
-                                        <select name="month4" id="month4" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
-                                            <option value="">Select Month</option>
-                                            <?php
-                                            $months = array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
-                                            foreach ($months as $month) {
-                                                echo '<option value="' . $month . '">' . $month . '</option>';
-                                            }
-                                            ?>
-                                        </select>
+                                        <input type="text" name="month4" id="month4" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
                                     </div>
                                     <div class="col-lg-1">
                                         <input type="number" name="amounts4" id="amounts4" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
@@ -423,17 +465,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['account_number'])) {
                                         <input type="number" name="materials4" id="materials4" class="form-control" style="height: 50px; margin-bottom: 10px; font-size: 17">
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <label for="unpaid_total">Total Amount of Unpaid Balances:</label>
+                                    </div>
+                                    <div class="col-lg-3">
+                                    <input type="text" name="unpaid_total" id="unpaid_total" class="form-control" style="height: 50px;" readonly>
+                                    </div>
+                                </div>
                                 <div style="margin: 10px; padding: 20px; margin-left: 10px;">                           
                                     <span style="float: right;">
-                                        <button type="submit" class="btn btn-primary " style="font-size: 20">Print</button>
+                                        <button type="submit" class="btn btn-primary " style="font-size: 20" onclick="return validateForm(event)">Update</button>
                                         <button type="submit" class="btn btn-success" style="font-size: 20">Average</button>
-                                        <button type="submit" class="btn btn-danger" style="font-size: 20">Daily Collection</button>
+                                        <button type="button" class="btn btn-danger" style="font-size: 20" onclick="window.location.href='daily_collection_reports.php'">Daily Collection</button>
                                     </span>
                                 </div>
                                 
                             </form>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -507,4 +555,160 @@ function numberToWords(num) {
             changeField.style.color = 'green'; // Reset to default color if positive
         }
     }
+
+    function validateForm(event) {
+    event.preventDefault(); // Prevent default form submission behavior
+    
+    var paymentStatus = document.getElementById('payment_status').value;
+    
+    if (paymentStatus.toLowerCase() === "cashier") {
+        Swal.fire({
+            title: 'Already Paid!',
+            text: 'This transaction has already been marked as paid.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+        return; // Stop further execution
+    }
+
+    var or_number = document.getElementById('or_number').value;
+    var date = document.getElementById('date').value;
+    var tin_number = document.getElementById('tin_number').value;
+    var check_number = document.getElementById('check_number').value;
+
+    if (or_number === "" || date === "" || tin_number === "" || check_number === "") {
+        Swal.fire({
+            title: 'Error!',
+            text: 'Please fill in all required fields.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    } else {
+        Swal.fire({
+            title: 'Success!',
+            text: 'Database updated successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('addForm').submit(); // Submit the form after the SweetAlert is confirmed
+            }
+        });
+    }
+}
+
+   // Function to compute unpaid balances
+function computeUnpaidBalances() {
+    // Initialize variables to store the total unpaid balances
+    var totalUnpaidBalance = 0;
+
+    // Get the values of the amount, penalty, recon, and materials fields for each month
+    var amounts = [parseFloat(document.getElementById('amounts1').value) || 0,
+                   parseFloat(document.getElementById('amounts2').value) || 0,
+                   parseFloat(document.getElementById('amounts3').value) || 0,
+                   parseFloat(document.getElementById('amounts4').value) || 0];
+
+    var penalties = [parseFloat(document.getElementById('penalty1').value) || 0,
+                     parseFloat(document.getElementById('penalty2').value) || 0,
+                     parseFloat(document.getElementById('penalty3').value) || 0,
+                     parseFloat(document.getElementById('penalty4').value) || 0];
+
+    var recons = [parseFloat(document.getElementById('recon1').value) || 0,
+                  parseFloat(document.getElementById('recon2').value) || 0,
+                  parseFloat(document.getElementById('recon3').value) || 0,
+                  parseFloat(document.getElementById('recon4').value) || 0];
+
+    var materials = [parseFloat(document.getElementById('materials1').value) || 0,
+                     parseFloat(document.getElementById('materials2').value) || 0,
+                     parseFloat(document.getElementById('materials3').value) || 0,
+                     parseFloat(document.getElementById('materials4').value) || 0];
+
+    var seniors = [parseFloat(document.getElementById('senior1').value) || 0,
+                   parseFloat(document.getElementById('senior2').value) || 0,
+                   parseFloat(document.getElementById('senior3').value) || 0,
+                   parseFloat(document.getElementById('senior4').value) || 0];
+
+    // Check if the form fields have values before computing the unpaid balances
+    if (amounts.some(function(value) { return value > 0; }) ||
+        penalties.some(function(value) { return value > 0; }) ||
+        recons.some(function(value) { return value > 0; }) ||
+        materials.some(function(value) { return value > 0; }) ||
+        seniors.some(function(value) { return value > 0; })) {
+        // Compute the total unpaid balances
+        for (var i = 0; i < amounts.length; i++) {
+            totalUnpaidBalance += amounts[i] + penalties[i] + recons[i] + materials[i] - seniors[i];
+        }
+
+        // Display the total unpaid balance in the unpaid_total field
+        document.getElementById('unpaid_total').value = totalUnpaidBalance.toFixed(2);
+    }
+}
+// Call the computeUnpaidBalances function when the page loads
+computeUnpaidBalances();
+
+// Call the computeUnpaidBalances function when any of the amount, penalty, recon, materials, or senior fields change
+document.getElementById('amounts1').addEventListener('input', computeUnpaidBalances);
+document.getElementById('amounts2').addEventListener('input', computeUnpaidBalances);
+document.getElementById('amounts3').addEventListener('input', computeUnpaidBalances);
+document.getElementById('amounts4').addEventListener('input', computeUnpaidBalances);
+
+document.getElementById('penalty1').addEventListener('input', computeUnpaidBalances);
+document.getElementById('penalty2').addEventListener('input', computeUnpaidBalances);
+document.getElementById('penalty3').addEventListener('input', computeUnpaidBalances);
+document.getElementById('penalty4').addEventListener('input', computeUnpaidBalances);
+
+document.getElementById('recon1').addEventListener('input', computeUnpaidBalances);
+document.getElementById('recon2').addEventListener('input', computeUnpaidBalances);
+document.getElementById('recon3').addEventListener('input', computeUnpaidBalances);
+document.getElementById('recon4').addEventListener('input', computeUnpaidBalances);
+
+document.getElementById('materials1').addEventListener('input', computeUnpaidBalances);
+document.getElementById('materials2').addEventListener('input', computeUnpaidBalances);
+document.getElementById('materials3').addEventListener('input', computeUnpaidBalances);
+document.getElementById('materials4').addEventListener('input', computeUnpaidBalances);
+
+document.getElementById('senior1').addEventListener('input', computeUnpaidBalances);
+document.getElementById('senior2').addEventListener('input', computeUnpaidBalances);
+document.getElementById('senior3').addEventListener('input', computeUnpaidBalances);
+document.getElementById('senior4').addEventListener('input', computeUnpaidBalances);
+
+// Function to add unpaid balances to total amount
+function addUnpaidBalancesToTotalAmount() {
+    // Get the current total amount
+    var currentTotalAmount = parseFloat(document.getElementById('total_amount').value) || 0;
+
+    // Get the total unpaid balances
+    var totalUnpaidBalances = parseFloat(document.getElementById('unpaid_total').value) || 0;
+
+    // Calculate the new total amount
+    var newTotalAmount = currentTotalAmount + totalUnpaidBalances;
+
+    // Update the total amount field
+    document.getElementById('total_amount').value = newTotalAmount.toFixed(2);
+
+    // Update the amount in words field
+    document.getElementById('amount_in_words').value = numberToWords(newTotalAmount);
+}
+
+// Call the addUnpaidBalancesToTotalAmount function when the button is clicked
+document.getElementById('add_to_total_amount').addEventListener('click', addUnpaidBalancesToTotalAmount);// Function to add unpaid balances to total amount
+function addUnpaidBalancesToTotalAmount() {
+    // Get the current total amount
+    var currentTotalAmount = parseFloat(document.getElementById('total_amount').value) || 0;
+
+    // Get the total unpaid balances
+    var totalUnpaidBalances = parseFloat(document.getElementById('unpaid_total').value) || 0;
+
+    // Calculate the new total amount
+    var newTotalAmount = currentTotalAmount + totalUnpaidBalances;
+
+    // Update the total amount field
+    document.getElementById('total_amount').value = newTotalAmount.toFixed(2);
+
+    // Update the amount in words field
+    document.getElementById('amount_in_words').value = numberToWords(newTotalAmount);
+}
+
+// Call the addUnpaidBalancesToTotalAmount function when the button is clicked
+document.getElementById('add_to_total_amount').addEventListener('click', addUnpaidBalancesToTotalAmount);
 </script>
