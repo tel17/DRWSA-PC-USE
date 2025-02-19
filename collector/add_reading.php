@@ -251,8 +251,8 @@ value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"
 
                                 <div class="col-lg-3">
                                         <label for="free_of_charge">Free of Charge:</label>
-                                        <input type="text" id="free_of_charge" name="free_of_charge" class="form-control"  value="" readonly>
-                                        <button type="button" id="freeOfChargeButton" onclick="applyFreeOfCharge()">Apply Free of Charge</button>
+                                        <input type="text" id="free_of_charge" name="free_of_charge" class="form-control"  >
+                                        <button type="button" id="freeOfChargeButton" onclick="applyDiscounts()">Apply Free of Charge</button>
                                     </div>
                                     
 
@@ -264,8 +264,7 @@ value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"
                                         <input type="text" name="grand_total" id="grand_total" class="form-control"  readonly>
                                         <select name="payment_status" id="payment_status"class="form-control" required style="text-align:center; margin-top:10px;">
                                         <option class="bg-danger" value="unpaid">Unpaid</option>
-                                        <option value="collector">Paid to Collector</option>
-                                        <option value="cashier">Paid to Cashier</option>
+                                   
                                         <option value="free">Free of Charge</option>
                                     </select>
                                     </div>
@@ -293,6 +292,8 @@ value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"
 <?php include("footer.php"); ?>
 
 <script>
+ 
+
       // Trigger SweetAlert after form submission
   document.getElementById('addForm').addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent form submission to show SweetAlert first
@@ -319,6 +320,7 @@ value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"
 
         // Call calculateTariff() when the page loads
 calculateTariff();
+
 
 // Call calculateTariff() when the user changes the consumedCuM or usageType fields
 document.getElementById('consumedCuM').addEventListener('input', calculateTariff);
@@ -449,42 +451,44 @@ function calculateTariff() {
         }
 
         function applyDiscounts() {
-            const grandTotalInput = document.getElementById('grand_total');
-            const seniorDiscountField = document.getElementById('senior_discount_amount');
-            const customDiscountField = document.getElementById('custom_discount_amount');
-            const customDiscountPercentageField = document.getElementById('custom_discount_percentage');
-            let discountedTotal = originalTotal;
+    const grandTotalInput = document.getElementById('grand_total');
+    const seniorDiscountField = document.getElementById('senior_discount_amount');
+    const customDiscountField = document.getElementById('custom_discount_amount');
+    const customDiscountPercentageField = document.getElementById('custom_discount_percentage');
+    const freeOfChargeInput = document.getElementById('free_of_charge');
 
-            // Reset discount fields
-            seniorDiscountField.value = "0.00";
-            customDiscountField.value = "0.00";
+    let discountedTotal = originalTotal;
 
-            // Apply Senior Discount (e.g., 5%)
-            if (seniorDiscountApplied) {
-                const seniorDiscount = originalTotal * 0.05;
-                discountedTotal -= seniorDiscount;  // Apply senior discount
-                seniorDiscountField.value = seniorDiscount.toFixed(2);  // Display the senior discount amount
-            }
+    // Reset discount fields
+    seniorDiscountField.value = "0.00";
+    customDiscountField.value = "0.00";
 
-            // Apply Custom Discount
-            if (customDiscountApplied) {
-                const customDiscount = originalTotal * (customDiscountPercentage / 100);
-                discountedTotal -= customDiscount;  // Apply custom discount
-                customDiscountField.value = customDiscount.toFixed(2);  // Display the custom discount amount
-                customDiscountPercentageField.value = customDiscountPercentage.toFixed(2);  // Display the custom discount percentage
-            }
+    // Apply Senior Discount (5%)
+    if (seniorDiscountApplied) {
+        const seniorDiscount = originalTotal * 0.05;
+        discountedTotal -= seniorDiscount;
+        seniorDiscountField.value = seniorDiscount.toFixed(2);
+    }
 
-            // If no discount is applied, reset grand total to original value
-            if (!seniorDiscountApplied && !customDiscountApplied) {
-                discountedTotal = originalTotal;
-            }
+    // Apply Custom Discount
+    if (customDiscountApplied) {
+        const customDiscount = originalTotal * (customDiscountPercentage / 100);
+        discountedTotal -= customDiscount;
+        customDiscountField.value = customDiscount.toFixed(2);
+        customDiscountPercentageField.value = customDiscountPercentage.toFixed(2);
+    }
 
-            // Update the grand total field
-            grandTotalInput.value = discountedTotal.toFixed(2);
+    // Apply Free of Charge (FOC)
+    const freeOfChargeValue = parseFloat(freeOfChargeInput.value) || 0;
+    discountedTotal -= freeOfChargeValue;
 
-            // Recalculate the grand total after applying the discount
-            calculateTariff();
-        }
+    // Ensure Grand Total is not negative
+    discountedTotal = Math.max(0, discountedTotal);
+
+    // Update Grand Total
+    grandTotalInput.value = discountedTotal.toFixed(2);
+}
+
 
         function resetDiscountFields() {
             document.getElementById('senior_discount_amount').value = "0.00";
@@ -492,12 +496,7 @@ function calculateTariff() {
             document.getElementById('custom_discount_percentage').value = "0.00";
         }
 
-          function applyFreeOfCharge() {
-        document.getElementById('grand_total').value = '0';
-        document.getElementById('free_of_charge').value = 'FREE OF CHARGE';
-        document.getElementById('payment_status').value = 'free';
-        
-    }
+      
 
 
     // Function to automatically update the month in the input field
