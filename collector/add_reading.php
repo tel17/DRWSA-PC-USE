@@ -66,7 +66,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $con->close();
 ?>
-
+<!-- for date range picker -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <main id="main" class="main">
     <div class="pagetitle">
         <h1>Add Reading</h1>
@@ -185,16 +187,21 @@ $con->close();
                                         <input type="number" name="amount" id="amount" class="form-control" readonly >
                                     </div>
 
-                                    <div class="col-lg-3">
+                                    <!-- <div class="col-lg-3">
                                         <label for="billing_period">Billing Period:</label>
                                         <input type="date" name="billing_period" id="billing_period" class="form-control" required>
-                                    </div>
+                                    </div> -->
+
+                                    <div class="col-lg-3">
+                                    <label for="date-range">Billing Period:</label>
+                                     <input type="text" id="date-range" name="billing_period" class="form-control" required placeholder="YYYY-MM-DD to YYYY-MM-DD">
+                                     </div>
 
                                     <div class="col-lg-3">
                                     <label for="reader_name">Reader Name:</label>
                                     <input type="text" name="reader_name" id="reader_name" class="form-control" 
-value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"  readonly
- required >
+                                        value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"  readonly
+                                        required >
                                         
                                     </div>
                                     
@@ -544,6 +551,15 @@ function calculateTariff() {
     // Function to automatically update the month in the input field
   const currentMonth = new Date().toLocaleString('default', { month: 'long' });
   document.getElementById('month').value = currentMonth;
+
+
+//   for date range picker
+flatpickr("#date-range", {
+            mode: "range",
+            dateFormat: "m/d/Y", // Format changed to MM/DD/YYYY
+            altInput: true,
+            altFormat: "F j, Y" // Optional: Display a user-friendly format
+        });
     </script>
 </body>
 </html>

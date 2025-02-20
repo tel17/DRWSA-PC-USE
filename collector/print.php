@@ -129,7 +129,7 @@ if ($result->num_rows > 0) {
             <input type="text" id="month_year" name="month_year"  value="<?php echo $row['month']; ?>"required>
         </div>
         <div class="form-group">
-            <label for="period">Period:</label>
+            <label for="period">Billing Period:</label>
             <input type="text" id="period" name="period"  value="<?php echo $row['billing_period']; ?>" required>
         </div>
         <div class="form-group">
@@ -144,12 +144,12 @@ if ($result->num_rows > 0) {
         <div class="section" style="margin-bottom: 0px">
             <h4 style="text-align:center" >READING</h4>
             <div class="form-group">
-                <label for="present_reading">Present Reading (NEW METER):</label>
-                <input type="number" id="present_reading" name="present_reading"  value="<?php echo $row['present_1']; ?>" required>
+                <label for="present_reading">Present Reading :</label>
+                <input type="number" id="present_reading" name="present_reading"  value="<?php echo $row['present_2']; ?>" required>
             </div>
             <div class="form-group">
-                <label for="previous_reading">Previous Reading (NEW METER):</label>
-                <input type="number" id="previous_reading" name="previous_reading"  value="<?php echo $row['previous_1']; ?>" required>
+                <label for="previous_reading">Previous Reading :</label>
+                <input type="number" id="previous_reading" name="previous_reading"  value="<?php echo $row['previous_2']; ?>" required>
             </div>
             <div class="form-group">
                 <label for="cum_consumed">Cu.M. Consumed:</label>
@@ -227,12 +227,12 @@ function printReceipt() {
         Area: ${document.getElementById('area').value || 'N/A'}<br>
         Category: ${document.getElementById('category').value || 'N/A'}<br>
         Month/Year: ${document.getElementById('month_year').value || 'N/A'}<br>
-        Period: ${document.getElementById('period').value || 'N/A'}<br>
+        Billing Period: ${document.getElementById('period').value || 'N/A'}<br>
         Due Date: ${document.getElementById('due_date').value || 'N/A'}<br>
         Disconnection Date: ${document.getElementById('disconnection_date').value || 'N/A'}
         <h3>READING</h3>
-        Present (NEW METER) : ${document.getElementById('present_reading').value || 'N/A'}<br>
-        Previous (NEW METER) : ${document.getElementById('previous_reading').value || 'N/A'}<br>
+        Present : ${document.getElementById('present_reading').value || 'N/A'}<br>
+        Previous : ${document.getElementById('previous_reading').value || 'N/A'}<br>
         Cu.M. Consumed: ${document.getElementById('cum_consumed').value || 'N/A'}
         <h3>COMPUTATION</h3>
         Previous Bill: ${document.getElementById('previous_bill').value || 'N/A'}<br>
@@ -248,15 +248,8 @@ function printReceipt() {
         </div>
         </body>
         <footer>
-        <div style="display: flex; justify-content: center; gap: 20px;">
-    <div>
-        <p>FB page:</p>
-        <img src="sample_fb.jpg" alt="FB QR Code" style="width: 120px; height: auto; object-fit: cover;">
-    </div>
-    <div>
-        <p>G-CASH QR:</p>
-        <img src="sample_gcash.jpg" alt="G-CASH QR Code" style="width: 120px; height: auto; object-fit: cover;">
-    </div>
+       
+    
     </div>
     <br>
 \n

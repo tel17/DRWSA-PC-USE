@@ -76,3 +76,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['account_number'], $_PO
         </div>
     </div>
 </form>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Range Picker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+
+    <label for="date-range">Select Date Range:</label>
+    <input type="text" id="date-range" name="date-range" placeholder="YYYY-MM-DD to YYYY-MM-DD">
+
+   
+    <script>
+      flatpickr("#date-range", {
+            mode: "range",
+            dateFormat: "m/d/Y", // Format changed to MM/DD/YYYY
+            altInput: true,
+            altFormat: "F j, Y" // Optional: Display a user-friendly format
+        });
+    </script>
+
+</body>
+</html>
