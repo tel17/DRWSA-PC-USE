@@ -96,8 +96,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Handle save button click
             $('#savePaymentBtn').on('click', function() {
+                // Check if required fields are filled
+                var orNumber = $('#orNumber').val().trim();
+                var paymentStatus = $('#paymentStatus').val();
+                var datePaid = $('#date_paid').val().trim();
+
+                if (!orNumber || !paymentStatus || !datePaid) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Missing Required Fields',
+                        text: 'Please fill out all required fields before submitting.',
+                        confirmButtonText: 'OK'
+                    });
+                    return; // Stop the function if validation fails
+                }
+
                 var formData = $('#paymentForm').serialize();
-                
+
                 $.ajax({
                     url: 'edit_payment_modal.php',
                     type: 'POST',
@@ -111,10 +126,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     },
                     success: function(response) {
                         console.log('Server response:', response);
-                        
+
                         try {
                             var result = typeof response === 'string' ? JSON.parse(response) : response;
-                            
+
                             if (result.status === 'success') {
                                 Swal.fire({
                                     icon: 'success',
@@ -151,6 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     }
                 });
             });
+
         });
         </script>
       </div>

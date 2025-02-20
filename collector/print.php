@@ -189,14 +189,14 @@ if ($result->num_rows > 0) {
             <h5 style="font-weight: lighter; font-size: 10px;">Mangyaring dalhin ang "NOTICE" na ito kung magbabayad sa tanggapan. Ang serbisyo ng tubig ay puputulin anumang oras kung hindi makakabayad sa takdang panahon. Ang reconnection fee ay nagkakahalaga ng 200.00 pesos. Maraming salamat po.</h4>
             <h4 style="font-weight: lighter;font-size: 10px;">Mag message po muna kayo sa ating FB page para po sa mga inquiry o payment, ito po ang Link via QR Code.</h4>
             <div style="display: flex; justify-content: center; gap: 20px;">
-                <div>
+                <!-- <div>
                     <p>FB page:</p>
                     <img src="sample_fb.jpg" alt="FB QR Code" style="width: 80px; height: auto;">
                 </div>
                 <div>
                     <p>G-CASH QR:</p>
                     <img src="sample_gcash.jpg" alt="G-CASH QR Code" style="width: 80px; height: auto;">
-                </div>
+                </div> -->
             </div>
         </div>
  

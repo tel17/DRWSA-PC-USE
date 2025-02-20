@@ -42,6 +42,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     )";
     
 
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['account_number'], $_POST['present_2'])) {
+        $account_number = $_POST['account_number'];
+        $present2 = $_POST['present_2'];
+
+        // Update the database
+        $updateQuery = "UPDATE tbl_members_profile SET previous_reading = '$present2' WHERE account_number = '$account_number'";
+        mysqli_query($con, $updateQuery);
+    }
+
   // Execute the query
   if ($con->query($query) === TRUE) {
     echo "<script>window.location.href = 'reading_reports.php';</script>";
@@ -52,7 +62,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
    
 }
-
 
 
 $con->close();
@@ -83,27 +92,60 @@ $con->close();
                             </ul>
 
                             <form action="add_reading.php" method="POST" id="addForm">
-                                <div class="row">
+                            <div class="row">
                                     <div class="col-lg-3">
+                                        <?php
+                                        include("dbcon.php"); // Ensure database connection is included
+                                        
+
+                                        // Fetch data inside this div
+                                        $query = "SELECT account_number, name, area, block, previous_reading FROM tbl_members_profile";
+                                        $result = mysqli_query($con, $query);
+                                        
+                                        $accounts = [];
+                                        while ($row = mysqli_fetch_assoc($result)) {
+                                            $accounts[$row['account_number']] = [
+                                                "name" => $row['name'], 
+                                                "area" => $row['area'], 
+                                                "block" => $row['block'],
+                                                "previous_reading" => $row['previous_reading'] // Fetch previous reading
+                                            ];
+                                        }
+
+                                        
+
+                                        ?>
+                                        
                                         <label for="account_number">Account Number:</label>
                                         <input type="text" name="account_number" id="account_number" class="form-control" required>
+                                        
+                                        <script>
+                                            var accounts = <?= json_encode($accounts); ?>;
+                                            document.getElementById("account_number").addEventListener("input", function() {
+                                                var data = accounts[this.value.trim()] || { name: "", area: "", block: "", previous_reading: "" };
+                                                document.getElementById("name").value = data.name;
+                                                document.getElementById("area").value = data.area;
+                                                document.getElementById("block").value = data.block;
+                                                document.getElementById("previous2").value = data.previous_reading; // Fetch and set previous reading
+                                            });
+                                        </script>
                                     </div>
-                                    
-                                    <div class="col-lg-3">
-                                        <label for="name">Name:</label>
-                                        <input type="text" name="name" id="name" class="form-control" required>
-                                    </div>
-                                    
-                                    <div class="col-lg-3">
-                                        <label for="area">Area:</label>
-                                        <input type="text" name="area" id="area" class="form-control" required>
-                                    </div>
-                                    
-                                    <div class="col-lg-3">
-                                        <label for="blk_lot">Block and Lot:</label>
-                                        <input type="text" name="blk_lot" id="blk_lot" class="form-control" required>
-                                    </div>
+                                <div class="col-lg-3">
+                                    <label for="name">Name:</label>
+                                    <input type="text" name="name" id="name" class="form-control" required readonly>
                                 </div>
+
+                                <div class="col-lg-3">
+                                    <label for="area">Area:</label>
+                                    <input type="text" name="area" id="area" class="form-control" required readonly>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <label for="block">Block:</label>
+                                    <input type="text" name="blk_lot" id="block" class="form-control" required readonly>
+                                </div>
+                            </div>
+
 
                             <div class="row">
                                 <div class="col-lg-3">
@@ -128,7 +170,7 @@ $con->close();
                                     
                                     <div class="col-lg-3">
                                         <label for="previous2">Previous (Old Meter):</label>
-                                        <input type="number" id="previous2" name="previous_2"  class="form-control" oninput="calculateTotalConsumed(), calculateConsumedCuM()" >
+                                        <input type="number" id="previous2" name="previous_2"  class="form-control" oninput="calculateTotalConsumed(), calculateConsumedCuM()" readonly>
                                     </div>
                                 </div>
 
@@ -158,7 +200,7 @@ value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"
                                     
                                     <div class="col-lg-3">
                                 <label for="month">Month:</label>
-                                <input type="text" name="month" id="month" class="form-control" required value="<?php echo date('F'); ?>" />
+                                <input type="text" name="month" id="month" class="form-control" readonly required value="<?php echo date('F'); ?>" />
 
 
   
@@ -211,7 +253,7 @@ value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"
                                     </div>
                                     <div class="col-lg-6">
                                         <div class="mt-5">
-                                            <button type="button" id="seniorDiscountButton" onclick="toggleSeniorDiscount()">Apply Senior Discount (5%)</button>
+                                            <button type="button" id="seniorDiscountButton" class="btn btn-sm btn-primary" onclick="toggleSeniorDiscount()">Apply Senior Discount (5%)</button>
                                         </div>
                                     </div>
                                 </div>
@@ -252,7 +294,7 @@ value="<?php echo htmlspecialchars($collector_username); ?>"class="form-control"
                                 <div class="col-lg-3">
                                         <label for="free_of_charge">Free of Charge:</label>
                                         <input type="text" id="free_of_charge" name="free_of_charge" class="form-control"  >
-                                        <button type="button" id="freeOfChargeButton" onclick="applyDiscounts()">Apply Free of Charge</button>
+                                        <button type="button" id="freeOfChargeButton" class="btn btn-sm btn-primary" onclick="applyDiscounts()">Apply Free of Charge</button>
                                     </div>
                                     
 
