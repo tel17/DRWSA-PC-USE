@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $previous_1 = $_POST['previous_1'] ?? '';
     $present_2 = $_POST['present_2'] ?? '';
     $previous_2 = $_POST['previous_2'];
+    $previous_bill_reading = $_POST['previous_bill_reading'] ?? ''; // Added previous_bill_reading
     $remarks = $_POST['remarks'];
     $amount = $_POST['amount'];
     $sc_discount = $_POST['sc_discount'] ?? '';
@@ -26,43 +27,99 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $reader_name = $_POST['reader_name'];
     $consumed = $_POST['consumed'];
     $total_consumed = $_POST['total_consumed'];
-    $grand_total = $_POST['grand_total'];
+    $grand_total = $_POST['grand_total']; // Ensure grand_total is properly retrieved
     $payment_status = $_POST['payment_status'];
     $timestamp = date('Y-m-d H:i:s');
 
-    // Corrected SQL Insert Query
+    // Ensure the database connection is available
+    if (!isset($con)) {
+        die("Database connection error.");
+    }
+
+    // **Update previous_bill in tbl_members_profile first**
+    $updateQuery = "UPDATE tbl_members_profile 
+                    SET previous_reading = '$present_2', previous_bill = '$grand_total' 
+                    WHERE account_number = '$account_number'";
+
+    if (!mysqli_query($con, $updateQuery)) {
+        die("Error updating previous bill: " . mysqli_error($con));
+    }
+
+    // **Insert into tbl_reading**
     $query = "INSERT INTO tbl_reading (
-        account_number, name, area, blk_lot, present_1, previous_1, present_2, previous_2, 
+        account_number, name, area, blk_lot, present_1, previous_1, present_2, previous_2, previous_bill_reading, 
         consumed, remarks, total_consumed, amount, sc_discount, free_of_charge, discount, month, 
         category, due_date, disc_date, billing_period, grand_total, reader_name, payment_status, timestamp
     ) VALUES (
-        '$account_number', '$name', '$area', '$blk_lot', '$present_1', '$previous_1', '$present_2', '$previous_2', 
+        '$account_number', '$name', '$area', '$blk_lot', '$present_1', '$previous_1', '$present_2', '$previous_2', '$previous_bill_reading', 
         '$consumed', '$remarks', '$total_consumed', '$amount', '$sc_discount', '$free_of_charge', '$discount', '$month', 
         '$category', '$due_date', '$disc_date', '$billing_period', '$grand_total', '$reader_name', '$payment_status', '$timestamp'
     )";
-    
 
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['account_number'], $_POST['present_2'])) {
-        $account_number = $_POST['account_number'];
-        $present2 = $_POST['present_2'];
-
-        // Update the database
-        $updateQuery = "UPDATE tbl_members_profile SET previous_reading = '$present2' WHERE account_number = '$account_number'";
-        mysqli_query($con, $updateQuery);
+    if (mysqli_query($con, $query)) {
+        echo "<script>window.location.href = 'reading_reports.php';</script>";
+        exit(); // Ensure the script stops execution after redirect
+    } else {
+        echo "Error: " . $query . "<br>" . mysqli_error($con);
     }
-
-  // Execute the query
-  if ($con->query($query) === TRUE) {
-    echo "<script>window.location.href = 'reading_reports.php';</script>";
-    exit(); // Ensure the script stops executing after the redirect
-} else {
-    echo "Error: " . $query . "<br>" . $con->error;
 }
 
    
+
+
+                                 
+                                        
+
+                                        // Fetch data from the database
+                                            $query = "SELECT account_number, name, area, block, previous_reading, previous_bill, category FROM tbl_members_profile";
+                                            $result = mysqli_query($con, $query);
+
+                                            // Store data for JavaScript use
+                                            $accounts = [];
+                                            $names = [];
+
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                $accounts[$row['account_number']] = [
+                                                    "name" => $row['name'],
+                                                    "area" => $row['area'],
+                                                    "block" => $row['block'],
+                                                    "previous_reading" => $row['previous_reading'],
+                                                    "previous_bill" => $row['previous_bill'],
+                                                    "category" => $row['category']
+                                                ];
+
+                                                $names[$row['name']] = [
+                                                    "account_number" => $row['account_number'],
+                                                    "area" => $row['area'],
+                                                    "block" => $row['block'],
+                                                    "previous_reading" => $row['previous_reading'],
+                                                    "previous_bill" => $row['previous_bill'],
+                                                    "category" => $row['category']
+                                                ];
+                                            }
+
+                                            // List of specified areas
+$specifiedAreas = ["Pilar Ville", "Colbella", "Prima Phase 1", "Prima Phase 2", "Cambridge", 
+"Romanville", "San Bernardo", "Amare", "St. Matthews", "Ramonita"];
+$specifiedAreas2 = ["Silangan", "Kanluran", "Railroad"];
+
+// Fetch the latest billing period
+
+
+$billingResult = $con->query("SELECT billing_period FROM tbl_billing_period ORDER BY id DESC LIMIT 1");
+if ($billingResult && $billingRow = $billingResult->fetch_assoc()) {
+$billingPeriod = $billingRow['billing_period'];
 }
 
+
+
+// Fetch all disconnection dates for different areas
+$disc_dates = [];
+$discResult = $con->query("SELECT id, disconnection_date FROM tbl_disconnection_date");
+while ($discRow = $discResult->fetch_assoc()) {
+$disc_dates[$discRow['id']] = $discRow['disconnection_date'];
+}
+                                        
 
 $con->close();
 ?>
@@ -96,46 +153,19 @@ $con->close();
                             <form action="add_reading.php" method="POST" id="addForm">
                             <div class="row">
                                     <div class="col-lg-3">
-                                        <?php
-                                        include("dbcon.php"); // Ensure database connection is included
                                         
 
-                                        // Fetch data inside this div
-                                        $query = "SELECT account_number, name, area, block, previous_reading FROM tbl_members_profile";
-                                        $result = mysqli_query($con, $query);
-                                        
-                                        $accounts = [];
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            $accounts[$row['account_number']] = [
-                                                "name" => $row['name'], 
-                                                "area" => $row['area'], 
-                                                "block" => $row['block'],
-                                                "previous_reading" => $row['previous_reading'] // Fetch previous reading
-                                            ];
-                                        }
-
-                                        
-
-                                        ?>
-                                        
                                         <label for="account_number">Account Number:</label>
                                         <input type="text" name="account_number" id="account_number" class="form-control" required>
-                                        
-                                        <script>
-                                            var accounts = <?= json_encode($accounts); ?>;
-                                            document.getElementById("account_number").addEventListener("input", function() {
-                                                var data = accounts[this.value.trim()] || { name: "", area: "", block: "", previous_reading: "" };
-                                                document.getElementById("name").value = data.name;
-                                                document.getElementById("area").value = data.area;
-                                                document.getElementById("block").value = data.block;
-                                                document.getElementById("previous2").value = data.previous_reading; // Fetch and set previous reading
-                                            });
-                                        </script>
+
+                                 
+
                                     </div>
-                                <div class="col-lg-3">
-                                    <label for="name">Name:</label>
-                                    <input type="text" name="name" id="name" class="form-control" required readonly>
-                                </div>
+                                    <div class="col-lg-3">
+            <label for="name">Name:</label>
+            <input type="text" name="name" id="name" class="form-control" required autocomplete="off">
+            <div id="name-suggestions" class="dropdown-menu" style="display: none; position: absolute; width: 100%;"></div>
+        </div>
 
                                 <div class="col-lg-3">
                                     <label for="area">Area:</label>
@@ -193,9 +223,9 @@ $con->close();
                                     </div> -->
 
                                     <div class="col-lg-3">
-                                    <label for="date-range">Billing Period:</label>
-                                     <input type="text" id="date-range" name="billing_period" class="form-control" required placeholder="YYYY-MM-DD to YYYY-MM-DD">
-                                     </div>
+                                        <label for="date-range">Billing Period:</label>
+                                        <input type="text" id="date-range" name="billing_period" class="form-control" value="<?= htmlspecialchars($billingPeriod); ?>" readonly>
+                                    </div>
 
                                     <div class="col-lg-3">
                                     <label for="reader_name">Reader Name:</label>
@@ -227,22 +257,36 @@ $con->close();
                             </div>
                                     <div class="col-lg-3">
                                     <label for="usageType">Select Usage Type:</label>
-                                    <select id="usageType" name="category" class="form-control" required onchange="calculateTariff()">
-                                        <option value="">-SELECT TARIFF TYPE-</option>
-                                        <option value="residential">Residential</option>
-                                        <option value="commercial_a">Commercial A</option>
-                                        <option value="commercial_b">Commercial B</option>
-                                    </select>
+                                    <input type="text" name="category" id="usageType" class="form-control" required readonly>
                                     </div>
 
+                                    <?php
+                                    // Get the current date
+                                    $currentDate = new DateTime();
+ 
+                                    // Check if today's date is already passed the 10th day of the month
+                                    if ($currentDate->format('d') > 10) {
+                                        // Set the month to next month
+                                        $currentDate->modify('first day of next month');
+                                    }
+ 
+                                    // Set the day to 10
+                                    $currentDate->setDate($currentDate->format('Y'), $currentDate->format('m'), 10);
+ 
+                                    // Format the date as YYYY-MM-DD
+                                    $dueDate = $currentDate->format('Y-m-d');
+ 
+                                    // Set the value of the due_date input field
+                                    ?>
                                     <div class="col-lg-3">
                                         <label for="due_date">Due Date:</label>
-                                        <input type="date" name="due_date" id="due_date" class="form-control" required>
+                                        <input type="date" name="due_date" id="due_date" class="form-control" required value="<?php echo $dueDate; ?>">
                                     </div>
-                                    
+ 
+                                   
                                     <div class="col-lg-3">
                                         <label for="disc_date">Disconnection Date:</label>
-                                        <input type="date" name="disc_date" id="disc_date" class="form-control" required>
+                                        <input type="date" name="disc_date" id="disc_date" class="form-control" >
                                     </div>
                                 </div>
 
@@ -303,6 +347,12 @@ $con->close();
                                         <input type="text" id="free_of_charge" name="free_of_charge" class="form-control"  >
                                         <button type="button" id="freeOfChargeButton" class="btn btn-sm btn-primary" onclick="applyDiscounts()">Apply Free of Charge</button>
                                     </div>
+
+                                    <div class="col-lg-3" style="display: none;">
+                                        <label for="previous_bill">Previous Bill:</label>
+                                        <input type="text" id="previous_bill" name="previous_bill_reading" class="form-control" readonly>
+                                    </div>
+
                                     
 
                                 <!-- Grand Total Section -->
@@ -554,12 +604,93 @@ function calculateTariff() {
 
 
 //   for date range picker
-flatpickr("#date-range", {
-            mode: "range",
-            dateFormat: "m/d/Y", // Format changed to MM/DD/YYYY
-            altInput: true,
-            altFormat: "F j, Y" // Optional: Display a user-friendly format
-        });
+// flatpickr("#date-range", {
+//            mode: "range",
+//            dateFormat: "m/d/Y", // Format changed to MM/DD/YYYY
+//            altInput: true,
+//            altFormat: "F j, Y" // Optional: Display a user-friendly format
+//        });
+
+
+
+
+
+   
+                                var accounts = <?= json_encode($accounts); ?>;
+                                var names = <?= json_encode($names); ?>;
+                                var discDates = <?= json_encode($disc_dates); ?>;
+                                document.getElementById("account_number").addEventListener("input", function() {
+                                    var data = accounts[this.value.trim()] || { name: "", area: "", block: "", previous_reading: "", previous_bill: "" };
+                                    document.getElementById("name").value = data.name;
+                                    document.getElementById("area").value = data.area;
+                                    document.getElementById("block").value = data.block;
+                                    document.getElementById("previous2").value = data.previous_reading;
+                                    document.getElementById("previous_bill").value = data.previous_bill;
+                                    document.getElementById("usageType").value = data.category;
+                                     // Update disconnection date based on area
+                                          updateDisconnectionDate(data.area);
+                                });
+
+                                document.getElementById("name").addEventListener("input", function() {
+                                    var inputValue = this.value.toLowerCase().trim();
+                                    var suggestions = document.getElementById("name-suggestions");
+                                    suggestions.innerHTML = "";
+                                    suggestions.style.display = "none";
+
+                                    if (inputValue.length > 0) {
+                                        var matches = Object.keys(names).filter(function(name) {
+                                            return name.toLowerCase().includes(inputValue);
+                                        });
+
+                                        if (matches.length > 0) {
+                                            suggestions.style.display = "block";
+                                            matches.forEach(function(match) {
+                                                var suggestionItem = document.createElement("div");
+                                                suggestionItem.className = "dropdown-item";
+                                                suggestionItem.textContent = match;
+                                                suggestionItem.onclick = function() {
+                                                    document.getElementById("name").value = match;
+                                                    suggestions.style.display = "none";
+
+                                                    var data = names[match] || { account_number: "", area: "", block: "", previous_reading: "", previous_bill: "" };
+                                                    document.getElementById("account_number").value = data.account_number;
+                                                    document.getElementById("area").value = data.area;
+                                                    document.getElementById("block").value = data.block;
+                                                    document.getElementById("previous2").value = data.previous_reading;
+                                                    document.getElementById("previous_bill").value = data.previous_bill;
+                                                    document.getElementById("usageType").value = data.category;
+                                                    // Update disconnection date based on area
+                                                    updateDisconnectionDate(data.area);
+                                                };
+                                                suggestions.appendChild(suggestionItem);
+                                            });
+                                        }
+                                    }
+                                });
+
+                                document.addEventListener("click", function(event) {
+                                    var suggestions = document.getElementById("name-suggestions");
+                                    if (!document.getElementById("name").contains(event.target)) {
+                                        suggestions.style.display = "none";
+                                    }
+                                });
+                         
+                                
+
+                // disconnect date                
+                function updateDisconnectionDate(area) {
+                // Normalize: Remove extra spaces and convert to lowercase
+                var normalizedArea = area.replace(/\s+/g, ' ').trim().toLowerCase(); 
+                
+                // Define valid areas with standardized spacing
+                var validAreas = ["pilar ville", "colbella", "prima phase 1", "prima phase 2", "cambridge", "romanville", "san bernardo", "amare", "st. matthews", "ramonita"];
+                
+                // Check if normalized area matches any valid area
+                var rowId = validAreas.includes(normalizedArea) ? "1" : "2";
+                
+                // Update disconnection date
+                document.getElementById("disc_date").value = discDates[rowId] || "";
+            }
     </script>
 </body>
 </html>

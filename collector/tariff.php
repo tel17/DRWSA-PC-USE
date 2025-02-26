@@ -1,16 +1,9 @@
 <?php
 // Include the database connection file
 // Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "drwsa_cashier_db";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+include("dbcon.php");
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
 
 if (isset($_GET['consumedCuM']) && isset($_GET['usageType'])) {
     $consumedCuM = (float) $_GET['consumedCuM'];
@@ -22,7 +15,7 @@ if (isset($_GET['consumedCuM']) && isset($_GET['usageType'])) {
         $usageType = 'Commercial B';
     }
 
-    $tariffData = getCurrentTariffRates($conn);
+    $tariffData = getCurrentTariffRates($con);
     $tariff = calculateTariff($consumedCuM, $tariffData, $usageType);
 
     header('Content-Type: application/json');

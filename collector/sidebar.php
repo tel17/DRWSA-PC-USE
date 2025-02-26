@@ -25,6 +25,15 @@
       </a>
     </li> 
 
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="daily_collection_reports.php">
+        <i class="bi bi-person"></i>
+        <span>daily_collection_reports</span>
+      </a>
+    </li> 
+
+
    
 
     

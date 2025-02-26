@@ -110,7 +110,8 @@ include("footer.php");
             <label for="area" class="form-label">AREA</label>
             <input type="text" class="form-control" id="area" name="area" required 
                 oninput="this.value = this.value.toUpperCase();" 
-                pattern="[A-Za-z]+" title="Only letters are allowed">
+                pattern="^[A-Za-z]+( [A-Za-z]+)*$" title="Only letters and single spaces between words are allowed">
+
 
           </div>
 

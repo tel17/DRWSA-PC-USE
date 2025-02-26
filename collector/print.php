@@ -160,8 +160,8 @@ if ($result->num_rows > 0) {
         <div class="section">
             <h4 style="text-align:center; margin-top:0px">COMPUTATION</h4>
             <div class="form-group">
-                <label for="previous_bill">Previous Bill:</label>
-                <input type="number" id="previous_bill" name="previous_bill" value="<?php echo $row['previous_2']; ?>"required>
+                <label for="previous_bill_reading">Previous Bill:</label>
+                <input type="number" id="previous_bill_reading" name="previous_bill_reading" value="<?php echo $row['previous_bill_reading']; ?>"required>
             </div>
             <div class="form-group">
                 <label for="senior_discount">Senior Citizen Discount:</label>
@@ -235,7 +235,7 @@ function printReceipt() {
         Previous : ${document.getElementById('previous_reading').value || 'N/A'}<br>
         Cu.M. Consumed: ${document.getElementById('cum_consumed').value || 'N/A'}
         <h3>COMPUTATION</h3>
-        Previous Bill: ${document.getElementById('previous_bill').value || 'N/A'}<br>
+        Previous Bill: ${document.getElementById('previous_bill_reading').value || 'N/A'}<br>
         Senior Discount: ${document.getElementById('senior_discount').value || 'N/A'}<br>
         Less X Disc: ${document.getElementById('less_x_disc').value || 'N/A'}<br>
         Free of Charge: ${document.getElementById('free_of_charge').value || 'N/A'}<br>
